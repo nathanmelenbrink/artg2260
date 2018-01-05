@@ -1,0 +1,128 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>How to Design [almost] Anything</title>
+<meta name="description" content="Index Page">
+
+<script src="js/vendor/jquery.min.js"></script>
+<script> 
+	$(function(){
+	  $("#header").load("root_header.html"); 
+	  $("#footer").load("root_footer.html"); 
+	});
+</script>
+
+
+<link href="css/style.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
+<script src="js/vendor/modernizr.js"></script>
+
+<script type="text/javascript">
+var pages = new Array(
+["http://anchen.me/how-to-design/","Baian Chen"],
+//["http://mhcraft.scripts.mit.edu/projects.html","Marshall Craft"],
+//["http://pandwegibson.com","Pandwe Gibson"],
+["http://www.jgrottozim.com/htdaa.html","Julia Grotto"],
+["http://web.mit.edu/hexin/www/","Sherry He"],
+["http://kwj21044.github.io/index.html","Kevin Jiang"],
+["http://mina.studio/","Mina Khan"],
+["https://jehkim.github.io/howtodesign/index.html","James Kim"],
+//["http://xiaomengliu.com/","Xiaomeng Liu"],
+["http://jsma.scripts.mit.edu/howtodesign.html","Jason Ma"],
+["http://amagzoub.github.io/howtodesign/","Amna Magzoub"],
+["http://web.mit.edu/fmajluf7/www/index.html","Francesca Majluf"],
+["http://stylistica.github.io/htdaa/","Sneha Makini"],
+["http://rahulmakes.com","Rahul Naidoo"],
+["https://mitengineering.bitbucket.io/","Vrushank Phadnis"],
+["http://rileysteindl.wordpress.com ","Riley Steindl"],
+["http://www.sofaethno.com/howtodesign/","David Wang"]
+)
+var indices = []
+for (var i = 0; i < pages.length; ++i) indices.push(i)
+function get_time() {
+   if (window.performance != undefined)
+      if (window.performance.now != undefined) {
+         timer = "performance.now"
+         return performance.now()
+         }
+   timer = "Date.now"
+   return Date.now()
+   }
+var t0 = get_time()
+function random_page() {
+   var t = get_time()
+   var seconds = (t-t0)/1000.0
+   var ms = seconds-Math.floor(seconds)
+   index = Math.floor(indices.length * ms)
+   value = indices[index]
+   indices.splice(index,1)
+   if (indices.length == 0) {
+      indices = []
+      for (var i = 0; i < pages.length; ++i) indices.push(i)
+      }
+   //alert(pages[value][0]+" "+ms.toFixed(3)+" "+(value+1)+"/"+pages.length)
+   alert(pages[value][1])
+   window.open(pages[value][0])
+   }
+</script>
+
+</head>
+
+
+
+<body>
+
+<div id="header"></div>
+
+<div class="row">
+	<div class="large-12 columns">
+
+		<p> <b>Students</b> </p>
+
+		<div style="margin-left:2.5%">
+			<p> <a href="javascript:random_page()">random page</a><br>
+			<br>
+			<script type="text/javascript">
+			for (i = 0; i < pages.length; ++i) {
+			   document.write("<a href="+pages[i][0]+">"+pages[i][1]+"</a><br>")
+			   }
+			</script>
+			</p>
+			<br> <br> 
+		</div>
+
+		<p> <b>Course Staff / Presenters</b> </p>
+
+		<div style="margin-left:2.5%">
+		<p>	
+			Justin Lavallee<br>
+			Skylar Tibbits<br>
+			Nathan Melenbrink<br>
+			Jonathan Grinham<br>
+
+			</p>
+		</div>
+
+		<p> <b>Teaching Assistant</b> </p>
+
+		<div style="margin-left:2.5%">
+		<p>	
+			Athina Papadopoulou<br>
+			</p>
+		</div>
+
+
+</div>
+
+<div id="footer"></div>
+
+<script src="js/vendor/jquery.min.js"></script>
+<script src="js/foundation.min.js"></script>
+<script src="js/htdaa.js"></script>
+
+
+</body>
+</html>
