@@ -52,16 +52,21 @@ div h1, div h2, div h3 {
 }
 
 table {
-  margin: 20px 0;
+  margin: 20px;
   border: 1px solid #F0F0F0;
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;
   display: table;
 }
+table th{
+  padding: 8px;
+}
 table tr:nth-child(odd) td{
+  padding: 8px;
 }
 table tr:nth-child(even) td{
+  padding: 8px;
   background-color:#F0F0F0;
 }
 
