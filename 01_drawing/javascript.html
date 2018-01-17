@@ -1,0 +1,277 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>ARTG2260: Programming Basics</title>
+<meta name="description" content="Index Page">
+<script src="../js/vendor/jquery.min.js"></script>
+<script> 
+	$(function(){
+	  $("#header").load("../header.html"); 
+	  $("#footer").load("../footer.html"); 
+	});
+</script>
+
+
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<script src="../js/vendor/modernizr.js"></script>
+<script src="http://toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script src="../js/p5.min.js"></script>
+
+
+</head>
+<body>
+
+<div id="header"></div>
+
+<!-- FIRST ROW -->
+<div class="row">
+	<div class=" large-3  columns">
+		<h3> JavaScript </h3>
+	</div >
+
+	<div class="small-12 medium-12 large-9  columns">
+		<h3> Resources: </h3>
+		<p> <a href="https://www.w3schools.com/js/default.asp">W3 Schools: JavaScript</a><br> 
+			<a href="https://www.w3schools.com/js/js_whereto.asp">W3 Schools: Where to write JavaScript</a>
+		</p>
+
+		<h3> JavaScript: </h3>
+		<p> JavaScript is one of the 3 languages all web developers must learn: <br>
+		   1. HTML to define the content of web pages <br>
+		   2. CSS to specify the layout of web pages <br>
+		   3. JavaScript to program the behavior of web pages <br>
+		   Processing is based on Java. That doesn’t mean it’s related to JavaScript. 
+			<a href="https://www.w3schools.com/js/default.asp">W3 Schools</a> is a great resource for learning native JS.
+		</p>
+
+		<h3> Document Object Model: </h3>
+		<p> When a web page is loaded, the browser creates a Document Object Model of the page. The HTML DOM model is constructed as a tree of Objects. 
+
+			<ul>
+				<li>JavaScript can change all the HTML elements and attributes as well as CSS styles in the page</li>
+				<li>JavaScript can add/remove new HTML elements and attributes </li>
+				<li>JavaScript can react to all existing HTML events in the page</li>
+				<li>JavaScript can create new HTML events in the page</li>	
+			</ul>
+
+		</p>
+
+		<img src="./dom.png" alt="DOM"> <br> <br>
+
+		<h3> HTML Events </h3>
+		<p> JavaScript can listen for certain HTML events (when a user interacts with an HTML element). Here are some common ones: </p>
+		
+		<img src="./events.png" alt="HTML Events"> <br> <br>
+
+		<p>		
+			<a href="https://www.w3schools.com/jsref/dom_obj_event.asp ">The full list is much longer. </a> <br> <br>
+			
+			<b>Example Usage:</b> This creates a button, with the word “Click Me” written on it. When the button is clicked, <code>myFunction()</code> is executed. <br>
+
+			<pre><code class="html">
+	&lt;button onclick="myFunction()"&gt;Click Me&lt;/button&gt;
+			</code> </pre>
+
+		</p>
+
+		<p>Remember how there were 3 different ways to implement CSS? You can effectively consider the same 3 ways for JavaScript:
+
+			<ul> 
+				<li>Inline - by using the <code>“onclick”</code> or similar attribute
+					(Example_00 - Example_02)</li>
+				<li>Internal - by calling a <code>&lt;script&gt;</code> in the same file
+					(Example_03)</li>
+				<li>External - by calling a separate .js file in your directory
+				(Example_04)</li>
+			</ul>
+
+		<h3>Example_00: JavaScript Can Change HTML Content</h3>
+		<p> One of many JavaScript HTML methods is <code>getElementById()</code>. This example uses the method to "find" an HTML element (with id="demo") and changes the element content (innerHTML) to "Hello JavaScript": </p>
+			<pre><code class="js">
+	document.getElementById("demo").innerHTML = "Hello JavaScript";
+			</code></pre>
+
+		<p>	
+			<a href="https://www.w3schools.com/js/tryit.asp?filename=tryjs_intro_inner_html"> Try it yourself!</a> Also, try copying and pasting the code into an index.html file, and run that locally in your browser. You should get the same result. 
+		</p>
+
+		<h3>Example_01: JavaScript Can Change HTML Attributes</h3>
+		<p> This example changes an HTML image by changing the src (source) attribute of an &lt;img&gt; tag: </p>
+			<pre><code class="js">
+	document.getElementById('myImage').src='pic_bulbon.gif';
+			</code></pre>
+
+		<p>	
+			<a href="https://www.w3schools.com/js/tryit.asp?filename=tryjs_intro_lightbulb"> Try it yourself!</a> If you want to try this example locally, you'll need to make sure the src attribute links actually point to images. 
+		</p>
+
+		<h3>Example_02: JavaScript Can Change HTML Styles (CSS)</h3>
+		<p> Changing the style of an HTML element, is a variant of changing an HTML attribute:</p>
+			<pre><code class="html">
+	document.getElementById('demo').style.fontSize='35px';
+			</code></pre>
+
+		<p>	
+			<a href="https://www.w3schools.com/js/tryit.asp?filename=tryjs_intro_style"> Try it yourself!</a> 
+		</p>
+
+		<h3>Example_03: JavaScript Can Be Written Inside HTML Files</h3>
+		<p> The previous JavaScript examples were Inline - a simple line of JS code called by using the <code>“onclick”</code> or similar attribute. The following code shows an example of Internal JavaScript, by wrapping the JS code in a <code>&lt;script&gt;</code> tag in the same file. Notice that the CSS is also Internal, wrapped in a <code>&lt;style&gt;</code> tag. </p>
+
+		<pre><code class="html">
+	&lt;!DOCTYPE html&gt;
+	&lt;html&gt;
+	&lt;style&gt;
+	  #container {
+	    width: 400px;
+	    height: 400px;
+	    position: relative;
+	    background: yellow;
+	  }
+	  #animate {
+	    width: 50px;
+	    height: 50px;
+	    position: absolute;
+	    background-color: red;
+	  }
+	&lt;/style&gt;
+	&lt;body&gt;
+
+	  &lt;p&gt;
+	    &lt;button onclick="myMove()"&gt;Click Me&lt;/button&gt;
+	  &lt;/p&gt; 
+
+	  &lt;div id ="container"&gt;
+	     &lt;div id ="animate"&gt;&lt;/div&gt;
+	  &lt;/div&gt;
+
+	  &lt;script&gt;
+	    function myMove() {
+	      var elem = document.getElementById("animate");   
+	      var pos = 0;
+	      var id = setInterval(frame, 5);
+	      function frame() {
+	        if (pos == 350) {
+	          clearInterval(id);
+	        } else {
+	          pos++; 
+	          elem.style.top = pos + 'px'; 
+	          elem.style.left = pos + 'px'; 
+	        }
+	      }
+	    }
+	  &lt;/script&gt;
+
+	&lt;/body&gt;
+	&lt;/html&gt;
+		</code></pre>
+
+		<p>	Create a new directory (folder) called <code>Example_03</code>. Inside, create an index.html file. Try pasting the above code into te index.html file and running it in your browser. This example is a bit more complicated than what we've looked at before. Don't worry about how the JavaScript actually works; let's focus on its result. Notice that we've created 2 <code>&lt;div&gt;</code> sections, and are applying a unique style to each. The "container" div is styled yellow, and the "animate" div is styled red. The script will move the position of the "animate" div within the "container" div. Notice that the animation doesn't begin until the button is clicked, which executes the JavaScript function. 
+		</p>
+
+		<h3>Example_04: JavaScript Can Be Written In External Files</h3>
+		<p> As opposed to keeping the internal CSS and JS content, we can transfer the contents of either (or both) to external files. You can read more here about <a href="https://www.w3schools.com/js/js_whereto.asp">where to write JavaScript</a>. </p>
+
+		<p> First, copy the directory from the previous example and rename it <code>Example_04</code>. Inside, create two new files, <code>script.js</code> and <code>styles.css</code>. Next, remove the contents of the <code>&lt;script&gt;</code> tags and place them inside of <code>script.js</code>, so that its contents are: </p>
+
+		<pre><code class="js">
+	function myMove() {
+	  var elem = document.getElementById("animate");   
+	  var pos = 0;
+	  var id = setInterval(frame, 5);
+	  function frame() {
+	    if (pos == 350) {
+	      clearInterval(id);
+	    } else {
+	      pos++; 
+	      elem.style.top = pos + 'px'; 
+	      elem.style.left = pos + 'px'; 
+	    }
+	  }
+	}
+		</code></pre>
+
+		<p> Next, do the same for the contents of the <code>&lt;style&gt;</code> tags, so that <code>styles.css</code> looks like: </p>
+
+		 <pre><code class="css">
+	#container {
+	  width: 400px;
+	  height: 400px;
+	  position: relative;
+	  background: yellow;
+	}
+	#animate {
+	  width: 50px;
+	  height: 50px;
+	  position: absolute;
+	  background-color: red;
+	}
+		</code></pre>
+
+		<p> Finally, only the following should be remaining in <code>index.html</code>:</p>
+
+		<pre><code class="html">
+	&lt;!DOCTYPE html&gt;
+	&lt;html&gt;
+	&lt;body&gt;
+
+	  &lt;p&gt;
+	    &lt;button onclick="myMove()"&gt;Click Me&lt;/button&gt;
+	  &lt;/p&gt; 
+
+	  &lt;div id ="container"&gt;
+	     &lt;div id ="animate"&gt;&lt;/div&gt;
+	  &lt;/div&gt;
+
+	&lt;/body&gt;
+	&lt;/html&gt;
+		</code></pre>	
+
+		<h3>Example_05: Try It Yourself</h3>
+		<p> Start with the following code snippet. Change it by adding an event so that when the button is clicked, <code> myFunction()</code> is called. Hint: Add an onclick event. </p> 
+
+		<pre><code class="html">
+	&lt;!DOCTYPE html&gt;
+	&lt;html&gt;
+	&lt;body&gt;
+
+	  &lt;p&gt;
+	    &lt;button&gt;Click Me&lt;/button&gt;
+	  &lt;/p&gt; 
+
+	  &lt;p id ="demo"&gt;&lt;/p&gt;
+
+
+	  &lt;script&gt;
+		function myFunction() {
+		    document.getElementById("demo").innerHTML = "Hello World";
+		}
+	  &lt;/script&gt;
+
+	&lt;/body&gt;
+	&lt;/html&gt;
+		</code></pre>
+
+	</div>
+</div>
+
+
+
+<div id="footer"></div>
+
+<script src="../js/vendor/jquery.min.js"></script>
+<script src="../js/foundation.min.js"></script>
+<script src="../js/htdaa.js"></script>
+
+
+</body>
+</html>

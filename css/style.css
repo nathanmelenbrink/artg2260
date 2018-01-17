@@ -729,7 +729,8 @@ p {
   font-weight: normal;
   font-size: 1rem;
   line-height: 1.5;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
   text-rendering: optimizeLegibility;
 }
 /* line 174, ../bower_components/foundation/scss/foundation/components/_type.scss */
@@ -742,8 +743,8 @@ h1, h2, h3 {
   font-style: normal;
   color: #333d41;
   text-rendering: optimizeLegibility;
-  margin-top: 0.2rem;
-  margin-bottom: 0.5rem;
+  margin-top: 2rem; /*0.2*/
+  margin-bottom: 0rem;
   line-height: 1.4;
 }
 /* line 192, ../bower_components/foundation/scss/foundation/components/_type.scss */
