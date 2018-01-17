@@ -39,10 +39,19 @@
 	</div >
 
 	<div class="small-12 medium-12 large-9  columns">
+
+		<h3> Resources: </h3>
+		<p> 
+			<a href='https://www.youtube.com/watch?v=D1ELEeIs0j8' >Shiffman - 1.3 Basics of Drawing - p5.js</a> <br>
+			<a href="https://p5js.org/examples/form-shape-primitives.html">Shape Primitives</a><br>
+			<a href="https://p5js.org/examples/form-bezier.html">Bezier Shapes</a><br>
+			
+		</p>
+
 		<h3> The Coordinate System </h3>
 		<p>
 			<ul> 
-				<li>As opposed to other environments or standard mathematical notation, Processing and most graphic environments display a particular coordinate system.</li>
+				<li>As opposed to other environments or standard mathematical notation, p5 and most graphic environments display a particular coordinate system.</li>
 				<li>The position of the (0, 0) coordinates point is on the top-left corner of the screen, the positive X axis goes right, and the positive Y axis goes down.</li>
 				<li>Accordingly, angles are measured clockwise.</li> 
 			</ul>
@@ -50,27 +59,129 @@
 
 		<img src="./coordinates.png" alt="Coordinates">
 
-		<h3> Basic Styling </h3>
+		<h3> <a href="https://p5js.org/examples/form-shape-primitives.html">Shape Primitives</a></h3>
+		<p>
+		The basic shape primitive functions are triangle(), rect(), quad(), ellipse(), and arc(). Squares are made with rect() and circles are made with ellipse(). Each of these functions requires a number of parameters to determine the shape's position and size.
+		</p>
+
+<script type="text/p5" data-height="500" data-preview-width="270">
+function setup() {
+	createCanvas(250, 450);
+
+  	// Draws four 1px points in the top-left area in the form "point(x, y)"
+	point(50, 50);
+	point(100, 50);
+	point(50, 100);
+	point(100, 100);
+
+	// Draws four lines in the form "line(x1, y1, x2, y2)"
+	line(150, 50, 200, 50);
+	line(200, 50, 200, 100);
+	line(200, 100, 150, 100);
+	line(150, 100, 150, 50);
+
+	// Draws a rectangle in the form "rect(x, y, width, height)"
+	rect(50, 150, 150, 50);  // note how the rectangle has a default white fill
+
+	// Draws a triangle in the form "triangle(x1, y1, x2, y2, x3, y3)"
+	triangle(50, 250, 200, 275, 50, 300);
+
+	// Draws an ellipse in the form "ellipse(x, y, width, height)"
+	ellipse(125, 375, 150, 50);
+}
+</script>
+
+
+		<h3> <a href="https://p5js.org/examples/form-bezier.html">Bezier Shapes</a></h3>
+		<p>
+		The first two parameters for the bezier() function specify the first point in the curve and the last two parameters specify the last point. The middle parameters set the control points that define the shape of the curve.
+		</p>
+
+<script type="text/p5" data-height="300" data-preview-width="270">
+function setup() {
+	createCanvas(250, 450);
+
+  	// Draws a Bézier curve in the form "bezier(x1, y1, cx1, cy1, cx2, cy2, x2, y2)"
+	bezier(50, 50, 200, 50, 200, 100, 50, 100);
+
+	// Draw lines and circles representing the Bézier tangents and control points
+	line(50, 50, 200, 50);
+	line(200, 100, 50, 100);
+
+	// The order in which shapes are drawn matter. 
+	// Notice how the circles will be drawn on top of the lines
+	// because they are created later in the code
+	ellipse(200, 50, 10, 10);
+	ellipse(200, 100, 10, 10);
+}
+</script>
+
+
+		<h3> Basic Styling</h3>
 		<p>
 			<ul> 
-				<li>background() sets the color of the window</li>
-				<li>fill() sets the shape's fill color</li>
-				<li>stroke() sets the shape's stroke color</li> 
+				<li><a href='https://p5js.org/reference/#/p5/background'>background()</a> sets the color of the window</li>
+				<li><a href='https://p5js.org/reference/#/p5/fill'>fill()</a> sets the shape's fill color</li>
+				<li><a href='https://p5js.org/reference/#/p5/noFill'>noFill()</a> draws shapes with no fill color</li> 
+				<li><a href='https://p5js.org/reference/#/p5/noStroke'>noStroke()</a> draws shapes with no stroke</li><br>
+				<li><a href='https://p5js.org/reference/#/p5/strokeWeight'>strokeWeight()</a> sets the shape's stroke thickness</li>  
+				<li><a href='https://p5js.org/reference/#/p5/strokeCap'>strokeCap()</a> sets the shape of the endpoints</li> 
+				<li><a href='https://p5js.org/reference/#/p5/strokeJoin'>strokeCap()</a> sets the shape of stroke joints</li><br>
+				<li><a href='https://p5js.org/reference/#/p5/ellipseMode'>ellipseMode()</a> changes the way parameters are used to draw ellipses</li>  
+				<li><a href='https://p5js.org/reference/#/p5/rectMode'>rectMode()</a> changes the way parameters are used to draw rectangles</li> 
+
 			</ul>
 		</p>
 
-
-			<!-- data-preview-width="400"
-			data-height="600" -->
-<script type="text/p5">
+<script type="text/p5" data-height="300" data-preview-width="220">
 function setup() {
-	createCanvas(100, 100);
-}
-
-function draw() {
-	background(255, 0, 200);
+	createCanvas(200, 200);
+	background(0);
+	 
+	stroke(255);
+	strokeWeight(2);
+	 
+	fill(255, 0, 0);
+	ellipse(40, 50, 60, 60);
+	 
+	fill(0, 255, 0);
+	ellipse(80, 50, 60, 60);
+	 
+	fill(0, 0, 255);
+	ellipse(120, 50, 60, 60);
 }
 </script>
+
+		<h3> <a href='https://p5js.org/reference/#/p5/fill'>Color</a> </h3>
+		<p>There are a number of different ways to specify color in p5. You can even change the input parameters using <a href='https://p5js.org/reference/#/p5/colorMode'>colorMode()</a>.
+		</p>
+
+<script type="text/p5" data-height="300" data-preview-width="220">
+function setup() {
+	createCanvas(200, 200);
+	background(255);
+	noStroke();
+	 
+	// One parameter means a grayscale value from 0 to 255
+	fill(127);  // %50 grey
+	ellipse(40, 40, 60, 60);
+	 
+	// Two parameters means grayscale with transparency
+	fill(0, 127);  // black with 50% transparency
+	ellipse(70, 70, 60, 60);
+	 
+	// Three parameters are read as RGB values
+	fill(255, 0, 0);  // solid red
+	ellipse(100, 100, 60, 60);
+	 
+	// Four parameters means RGB with transparency
+	fill(0, 255, 0, 127);  // green with %50 alpha
+	ellipse(130, 130, 60, 60);
+	fill(0, 0, 255, 127);  // blue with %50 alpha
+	ellipse(160, 160, 60, 60);
+}
+</script>
+
 
 
 	</div>
