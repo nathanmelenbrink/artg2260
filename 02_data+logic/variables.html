@@ -1,0 +1,94 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>ARTG2260: Programming Basics</title>
+<meta name="description" content="Index Page">
+<script src="../js/vendor/jquery.min.js"></script>
+<script> 
+	$(function(){
+	  $("#header").load("../header.html"); 
+	  $("#footer").load("../footer.html"); 
+	});
+</script>
+
+
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<script src="../js/vendor/modernizr.js"></script>
+<script src="https://toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script src="../js/p5.min.js"></script>
+
+
+</head>
+<body>
+
+<div id="header"></div>
+
+<!-- FIRST ROW -->
+<div class="row">
+	<div class="large-3  columns">
+		<h3> Variables</h3>
+	</div >
+
+	<div class="small-12 medium-12 large-9  columns">
+
+		<h3> Resources: </h3>
+		<p> 
+			<a href='https://www.youtube.com/watch?v=D1ELEeIs0j8' >Shiffman - 2.1 Variables in p5.js - p5.js</a><br>
+			<!-- <a href="https://p5js.org/examples/form-shape-primitives.html">Shape Primitives</a><br>
+			<a href="https://p5js.org/examples/form-bezier.html">Bezier Shapes</a><br> -->
+			
+		</p>
+
+
+<script type="text/p5" data-height="500" data-preview-width="270">
+function setup() {
+	createCanvas(250, 450);
+
+  	// Draws four 1px points in the top-left area in the form "point(x, y)"
+	point(50, 50);
+	point(100, 50);
+	point(50, 100);
+	point(100, 100);
+
+	// Draws four lines in the form "line(x1, y1, x2, y2)"
+	line(150, 50, 200, 50);
+	line(200, 50, 200, 100);
+	line(200, 100, 150, 100);
+	line(150, 100, 150, 50);
+
+	// Draws a rectangle in the form "rect(x, y, width, height)"
+	rect(50, 150, 150, 50);  // note how the rectangle has a default white fill
+
+	// Draws a triangle in the form "triangle(x1, y1, x2, y2, x3, y3)"
+	triangle(50, 250, 200, 275, 50, 300);
+
+	// Draws an ellipse in the form "ellipse(x, y, width, height)"
+	ellipse(125, 375, 150, 50);
+}
+</script>
+
+
+
+	</div>
+</div>
+
+
+
+<div id="footer"></div>
+
+<script src="../js/vendor/jquery.min.js"></script>
+<script src="../js/foundation.min.js"></script>
+<script src="../js/htdaa.js"></script>
+
+
+</body>
+</html>
