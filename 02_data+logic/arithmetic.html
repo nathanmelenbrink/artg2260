@@ -35,195 +35,149 @@
 <!-- FIRST ROW -->
 <div class="row">
 	<div class=" large-3  columns">
-		<h3> p5 and Processing </h3>
+		<h3> Arithmetic</h3>
 	</div >
 
 	<div class="small-12 medium-12 large-9  columns">
 
 		<h3> Resources: </h3>
-		<p> <a href="https://p5js.org/get-started/">Getting Started</a>: How to use p5, and create your first sketch<br> 
+		<p> <!-- <a href="https://p5js.org/get-started/">Getting Started</a>: How to use p5, and create your first sketch<br> 
 			<a href="https://p5js.org/reference/">Reference</a>: The complete dictionary of all the functions you can use in p5
 			<a href="https://p5js.org/learn/">Examples</a>: These are short demonstrations of various p5.js topics. <br>
 			<a href="https://p5js.org/learn/">Learn</a>: These tutorials provide more in-depth or step-by-step overviews of particular topics. <br>
-			<a href='https://www.youtube.com/watch?v=8j0UDiN7my4&t=7s' >Shiffman - 1.1 Introduction - p5.js</a> Note that in these videos, he uses an IDE called p5 Editor, which we will not be using in this class. Instead, we'll mostly be working in Sublime Text (or other editor). Not to worry, it's the exact same code. <br>
+			<a href='https://www.youtube.com/watch?v=8j0UDiN7my4&t=7s' >Shiffman - 1.1 Introduction - p5.js</a> Note that in these videos, he uses an IDE called p5 Editor, which we will not be using in this class. Instead, we'll mostly be working in Sublime Text (or other editor). Not to worry, it's the exact same code. <br> -->
 		</p>
 
-		<h3> What is Processing? </h3>
-		<p>Processing is a flexible software sketchbook and a language for learning how to code within the context of the visual arts. Since 2001, Processing has promoted software literacy within the visual arts and visual literacy within technology. There are tens of thousands of students, artists, designers, researchers, and hobbyists who use Processing for learning and prototyping (from <a href="https://processing.org/">https://processing.org/</a>). Processing is free to download and open source. It allows you to write interactive programs with 2D, 3D or PDF output. It's well <a href="https://processing.org/reference/">documented</a> , with many <a href="https://processing.org/books/">books</a> available. Processing is a great tool, but it doesn't directly allow you to publish to the web. That's why the Processing Foundation created p5, a set of JavaScript functions that allow us to emulate Processing in the browser. Rather than learning both Processing and p5, we're going to jump straight into p5. 
-		</p>
-
-		<h3> What is p5? </h3>
-		<p>p5 is a set of wrappers around JavaScript that allow us to use JS in a way that’s more similar to Processing. It makes building interactive websites easier than if we were to use native JavaScript. Ultimately, this takes us ever closer to our goal of creative expression through programming! </p>
-
-		<p>p5.js is developed by Lauren McCarthy and supported by the Processing Foundation and by NYU ITP. People use it for art, data visualization, web interaction, you name it! Check out some examples on <a href='https://www.openprocessing.org/' >Open Processing</a>! </p>
-
-		<h3> Getting Started With p5 </h3>
-		<p>Make your way to <a href="https://p5js.org/get-started/">https://p5js.org/get-started/</a>. You may wish to download the libraries and reference them locally (especially for larger, more complex projects), but for short examples I tend to reference the p5 libraries remotely, using a CDN. We've already covered the "Environment" section, so let's go through the "Your First Sketch" example.   
-		</p>
-
-
-		<h3> Basic Syntax </h3>
-		<p>
-		Please note that p5 and the JavaScript language is:
-			<ul> 
-				<li>Case sensitive: upper or lowercase matters.</li>
-				<li>Whitespace insensitive: it doesn’t matter how many blank spaces are there before, in between or after your statements.</li>
-				<li>Indentation insensitive: trailing indentation will not affect your code, although it will be extremely important to maintain visual structure.</li> 
+		<h3> Arithmetic</h3>
+		<p> Syntax Introduced:
+			<ul>
+				<li> + (add), - (subtract), * (multiply), / (divide), </li>
+				<li> % (modulus) </li>
+				<li>() (parentheses) </li>
+				<li> ++ (increment), -- (decrement), += (add assign), -= (subtract assign)</li>
+				<li>*= (multiply assign), /= (divide assign), - (negation)</li>
+				<li>ceil(), floor(), round(), min(), max()</li>
 			</ul>
 		</p>
-
-
-		<h3> Trial and Error </h3>
+	
 		<p>
-		Messing around with code you don't understand is a totally valid way to learn. Try changing values in the demo below and see how the result changes. Can you change the colors? How about the speed (velocity)? See if you can begin to understand how the routine works. 
+			The expression to the right of the = symbol is evaluated before the value is assigned to the variable on the left. Therefore, the statement a=5+4 first adds 5 and 4 to yield 9 and then assigns the value 9 to the variable a. <br><br>
+			Parentheses are used to enforce order of operations:
 		</p>
 
-<script type="text/p5" data-height="500" data-preview-width="220">
-var x = 100;
-var y = 0;
-var radius = 40;
-var velocity = 3;
-
-var bgColor = 'rgb(100)';
-var topColor = 'rgb(255, 0, 0)';   
-var centerColor = 'rgb(150, 0, 150)';
-var bottomColor = 'rgb(255, 0, 255)';
-
-function setup() {
-  createCanvas(200, 400);
-  rectMode(CENTER);
-}
-
-function draw() {
-  background(bgColor);
-
-  if (y < height / 3) {
-    fill(topColor);
-  } else if (y >= height / 3 && y < 2 * height / 3) {
-    fill(centerColor);
-  } else {
-    fill(bottomColor);
-  }
-  
-  rect(x, y, radius, radius);
-  
-  y = y + velocity;
-  if (y > height || y < 0) {
-    velocity = -velocity;
-  }
-}
+<script type="text/p5" data-height="200" data-preview-width="0">
+var x = 3 + 4 * 5;  // Declare var x and assign a value of 23
+var y = (3 + 4) * 5;  // Declare var y and assign a value of 35
+print("x = " + x);
+print("y = " + y);
 </script>
 
-		<h3> Functions </h3>
 		<p>
-		The concept of functions is of paramount importance in programming. There are a number of functions used in the above code example, including createCanvas(), as well as setup() and draw(). Functions are composed of the function name, the parameters (also called <i> arguments</i>), and the statement terminator. Parameters (arguments) are wrapped in parentheses and separated by commas, and statements always end (in JavaScript) with a semicolon.
+			The following exampl shows how to use variables in the arguments (parameters) of functions. Note that a calculation can be sent as an argument as well. Try modifying the example to draw horizontal lines. 
 		</p>
 
-		<p> So if we want to add a circle to the sketch below, we need to draw that circle using a function. How do we know what function to use? That's what the <a href="https://p5js.org/reference/">p5 Reference</a> is for. We might find that there's no circle() function, but there is in fact an ellipse() function, which will allow us to draw a circle. But what parameters (arguments) should we give the ellipse() function? The reference tells us it should follow the form ellipse(x-coordinate, y-coordinate, width, height);. Try adding that to the code below. Syntax is really important -- it has to be very precise! 
-		</p>
-
-
-<script type="text/p5" data-height="220" data-preview-width="220">
+<script type="text/p5" data-height="300" data-preview-width="200">
 function setup(){
-	// set the size of the window to 200px width, 100px height
-	createCanvas(200, 100);
-	// set the background to red    
-	background(255, 0, 0);     
+	createCanvas(100,100);
+	var a = 30;
+	line(a, 0, a, height);
+	a = a + 40; 	// Assign 70 to a
+	strokeWeight(4);
+	line(a, 0, a, height);
+
+	/*
+	var b = 40;
+	line(b, 0, b, height);
+	*/
+
+	/*
+	a = 30;
+	// A calculation can be used as an input to a function
+	stroke(255,0,0);
+	line(b+a, 0, b+a, height);
+	*/
 }
-</script>
-
-
-		<h3> Code Structure </h3>
-		<p>
-		p5 sketches typically consist of a setup() function and a draw() function. The code inside the setup() function runs once, while the draw() function runs continuously from top to bottom until the program is stopped.
-		</p>
-
-<script type="text/p5" data-height="500" data-preview-width="220">
-// The statements in the setup() function 
-// execute once when the program begins
-function setup() {
-	// createCanvas must be the first statement
-  createCanvas(720, 400);  
-  stroke(255);     // Set line drawing color to white
-  frameRate(30);
-}
-// The statements in draw() are executed until the 
-// program is stopped. Each statement is executed in 
-// sequence and after the last line is read, the first 
-// line is executed again.
-function draw() { 
-  background(0);   // Set the background to black
-  y = y - 1; 
-  if (y < 0) { 
-    y = height; 
-  } 
-  line(0, y, width, y);  
-} 
 </script>
 		
-		<p> p5 keeps track of important global variables called <a href="https://p5js.org/examples/structure-width-and-height.html">width and height</a>. We typically call the <a href="https://p5js.org/reference/#/p5/createCanvas">createCanvas()</a>function from within the setup() function, and pass it numbers representing 'width' and 'height' of the desired canvas. These numbers are stored as variables for the rest of the time the sketch is running.
+		<h3> The Modulus Operator</h3>
+		<p> The modulus operator (%) in the format A % B, returns the remainder from dividing A by B. It's useful for creating patterns or cyclical events. 
+			<table>
+			  <tr>
+			    <th>Expression</th>
+			    <th>Result</th>
+			    <th>Explanation</th>
+			  </tr>
+			  <tr>
+			    <td>9 % 3</td>
+			    <td>0</td>
+			    <td>3 goes into 9 three times, with no remainder </td>
+			  </tr>
+			  <tr>
+			    <td>9 % 2</td>
+			    <td>1</td>
+			    <td>2 goes into 9 four times, with 1 as the remainder </td>
+			  </tr>
+			  <tr>
+			    <td>35 % 4</td>
+			    <td>3</td>
+			    <td>4 goes into 35 eight times, with 3 as the remainder</td>
+			  </tr>
+			  
+			</table>
 		</p>
 
-		<h3> Coding Environment </h3>
-		<p>	<a href="https://p5js.org/reference/#/p5/print">print()</a><br>
-			<a href="https://p5js.org/reference/#/p5/frameCount">frameCount</a><br>
-			<a href="https://p5js.org/reference/#/p5/framerate">frameRate()</a><br>
-			<a href="https://p5js.org/reference/#/p5/windowWidth">windowWidth</a><br>
-			<a href="https://p5js.org/reference/#/p5/windowHeight">windowHeight</a><br>
 
-		</p>
-
-
-		<h3> Comments </h3>
-		<p>
-		Comments are a plain-text way to write notes to yourself or others who may read your code. 
-		</p>
-
-<script type="text/p5" data-height="400" data-preview-width="220">
-// This is a single line comment.
-// Any thing after double forward slashes is a comment.
-// Comments are annotations about the code, 
-// they have no effect on the program and
-// are ignored by the compiler.
-
-/*
-  This is a multiline comment.
-  Anything enclosed by slashes and asterisks 
-  will be commented out.
-*/
-
-// Therefore, if you run this sketch,
-// no code will be executed
-</script>
-
-
-		<h3> Sensitivity </h3>
-		<p>
-		Remember that Processing is case sensitive, so be always mindful about capitalization.
-		</p>
-
-<script type="text/p5" data-height="220" data-preview-width="220">
+		<h3> <a href="https://p5js.org/examples/math-increment-decrement.html">Arithmetic Shortcuts</a></h3>
+		<p> The ++ operator increments a variable by 1: </p>
+<script type="text/p5" data-height="220" data-preview-width="0">
 function setup(){
-	// set the size of the window to 200px width, 100px height
-	createCanvas(200, 100);
-	Background(0);    // Error! the 'background' function is lowercase    
+	var x = 1;
+	print(x); // prints 1 to the console
+	x++;      // equivalent to x = x + 1
+	print(x); // prints 2 to the console
 }
 </script>
 
-		<p>
-		Furthermore, p5 is whitespace and indentation insensitive, so the following will work just fine (although you should totally avoid such things!)
-		</p>
-
-<script type="text/p5" data-height="220" data-preview-width="220">
+		<p> The -- operator decrements a variable by 1: </p>
+<script type="text/p5" data-height="220" data-preview-width="0">
 function setup(){
-	createCanvas(200, 100);
-	background  (   233,0,
-        255      
-)    ;   
+	var y = 1;
+	print(y); // prints 1 to the console
+	y--;      // equivalent to y = y - 1
+	print(y); // prints 0 to the console
 }
 </script>
 
-    
+		<p> The += operator increments a variable by another number: </p>
+<script type="text/p5" data-height="220" data-preview-width="0">
+function setup(){
+	var x = 1;
+	print(x); // prints 1 to the console
+	x += 5;   // equivalent to x = x + 5
+	print(x); // prints 6 to the console
+}
+</script>
+
+		<p> The -= operator decrements a variable by another number: </p>
+<script type="text/p5" data-height="220" data-preview-width="0">
+function setup(){
+	var y = 1;
+	print(y); // prints 1 to the console
+	y -= 5;   // equivalent to y = y - 5
+	print(y); // prints -4 to the console
+}
+</script>
+
+		<h3> Arithmetic Rounding</h3>
+		<p> <a href= "https://p5js.org/reference/#/p5/round">round()</a><br>
+			<a href= "https://p5js.org/reference/#/p5/ceil">ceil()</a><br>
+			<a href= "https://p5js.org/reference/#/p5/floor">floor()</a><br>
+			<a href= "https://p5js.org/reference/#/p5/min">min()</a><br>
+			<a href= "https://p5js.org/reference/#/p5/max">max()</a><br>
+		</p>
+
+
+
 
 	</div>
 </div>

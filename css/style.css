@@ -61,6 +61,7 @@ table {
 }
 table th{
   padding: 8px;
+  text-align:left;
 }
 table tr:nth-child(odd) td{
   padding: 8px;
