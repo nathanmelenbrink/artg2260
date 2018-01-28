@@ -54,20 +54,22 @@
 
 		<p>The interface of the wheel and pedals in a car allows the driver to ignore details of the car’s operation such as firing pistons and the flow of gasoline. The only understanding required by the person driving is that the steering wheel turns the vehicle left and right, the accelerator speeds it up, and the brake slows it down.</p>
 
-		<p>The idea of abstraction is essential to writing software. In Processing, drawing functions such as line(), ellipse(), and fill() obscure the complexity of their actions so that the author can focus on results rather than implementation</p>
+		<p>The idea of abstraction is essential to writing software. In p5, drawing functions such as line(), ellipse(), and fill() obscure the complexity of their actions so that the author can focus on results rather than implementation. </p>
 
 		<img src = 'function.png' alt='functions'>
 
-		<p>Encapsulating code in a function makes it more modular, i.e. easier to reuse.</p>
+		<p>Encapsulating code in a function makes it both more modular, and easier to reuse. Code that is modular is easier to organize and debug. Functions are also reusable-- you might include functions that you wrote in one assignment to start the next. </p>
 
-		<p>When you create functions, you can call them, sometimes passing parameters, and they return values (or void), just like Processing’s native functions like fill() or ellipse(). So of course, we can’t use function names that are already taken. </p>
+		<p>When you create functions, you can call them, sometimes passing parameters, and they return values (or void), just like p5 native functions like fill() or ellipse(). So of course, we can’t use function names that are already taken. </p>
+
+		<p> When we write <code>rect(x, y, w, h);</code> in our code, that's a <i> function call</i>. In that case, the function that's being called is one of p5's native functions. However, we can also call functions that we create ourselves. We've technically already done this -- setup() and draw() are special functions that p5 looks for, as our the interrupt functions like mouseClicked() that we used. But in addition to that, we can invent our own functions and call them whenever we like. </p>
 
 		<p>Identify each function call in the code snippets below. </p>
 
 		<p>Some functions may only perform a drawing operation and might not return a value, but many functions do. For each function below, identify the return value. 
 		</p>
 
-<script type="text/p5" data-height="320" data-preview-width="200">
+<script type="text/p5" data-height="280" data-preview-width="200">
 function setup(){
 	var f = average(12.0, 6.0); // Assign 9.0 to f
 	print ('The average is ' + f);
@@ -80,7 +82,7 @@ function average (num1, num2){
 </script>		
 
 
-<script type="text/p5" data-height="320" data-preview-width="200">
+<script type="text/p5" data-height="280" data-preview-width="200">
 function setup(){
 	var c = fahrenheitToCelsius(451); // Assign 232.777779 to C
 	print ('The temperature is ' + c);
@@ -95,7 +97,7 @@ function fahrenheitToCelsius (t){
 		<p> For making similar shapes, coding each one individually gets tedious. 
 		</p>
 			
-<script type="text/p5" data-height="320" data-preview-width="200">
+<script type="text/p5" data-height="420" data-preview-width="200">
 function setup(){
 	// Right shape
 	fill(255);
@@ -117,12 +119,12 @@ function setup(){
 		<p> This does the same as the code above, but abstracts the idea of an "eye" to its own function. It takes two parameters, the x and y coordinates of the center point.
 		</p>
 			
-<script type="text/p5" data-height="320" data-preview-width="200">
+<script type="text/p5" data-height="340" data-preview-width="200">
 function setup(){
 	eye(65, 44);
 	eye(20, 50);
 }
-function eye(int x, int y) {
+function eye(x, y) {
 	fill(255);
 	ellipse(x, y, 60, 60);
 	fill(0);
@@ -141,42 +143,37 @@ function eye(int x, int y) {
 		<h3> Screen Saver </h3>
 		<p> Taking what we've learned about abstracting complexity with functions, let's return to our screen saver example. </p>
 
-<script type="text/p5" data-height="300" data-preview-width="320">
-var num = 8; 			  
+<script type="text/p5" data-height="300" data-preview-width="320">		  
 var xPos, yPos, xSpeed, ySpeed, img;                                  
 var imgWidth = 40;           
 var imgHeight = 30;  
 
 function preload() {
-  img = loadImage('https://i.pinimg.com/favicons/c394c1cc75247a73aa8c0f97d87e6142e224e63b6de2b43fdb37bf5a.png');
+  img = loadImage('assets/myImg.png');
 }
 
 function setup() {
 	createCanvas(300,300);
-	for(var i = 0; i < num; i++){  
-		xPos = width/2;                
-		yPos = height/2;              
-		xSpeed = random(1,10);       
-		ySpeed = random(1,10);        
-	}
+	xPos = width/2;                
+	yPos = height/2;              
+	xSpeed = random(1,10);       
+	ySpeed = random(1,10);        
 }
 
 function draw() {
 	background(0);             
-	for(var i = 0; i < num; i++){  
-		// we can abstract the contents of this for() loop to a new function
-	    // and call that by simply writing: update(i);
-		image(img, xPos, yPos, imgWidth, imgHeight); // convert xPos to xPos[i], and yPos to yPos[i]
-		xPos += xSpeed;                // convert both xPos and xSpeed
-		yPos += ySpeed;                // convert both yPos and ySpeed
+	// we can abstract the contents of the draw() function to 3 new functions:
+    // move(), bounce(), and display()
+	image(img, xPos, yPos, imgWidth, imgHeight); 
+	xPos += xSpeed;               
+	yPos += ySpeed;                
 
-		if (xPos+imgWidth >= width || xPos <= 0){       // convert xPos
-			xSpeed *= -1;                                 // convert xSpeed
-		}
+	if (xPos+imgWidth >= width || xPos <= 0){       
+		xSpeed *= -1;                               
+	}
 
-		if (yPos+imgHeight >= height || yPos <= 0){     // convert yPos
-			ySpeed *= -1;                                 // convert ySpeed
-		}
+	if (yPos+imgHeight >= height || yPos <= 0){     
+		ySpeed *= -1;                                
 	}
 }
 </script>
@@ -190,7 +187,7 @@ var imgWidth = 40;
 var imgHeight = 30;  
 
 function preload() {
-  img = loadImage('https://i.pinimg.com/favicons/c394c1cc75247a73aa8c0f97d87e6142e224e63b6de2b43fdb37bf5a.png');
+  img = loadImage('assets/myImg.png');
 }
 
 function setup() {
