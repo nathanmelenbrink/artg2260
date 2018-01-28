@@ -72,7 +72,7 @@
 <script type="text/p5" data-height="280" data-preview-width="200">
 function setup(){
 	var f = average(12.0, 6.0); // Assign 9.0 to f
-	print ('The average is ' + f);
+	text ('The average is ' + f, 0, height/2);
 }
 
 function average (num1, num2){
@@ -85,7 +85,7 @@ function average (num1, num2){
 <script type="text/p5" data-height="280" data-preview-width="200">
 function setup(){
 	var c = fahrenheitToCelsius(451); // Assign 232.777779 to C
-	print ('The temperature is ' + c);
+	text ('The temperature is ' + c, 0, height/2);
 }
 
 function fahrenheitToCelsius (t){
@@ -94,56 +94,11 @@ function fahrenheitToCelsius (t){
 }
 </script>	
 
-		<p> For making similar shapes, coding each one individually gets tedious. 
-		</p>
-			
-<script type="text/p5" data-height="420" data-preview-width="200">
-function setup(){
-	// Right shape
-	fill(255);
-	ellipse(65, 44, 60, 60);
-	fill(0);
-	ellipse(75, 44, 30, 30);
-	fill(255);
-	ellipse(81, 39, 6, 6);
-	// Left shape
-	fill(255);
-	ellipse(20, 50, 60, 60);
-	fill(0);
-	ellipse(30, 50, 30, 30);
-	fill(255);
-	ellipse(36, 45, 6, 6);
-}
-</script>
-
-		<p> This does the same as the code above, but abstracts the idea of an "eye" to its own function. It takes two parameters, the x and y coordinates of the center point.
-		</p>
-			
-<script type="text/p5" data-height="340" data-preview-width="200">
-function setup(){
-	eye(65, 44);
-	eye(20, 50);
-}
-function eye(x, y) {
-	fill(255);
-	ellipse(x, y, 60, 60);
-	fill(0);
-	ellipse(x+10, y, 30, 30);
-	fill(255);
-	ellipse(x+16, y-5, 6, 6);
-}
-</script>
-
-		<p> Try changing the function so that it expects a third argument in the eye() function, make that parameter change the fill color of the second ellipse.
-		</p>
-
-		<p> Now, try making a for() loop that draws 10 eyes. </p>
-
 
 		<h3> Screen Saver </h3>
-		<p> Taking what we've learned about abstracting complexity with functions, let's return to our screen saver example. </p>
+		<p> Taking what we've learned about abstracting complexity with functions, let's return to our screen saver example and break up our draw() function into 3 parts. This will require us to first create 3 new functions, then move the relevant lines of code out of draw() and into our custom functions. Next, we need to make sure to call those functions from within draw(). p5's special functions like setup(), draw(), preload() and mousClicked() all have special rules for when they are called. But since p5 doesn't know anything about our new custom functions, we need to call them ourselves (or else nothing happens!). </p>
 
-<script type="text/p5" data-height="300" data-preview-width="320">		  
+<script type="text/p5" data-height="400" data-preview-width="320">		  
 var xPos, yPos, xSpeed, ySpeed, img;                                  
 var imgWidth = 40;           
 var imgHeight = 30;  
@@ -178,51 +133,118 @@ function draw() {
 }
 </script>
 
-		<p> Solution </p>
+		<p> Solution: Notice that the background() function call passes an argument (a '0' in this case), while our custom function calls do not. That's because the functions we defined expect no arguments. Next, we'll talk more about function arguments and how we can reuse functions with diffferent arguments to get different results. For now, try commenting out your 3 new functions independently to see how their behaviors work.  </p>
 
-<script type="text/p5" data-height="300" data-preview-width="320">
-var num = 8; 			  
+<script type="text/p5" data-height="400" data-preview-width="320">
 var xPos, yPos, xSpeed, ySpeed, img;                                  
 var imgWidth = 40;           
 var imgHeight = 30;  
 
 function preload() {
-  img = loadImage('assets/myImg.png');
+    img = loadImage('assets/myImg.png');
 }
 
 function setup() {
 	createCanvas(300,300);
-	for(var i = 0; i < num; i++){  
-		xPos = width/2;                
-		yPos = height/2;              
-		xSpeed = random(1,10);       
-		ySpeed = random(1,10);        
-	}
+	xPos = width/2;                
+	yPos = height/2;              
+	xSpeed = random(1,10);       
+	ySpeed = random(1,10);        
 }
 
 function draw() {
 	background(0);             
-	for(var i = 0; i < num; i++){  
-		// we can abstract the contents of this for() loop to a new function
-	    // and call that by simply writing: update(i);
-	    update(i);
+	move();
+	bounce();
+	display();
+}
+
+function move(){
+	xPos += xSpeed;               
+	yPos += ySpeed;
+}
+
+function bounce(){
+	if (xPos+imgWidth >= width || xPos <= 0){       
+		xSpeed *= -1;                               
+	}
+	if (yPos+imgHeight >= height || yPos <= 0){     
+		ySpeed *= -1;                                
 	}
 }
 
-function update(i){
-	image(img, xPos[i], yPos[i], imgWidth, imgHeight); 
-	xPos[i] += xSpeed[i];                
-	yPos[i] += ySpeed[i];                
-
-	if (xPos[i]+imgWidth >= width || xPos[i] <= 0){       
-		xSpeed[i] *= -1;                                 
-	}
-
-	if (yPos[i]+imgHeight >= height || yPos[i] <= 0){     
-		ySpeed[i] *= -1;                                 
-	}
+function diplay(){
+	image(img, xPos, yPos, imgWidth, imgHeight); 
 }
 </script>
+
+		<p> For making similar shapes, coding each one individually gets tedious. 
+		</p>
+			
+<script type="text/p5" data-height="420" data-preview-width="200">
+function setup(){
+	// Right shape
+	fill(255);
+	ellipse(65, 44, 60, 60);
+	fill(0);
+	ellipse(75, 44, 30, 30);
+	fill(255);
+	ellipse(81, 39, 6, 6);
+	// Left shape
+	fill(255);
+	ellipse(20, 50, 60, 60);
+	fill(0);
+	ellipse(30, 50, 30, 30);
+	fill(255);
+	ellipse(36, 45, 6, 6);
+}
+</script>
+
+		<p> The two eyes in the above example are drawn at different positions, but otherwise they are very similar. It would be better if we could reuse parts of this code instead of drawing each shape from scratch each time. But if we just had an eye() function that did the same thing every time with absolute coordinates, that wouldn't give us two distinct eyes but rather the same shapes drawn on top of each other. Instead, we can customize the input of the eye() function to accept parameters like eye(x,y), representing the x and y coordinates of the center point of the eye. Our custom eye(x,y) function can then use relative coordinates to build the eye shape around the x,y coordinates it received. </p>
+
+		<p> Correspondingly, however, we need to make sure that our function call agrees with our function definition; in other words, since our function is expecting 2 parameters, we need to call it with 2 arguments.</p>
+
+		<p> The code below does the same as the code above, but abstracts the idea of an "eye" to its own function. It takes two parameters, the x and y coordinates of the center point.
+		</p>
+			
+<script type="text/p5" data-height="400" data-preview-width="200">
+function setup(){
+	eye(65, 44);
+	eye(20, 50);
+}
+function eye(x, y) {
+	fill(255);
+	ellipse(x, y, 60, 60);
+	fill(0);
+	ellipse(x+10, y, 30, 30);
+	fill(255);
+	ellipse(x+16, y-5, 6, 6);
+}
+</script>
+
+		<p> Try changing the function so that it expects a third parameter in the eye() function, make that parameter change the fill color of the second ellipse.
+		</p>
+
+		<p> Now, try making a for() loop that draws 10 eyes. </p>
+
+		<h3> Return Values</h3>
+		<p> Some of p5's native functions, like rect() or line() or ellipse() have no return value; their output is rendering a shape to the canvas. Other native functions, like random() or round() do have return values, in other words, they resolve to a number. That means we can use them in different ways. For example, we can write  <code>stroke(random(10))</code> which will give us a random stroke value between 0 and 10. But we can't write <code>stroke(line())</code> because the line() function does not return a value. </p>
+
+		<p>Similarly, when we write custom functions, it's up to us whether or not we want our functions to return a value.  
+		</p>
+
+<script type="text/p5" data-height="280" data-preview-width="200">
+function setup(){
+	var c = fahrenheitToCelsius(451); // Assign 232.777779 to C
+	text ('The temperature is ' + c, 0, height/2);
+}
+
+function fahrenheitToCelsius (t){
+	var f = (t - 32.0) * (5.0/9.0));
+	return f;
+}
+</script>	
+
 
 	</div>
 </div>
