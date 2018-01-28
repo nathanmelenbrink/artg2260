@@ -1,0 +1,243 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>ARTG2260: Programming Basics</title>
+<meta name="description" content="Index Page">
+<script src="../js/vendor/jquery.min.js"></script>
+<script> 
+	$(function(){
+	  $("#header").load("../header.html"); 
+	  $("#footer").load("../footer.html"); 
+	});
+</script>
+
+
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<script src="../js/vendor/modernizr.js"></script>
+<script src="https://toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script src="../js/p5.min.js"></script>
+
+
+</head>
+<body>
+
+<div id="header"></div>
+
+<!-- FIRST ROW -->
+<div class="row">
+	<div class="large-3  columns">
+		<h3> Arrays</h3>
+	</div >
+
+	<div class="small-12 medium-12 large-9  columns">
+
+
+		<h3> What is an Array? </h3>
+		<p>  Syntax: <br>
+    <code> Array, [] (array access), new, Array.length </code><br>
+
+    An array is a set of data elements stored under the same name. <br>
+
+    There can be arrays of numbers, characters, sentences, boolean values, etc. <br>
+
+    Arrays might store vertex data for complex shapes, recent keystrokes from the keyboard, or data read from a file. <br>
+
+    The example below compares 3 different ways you could store the same coordinate data needed to draw a star.
+		</p>
+
+    <img src='arrays.png' alt='arrays'>
+
+
+<script type="text/p5" data-height="300" data-preview-width="220">
+function setup() {
+  createCanvas(200, 200);
+  var[] x = { 50, 61, 83, 69, 71, 50, 29, 31, 17, 39 };
+  var[] y = { 18, 37, 43, 60, 82, 73, 82, 60, 43, 37 };
+  beginShape();
+  // Reads one array element every time through the for()
+  for (var i = 0; i < x.length; i++) {
+    vertex(x[i], y[i]);
+  } 
+  endShape(CLOSE);
+}
+</script>
+
+
+    <p> Arrays are declared similarly to other data types, but they are distinguished with brackets [  ]. 
+
+    When an array is declared, the type of data it stores must be specified.
+
+    After the array is declared the array must be created with the keyword “new.” This additional step allocates space in the computer’s memory to store the array’s data. 
+
+    After the array is created, the values can be assigned.
+
+    Here are 3 different ways to Declare, Create and Assign: </p>
+<!-- 
+Add an example here
+ -->
+<script type="text/p5" data-height="300" data-preview-width="220">
+function setup() {
+  var[] data = { 19, 40, 75, 76, 90 };
+  line(data[0], 0, data[0], 100);
+  line(data[1], 0, data[1], 100);
+  line(data[2], 0, data[2], 100);
+  line(data[3], 0, data[3], 100);
+  line(data[4], 0, data[4], 100);
+  print(data[0]); // Prints 19 to the console
+  print(data[2]); // Prints 75 to the console
+  print(data[5]); // ERROR! The last element of the array is 4
+}
+</script>
+
+    <p> Arrays are often used to store data from the mouse. The pmouseX and pmouseY variables store the cursor coordinates from the previous frame, but there’s no built-in way to access the cursor values from earlier frames. At every frame, the mouseX, mouseY, pmouseX, and pmouseY variables are replaced with new numbers and their previous numbers are discarded. Creating an array is the easiest way to store the history of these values. In the following example, the most recent 100 values from mouseY are stored in a array and displayed on screen as a line from the left to the right edge of the screen. At each frame, the values in the array are shifted to the right and the newest value is added to the beginning.
+    </p>
+<!-- 
+Make an example prior to this with a static array
+ -->
+
+<script type="text/p5" data-height="300" data-preview-width="220">
+var[] y;
+
+function setup() {
+  y = new int[width];
+}
+
+function draw() {
+  background(204);
+  // Shift the values to the right
+  for (var i = y.length-1; i > 0; i--) {
+    y[i] = y[i-1];
+  }
+  // Add new values to the beginning
+  y[0] = constrain(mouseY, 0, height-1);
+  // Display each pair of values as a line
+  for (var i = 1; i < y.length; i++) {
+    line(i, y[i], i-1, y[i-1]);
+  }
+}
+</script>
+
+
+<script type="text/p5" data-height="300" data-preview-width="220">
+var num = 50;
+var x = [num];
+var y = [num];
+
+function setup() {
+  noStroke();
+  fill(255, 102);
+}
+
+function draw() {
+  background(0);
+  // Shift the values to the right
+  for (int i = num-1; i > 0; i--) {
+    x[i] = x[i-1];
+    y[i] = y[i-1];
+  }
+  // Add the new values to the beginning of the array
+  x[0] = mouseX;
+  y[0] = mouseY;
+  // Draw the circles
+  for (int i = 0; i < num; i++) {
+    ellipse(x[i], y[i], i/2.0, i/2.0);
+  }
+}
+</script>
+
+    <p>The following example produces the same result as the previous one but uses a more efficient technique. Instead of sorting the array elements in each frame, the program writes the new data to the next available array position. The elements in the array remain in the same position once they are written, but they are read in a different order each frame. Reading begins at the location of the oldest data element and continues to the end of the array. At the end of the array, the % operator is used to wrap back to the beginning. This technique is especially useful with larger arrays, to avoid unnecessary copying of data that can slow down a program.</p>
+
+<script type="text/p5" data-height="300" data-preview-width="220">
+var num = 50;
+var x = [num];
+var y = [num];
+var indexPosition = 0;
+
+function setup() {
+  noStroke();
+  fill(255, 102);
+}
+
+function draw() {
+  background(0);
+  x[indexPosition] = mouseX;
+  y[indexPosition] = mouseY;
+  // Cycle between 0 and the number of elements
+  indexPosition = (indexPosition + 1) % num;
+  for (int i = 0; i < num; i++) {
+    // Set the array position to read
+    int pos = (indexPosition + i) % num;
+    int radius = int((num-i) / 2.0);
+    ellipse(x[pos], y[pos], radius, radius);
+  }
+}
+</script>
+
+        <p>Now let's return to our screen saver example. Modify the code below to draw an array of four images instead of just one. </p>
+
+<script type="text/p5" data-height="300" data-preview-width="220">
+// declare an int called "num", assign value of 8
+var xPos;                    // convert xPos to an array of int[num]
+var yPos;                    // convert yPos to an array of int[num]
+var xSpeed;                // convert xSpeed to an array of float[num]
+var ySpeed;                // convert ySpeed to an array of float[num]
+var img;                  
+var imgWidth = 40;           
+var imgHeight = 30;  
+
+function preload() {
+  img = loadImage('https://i.pinimg.com/favicons/c394c1cc75247a73aa8c0f97d87e6142e224e63b6de2b43fdb37bf5a.png');
+}
+
+function setup() {
+  createCanvas(300,300);
+  // create a new for() loop, putting the next 4 lines inside. It should loop from 0 to num.
+  xPos = width/2;                // convert xPos to xPos[i], to apply to the whole array
+  yPos = height/2;               // convert yPos to yPos[i], to apply to the whole array
+  xSpeed = random(1,10);         // same as above
+  ySpeed = random(1,10);         // same as above 
+  // end for() loop
+}
+
+function draw() {
+  background(0);             
+  // create a new for() loop, putting the rest of the draw() function inside. It should loop from 0 to num.
+  image(img, xPos, yPos, imgWidth, imgHeight); // convert xPos to xPos[i], and yPos to yPos[i]
+  xPos += xSpeed;                // convert both xPos and xSpeed
+  yPos += ySpeed;                // convert both yPos and ySpeed
+  
+  if (xPos+imgWidth >= width || xPos <= 0){       // convert xPos
+    xSpeed *= -1;                                 // convert xSpeed
+  }
+  
+  if (yPos+imgHeight >= height || yPos <= 0){     // convert yPos
+    ySpeed *= -1;                                 // convert ySpeed
+  }
+  // end for() loop
+}
+</script>
+
+
+	</div>
+</div>
+
+
+
+<div id="footer"></div>
+
+<script src="../js/vendor/jquery.min.js"></script>
+<script src="../js/foundation.min.js"></script>
+<script src="../js/htdaa.js"></script>
+
+
+</body>
+</html>

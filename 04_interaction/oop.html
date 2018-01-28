@@ -1,0 +1,390 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>ARTG2260: Programming Basics</title>
+<meta name="description" content="Index Page">
+<script src="../js/vendor/jquery.min.js"></script>
+<script> 
+	$(function(){
+	  $("#header").load("../header.html"); 
+	  $("#footer").load("../footer.html"); 
+	});
+</script>
+
+
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<script src="../js/vendor/modernizr.js"></script>
+<script src="https://toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script src="../js/p5.min.js"></script>
+
+
+</head>
+<body>
+
+<div id="header"></div>
+
+<!-- FIRST ROW -->
+<div class="row">
+	<div class="large-3  columns">
+		<h3> Object-Oriented Programming</h3>
+	</div >
+
+	<div class="small-12 medium-12 large-9  columns">
+
+		<h3> Resources: </h3>
+		<p> 
+			<a href='https://www.youtube.com/watch?v=xG2Vbnv0wvg&index=20&list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA' >Shiffman - 6.1: Introduction to Object-Oriented Programming with ES6 - p5.js</a> <br>
+			<a href='https://www.youtube.com/watch?v=T-HGdc8L-7w&index=21&list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA' >Shiffman - 6.2: Classes in JavaScript with ES6 - p5.js </a> <br>
+			<a href='https://www.youtube.com/watch?v=rHiSsgFRgx4&index=22&list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA' >Shiffman - 6.3: Constructor Arguments with Classes in JavaScript - p5.js</a> <br><!-- 
+			<a href="https://p5js.org/examples/control-conditionals-1.html">p5 Examples: Conditionals</a><br>
+			<a href="https://p5js.org/examples/control-conditionals-2.html">p5 Examples: If/else Statements</a><br>
+			<a href="https://p5js.org/examples/control-logical-operators.html">p5 Examples: Logical Operators</a><br>	 -->
+		</p>
+
+		<h3>Syntax Introduced:</h3>
+		<p> </p>
+
+		<h3>Classes and Objects</h3>
+
+		<p>	Variables and functions are the building blocks of software.</p>
+
+		<p>A class defines a group of methods (functions and fields (variables). An object is a single instance of a class.</p>
+
+		<p> Object-oriented programming further extends the modularity of using variables and writing functions by allowing related functions to be grouped together. </p>
+
+		<img src='https://cdn.guru99.com/images/java/052016_0704_ObjectsandC6.jpg' alt='objects'>
+
+		<h3>Classes</h3>
+
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Fields</th>
+				<th>Methods</th>
+			</tr>
+			<tr>
+				<td>Apple</td>
+				<td>color, weight</td>
+				<td>grow(), fall(), rot() </td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Fields</th>
+				<th>Methods</th>
+			</tr>
+			<tr>
+				<td>Butterfly</td>
+				<td>species, gender</td>
+				<td>flapWings(), land()</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Fields</th>
+				<th>Methods</th>
+			</tr>
+			<tr>
+				<td>Radio</td>
+				<td>frequency, volume</td>
+				<td>turnOn(), tune(), setVolume() </td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Fields</th>
+				<th>Methods</th>
+			</tr>
+			<tr>
+				<td>Car</td>
+				<td>make, model, color, year</td>
+				<td>accelerate(), brake(), turn()</td>
+			</tr>
+		</table>
+
+		<p>	To make a software simulation of the apple, the grow() method might have inputs for temperature and moisture. <br><br>
+
+		The grow() method can increase the weight field of the apple based on these inputs. <br><br>
+
+		The fall() method can continually check the weight and cause the apple to fall to the ground when the weight goes above a threshold. <br><br>
+
+		The rot() method could then take over, beginning to decrease the value of the weight field and change the color fields.
+		</p>
+
+		<h3>Objects</h3>
+		<p> Objects are created from a class and a class describes a set of fields and methods. <br><br>
+
+		An instance of a class is a variable, and like other variables, it must have a unique name. If more than one object is created from a class, each must have a unique name. <br><br>
+
+		For example, if two objects named fuji and golden are created using the Apple class, each can have its own values for its fields:
+		</p>
+
+		<img src='apple.png' alt='apple object'>
+
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Fields</th>
+			</tr>
+			<tr>
+				<td>fuji</td>
+				<td>color: red <br>
+					weight: 8.4 </td>
+			</tr>
+		</table>
+
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Fields</th>
+			</tr>
+			<tr>
+				<td>golden</td>
+				<td>color: yellow <br>
+					weight: 6.2 </td>
+			</tr>
+		</table>
+
+	
+
+		<h3> Dot Syntax</h3>
+		<p> The fields and methods of an object are accessed with the dot operator, a period.<br><br> 
+
+			To get the color value from the fuji object, the syntax fuji.color accesses the value of the color field inside the fuji object. The syntax golden.color accesses the value of the color field inside the golden object. <br><br>
+
+			The dot operator is also used to activate (or “call”) the methods of the object. To run the grow() method inside the golden object, the syntax golden.grow() is used.</p>
+
+
+		<p>	The following code draws the ellipse as an object.</p>
+		
+<script type="text/p5" data-height="320" data-preview-width="200">
+Spot sp; // Declare the object
+
+void setup() {
+  size(100, 100);
+  noStroke();
+  sp = new Spot(); // Construct the object
+  sp.x = 33;
+  sp.y = 50;
+  sp.diameter = 30;
+}
+
+void draw() {
+  background(0);
+  sp.display();
+}
+
+class Spot {
+  float x, y, diameter;
+  
+  void display() {
+    ellipse(x, y, diameter, diameter); // notice this is no longer sp.x, because it is now inside the object
+  }
+}
+</script>
+
+		<h3> Constructors</h3>
+
+		<p>	A constructor is a block of code activated as the object is created. The constructor always has the same name as the class and is typically used to assign values to an object’s fields as it comes into existence. 
+
+		The constructor is like other methods except that it is not preceded with a data type or the keyword void because there is no return type. 
+ 
+ 		The following code introduces a Spot constructor. </p>
+		
+<script type="text/p5" data-height="320" data-preview-width="200">
+Spot sp; // Declare the object
+
+void setup() {
+  size(100, 100);
+  noStroke();
+  sp = new Spot(33, 50, 30); // Construct the object
+}
+
+void draw() {
+  background(0);
+  sp.display();
+}
+
+class Spot {
+  float x, y, diameter;
+  
+  Spot (float xpos, float ypos, float dia){
+    x = xpos;          // Assign 33 to x
+    y = ypos;          // Assign 50 to y
+    diameter = dia;    // Assign 30 to diameter
+  }
+  
+  void display() {
+    ellipse(x, y, diameter, diameter); 
+  }
+}
+</script>
+
+		<p>	The following code draws the ellipse as an object.</p>
+		
+<script type="text/p5" data-height="320" data-preview-width="200">
+Spot sp; // Declare the object
+
+void setup() {
+  size(100, 100);
+  noStroke();
+  sp = new Spot(33, 50, 30, 1); // Construct the object
+}
+
+void draw() {
+  background(0);
+  sp.display();
+  sp.move();
+}
+
+class Spot {
+  
+  float x, y;         // X-coordinate, y-coordinate
+  float diameter;     // Diameter of the circle
+  float speed;        // Distance moved each frame
+  int direction = 1;  // Direction of motion (1 is down, -1 is up)
+  
+  // Constructor
+  Spot(float xpos, float ypos, float dia, float sp) {
+    x = xpos;
+    y = ypos;
+    diameter = dia;
+    speed = sp;
+  }
+  
+  void move() {
+    y += (speed * direction);
+    if ((y > (height - diameter/2)) || (y < diameter/2)) {
+      direction *= -1;
+    }
+  }
+  
+  void display() {
+    ellipse(x, y, diameter, diameter);
+  }
+}
+</script>
+
+		<p>	The following code draws multiple instances of the Spot object. The function Spot  has not changed. </p>
+		
+<script type="text/p5" data-height="320" data-preview-width="200">
+Spot sp1, sp2, sp3; // Declare the objects
+
+void setup() {
+  size(100, 100);
+  noStroke();
+  sp1 = new Spot(20, 50, 40, 0.5); // Construct sp1
+  sp2 = new Spot(50, 50, 10, 2.0); // Construct sp2
+  sp3 = new Spot(80, 50, 30, 1.5); // Construct sp3
+}
+
+void draw() {
+  fill(0, 15);
+  rect(0, 0, width, height);
+  fill(255);
+  sp1.move();
+  sp2.move();
+  sp3.move();
+  sp1.display();
+  sp2.display();
+  sp3.display();
+}
+
+class Spot {
+
+  float x, y;         // X-coordinate, y-coordinate
+  float diameter;     // Diameter of the circle
+  float speed;        // Distance moved each frame
+  int direction = 1;  // Direction of motion (1 is down, -1 is up)
+
+  // Constructor
+  Spot(float xpos, float ypos, float dia, float sp) {
+    x = xpos;
+    y = ypos;
+    diameter = dia;
+    speed = sp;
+  }
+
+  void move() {
+    y += (speed * direction);
+    if ((y > (height - diameter/2)) || (y < diameter/2)) {
+      direction *= -1;
+    }
+  }
+
+  void display() {
+    ellipse(x, y, diameter, diameter);
+  }
+}
+</script>
+
+		<p>	Using what we've learned about Object-Oriented Programming, let's introduce objects to the following code: </p>
+		
+<script type="text/p5" data-height="320" data-preview-width="200">
+int xPos = width/2;                     
+int yPos = height/2;                     
+float xSpeed = random(1, 10);               
+float ySpeed = random(1, 10);                   
+PImage img;                  
+int imgWidth = 40;           
+int imgHeight = 30;          
+
+void setup() {                    
+  size(600, 600);                 
+  img = loadImage("photo.png");
+}
+
+void draw() {                    
+  background(0); 
+  display();
+  update();
+  checkEdges();
+}
+
+void display() {
+  image(img, xPos, yPos, imgWidth, imgHeight);
+}
+
+void update() {
+  xPos += xSpeed;                
+  yPos += ySpeed;
+}
+
+void checkEdges() {
+  if (xPos+imgWidth >= width || xPos <= 0) {       
+    xSpeed *= -1;
+  }
+
+  if (yPos+imgHeight >= height || yPos <= 0) {     
+    ySpeed *= -1;
+  }
+}
+</script>
+
+
+	</div>
+</div>
+
+
+
+<div id="footer"></div>
+
+<script src="../js/vendor/jquery.min.js"></script>
+<script src="../js/foundation.min.js"></script>
+<script src="../js/htdaa.js"></script>
+
+
+</body>
+</html>
