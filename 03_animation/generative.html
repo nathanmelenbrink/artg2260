@@ -80,8 +80,7 @@ function draw() {
 
 		<p> The following example shows an ellipse moving vertically, with a conditional statement to send it back to the bottom of the canvas when it reaches the top. It moves randomly in the x direction to create a jittery effect. We have also added a fading effect by drawing a low-opacity white rectangle over the whole canvas at each frame.  </p>
 
-<script type="text/p5" data-height="320" data-preview-width="320">
-// Where is the circle
+<script type="text/p5" data-height="420" data-preview-width="320">
 var x, y;
 
 function setup() {
@@ -114,14 +113,13 @@ function draw() {
 
 		<p> Try modifying the above code with frameCount and modulus for a cyclical effect, for example the fill of the circle.   </p>
 
+		<p> Next, we can start to use the random() function within a for() loop to get controlled randomness. Here, we're using the variables pX and pY to store the coordinates from the previous pass of the loop. We then draw a line connecting the two points. We do this n times, resulting in a randomized, segmented polyline.  </p>
 
-<script type="text/p5" data-height="320" data-preview-width="320">
+<script type="text/p5" data-height="400" data-preview-width="320">
 var n = 30;
 
 function setup() {
   createCanvas(300, 300);
-  noFill();
-  stroke(190, 215, 200, 90);
 }
 
 function draw() {
@@ -129,8 +127,34 @@ function draw() {
   var pY = 0;
 
   for (var i=0; i<n; i++) {   
-    var x = (frameCount % width) * random(-1,1);
-    var y = i * 10;
+    var x = (frameCount + random(-1,1))% width;
+    var y = i*10;
+    line(pX, pY, x, y);
+    pX = x;
+    pY = y;
+  }
+}
+</script>
+
+
+		<p> Now, instead of adding a random x offset between -1 and 1, what happens if we replace the 1 with i? Now the offset will be a function of the y coordinate, in other words, more controlled up top, and more chaotic at the bottom of the canvas.  </p>
+
+<script type="text/p5" data-height="400" data-preview-width="320">
+var n = 30;
+
+function setup() {
+  createCanvas(300, 300);
+}
+
+function draw() {
+  fill(255, 10);
+  rect(0,0,width,height);
+  var pX = 0;
+  var pY = 0;
+
+  for (var i=0; i<n; i++) {   
+    var x = (frameCount + random(-i,i))% width;
+    var y = i*10;
     line(pX, pY, x, y);
     pX = x;
     pY = y;
