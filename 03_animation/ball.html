@@ -125,7 +125,7 @@ function draw(){                 // create a draw function
 		<p> Now let's also make a conditional to prevent the ball from going off screen in the y direction. You'll notice that the ball goes in the same direction every time. Let's use the random() function to get the ball going in a different random direction each time. </p>
 
 <script type="text/p5" data-height="500" data-preview-width="320">
-var xPos;                        // declare variables xPos and yPos with type int
+var xPos;                        // declare variables xPos and yPos s
 var yPos;
 var xDi = 30;                    // declare variables for the ellipse diameters
 var yDi = 30;
@@ -163,7 +163,7 @@ var yPos;
 var xDi = 30;                    // declare variables for the ellipse diameters
 var yDi = 30;
 var xSpeed = 1;                  // declare a var called xSpeed, set it to 1;
-var ySpeed = 1;  				 // declare a var called ySpeed, set it to 1;
+var ySpeed = 1;          // declare a var called ySpeed, set it to 1;
 
 function setup(){                // create a setup function
   createCanvas(300,300);         // make a canvas 300 x 300 px
@@ -178,7 +178,7 @@ function draw(){                 // create a draw function
   fill(255, 0, 255);             // set fill color
   ellipse(xPos, yPos, 30, 30);   // draw a circle radius 30 at coordinate (xPos, yPos)
   xPos += xSpeed;                // add the xSpeed to xPos
-  yPos += ySpeed;				 // add the ySpeed to yPos
+  yPos += ySpeed;        // add the ySpeed to yPos
   
   if (xPos+xDi/2 >= width || xPos-xDi/2 <= 0){    // if we reach the edge of the canvas
     xSpeed *= -1;                                 // turn around (toggle xSpeed negative to positive)

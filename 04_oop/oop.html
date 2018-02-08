@@ -1,0 +1,443 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>ARTG2260: Programming Basics</title>
+<meta name="description" content="Index Page">
+<script src="../js/vendor/jquery.min.js"></script>
+<script> 
+	$(function(){
+	  $("#header").load("../header.html"); 
+	  $("#footer").load("../footer.html"); 
+	});
+</script>
+
+
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<script src="../js/vendor/modernizr.js"></script>
+<script src="https://toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script src="../js/p5.min.js"></script>
+
+
+</head>
+<body>
+
+<div id="header"></div>
+
+<!-- FIRST ROW -->
+<div class="row">
+	<div class="large-3  columns">
+		<h3> Object-Oriented Programming</h3>
+	</div >
+
+	<div class="small-12 medium-12 large-9  columns">
+
+		<h3> Resources: </h3>
+		<p> 
+			<a href='https://www.youtube.com/watch?v=xG2Vbnv0wvg&index=20&list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA' >Shiffman - 6.1: Introduction to Object-Oriented Programming with ES6 - p5.js</a> <br>
+			<a href='https://www.youtube.com/watch?v=T-HGdc8L-7w&index=21&list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA' >Shiffman - 6.2: Classes in JavaScript with ES6 - p5.js </a> <br>
+			<a href='https://www.youtube.com/watch?v=rHiSsgFRgx4&index=22&list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA' >Shiffman - 6.3: Constructor Arguments with Classes in JavaScript - p5.js</a> <br><!-- 
+			<a href="https://p5js.org/examples/control-conditionals-1.html">p5 Examples: Conditionals</a><br>
+			<a href="https://p5js.org/examples/control-conditionals-2.html">p5 Examples: If/else Statements</a><br>
+			<a href="https://p5js.org/examples/control-logical-operators.html">p5 Examples: Logical Operators</a><br>	 -->
+		</p>
+
+		<h3>Syntax Introduced:</h3>
+		<p> </p>
+
+		<h3>Classes and Objects</h3>
+
+		<p>	Variables and functions are the building blocks of software.</p>
+
+		<p>A class defines a group of methods (functions and fields (variables). An object is a single instance of a class.</p>
+
+		<p> Object-oriented programming further extends the modularity of using variables and writing functions by allowing related functions to be grouped together. </p>
+
+		<img src='https://cdn.guru99.com/images/java/052016_0704_ObjectsandC6.jpg' alt='objects'>
+
+		<h3>Classes</h3>
+
+		<p>	To make a software simulation of an Apple class, the grow() method might have inputs for temperature and moisture. </p>
+
+		<p>The grow() method can increase the weight field of the apple based on these inputs. The fall() method can continually check the weight and cause the apple to fall to the ground when the weight goes above a threshold. The rot() method could then take over, beginning to decrease the value of the weight field and change the color fields.
+		</p>
+
+		<b>Name:</b> Apple <br>
+		<b>Fields:</b> color, weight <br>
+		<b>Methods:</b> grow(), fall(), rot() <br> <br> 
+
+		<b>Name:</b> Butterfly <br>
+		<b>Fields:</b> species, gender <br>
+		<b>Methods:</b> flapWings(), land() <br> <br> 
+
+		<b>Name:</b> Radio <br>
+		<b>Fields:</b> frequency, volume<br>
+		<b>Methods:</b> turnOn(), tune(), setVolume() <br> <br> 
+
+		<b>Name:</b> Car <br>
+		<b>Fields:</b> make, model, color, year <br>
+		<b>Methods:</b> accelerate(), brake(), turn() <br> <br> 
+
+		
+
+		<h3>Objects</h3>
+		<p> Objects are created from a class and a class describes a set of fields and methods. </p>
+
+		<p>An instance of a class is a variable, and like other variables, it must have a unique name. If more than one object is created from a class, each must have a unique name. </p>
+
+		<p>For example, if two objects named fuji and golden are created using the Apple class, each can have its own values for its fields:
+		</p>
+
+		<img src='apple.png' alt='apple object'>
+
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Fields</th>
+			</tr>
+			<tr>
+				<td>fuji</td>
+				<td>color: red <br>
+					weight: 8.4 </td>
+			</tr>
+		</table>
+
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Fields</th>
+			</tr>
+			<tr>
+				<td>golden</td>
+				<td>color: yellow <br>
+					weight: 6.2 </td>
+			</tr>
+		</table>
+
+	
+
+		<h3> Dot Syntax</h3>
+		<p> The fields and methods of an object are accessed with the dot operator, a period.</p> 
+
+		<p>	To get the color value from the fuji object, the syntax fuji.color accesses the value of the color field inside the fuji object. The syntax golden.color accesses the value of the color field inside the golden object. </p>
+
+		<p>The dot operator is also used to activate (or “call”) the methods of the object. To run the grow() method inside the golden object, the syntax golden.grow() is used.</p>
+
+
+		<h3> this.</h3>
+		<p> When referring to a local variable (within the scope of the object), you need to use the <i>this.</i> keyword. Take a look at the example below. We create an object called <i>sp</i>. When we talk about that object from outside of the class that defines it, we use dot syntax like <code>sp.y = 33;</code> which lets us dial into that object and change its properties. You can think of this like the "area code" in a long-distance call. However, if we're already inside of the scope of that object (like in the display() function below), we don't need long-distance. Instead, we use <code>this.x</code> to ensure that we're talking about the local <i>x</i> field of that object.</p>
+		
+<script type="text/p5" data-height="640" data-preview-width="200">
+let sp; // Declare the object
+
+function setup() {
+	sp = new Spot(); // Construct the object
+	sp.x = 33;
+	sp.y = 50;
+	sp.diameter = 30;
+}
+
+function draw() {
+	background(0);
+	sp.display();
+}
+
+class Spot {
+	constructor(){
+		this.x;
+		this.y;
+		this.diameter;
+	}
+
+	display() {
+		ellipse(this.x, this.y, this.diameter, this.diameter); // notice this is no longer sp.x, because it is now inside the object
+	}
+}
+</script>
+
+		<h3> Constructors</h3>
+
+		<p>	A constructor is a block of code that is activated as the object is created. The constructor is always called constructor() and should typically be the first function in the class. It is typically used to assign values to an object’s fields as it comes into existence. Like other functions within the class, the keyword <i>function</i> is not required.</p>
+
+ 		<p>The following code introduces a Spot constructor. In this example, the fields of the sp object are both declared and assigned in the constructor. Try re-assigning these fields from inside the draw() function. </p>
+		
+<script type="text/p5" data-height="420" data-preview-width="200">
+llet sp; 				// Declare the object
+
+function setup() {
+  	sp = new Spot(); 	// Construct the object
+}
+
+function draw() {
+  	background(0);
+  	sp.display();		// call the display() method
+}
+
+class Spot {
+  	constructor(){
+   		this.x = 33;
+    	this.y = 50;
+    	this.diameter = 30;
+  	}
+  	
+  	display() {
+  		ellipse(this.x, this.y, this.diameter, this.diameter); 
+  	}
+}
+</script>
+
+		<h3>Object Methods</h3>
+		<p>	We can create any number of functions (methods) within a class (so far we only have a display() method). We can then call these methods to be run on a specific object. In addition to display, let's add a move() method to translate the Spot in the x direction. </p>
+		
+<script type="text/p5" data-height="620" data-preview-width="200">
+let sp; 				// Declare the object
+
+function setup() {
+  	sp = new Spot(); 	// Construct the object
+}
+
+function draw() {
+  	background(0);
+  	sp.display();		// call the display() method
+	// call the move() method
+}
+
+class Spot {
+	constructor(){
+		this.x = 33;
+		this.y = 50;
+		this.diameter = 30;
+	}
+
+	display() {
+		ellipse(this.x, this.y, this.diameter, this.diameter); 
+	}
+
+	// create a move() method
+}
+</script>
+
+		<h3>Multiple Objects</h3>
+		<p>	One of the most powerful aspects of object-oriented programming is the ability to create multiple instances of a class (in other words, many objects from one class). Let's modify the following code to draw multiple instances (objects) of the Spot class. <!-- The Spot class definition itself has not changed. In other words, we didn't change the cookie cutter, we're just using it to cut more cookies. -->  </p>
+
+<script type="text/p5" data-height="620" data-preview-width="200">
+let sp; 				// Declare three objects instead of one
+
+function setup() {
+  	sp = new Spot(); 	// Construct all three objects
+}
+
+function draw() {
+  	background(0);
+  	sp.display();		// call the display() and 
+	sp.move();			// move() methods for all 3 objects	
+}
+
+class Spot {
+	constructor(){
+		this.x = 33;	// replace initial coordinates with random
+		this.y = 50;	// values, so they don't overlap
+		this.diameter = 30;
+	}
+
+	display() {
+		ellipse(this.x, this.y, this.diameter, this.diameter); 
+	}
+
+	// create a move() method
+	move() {
+		this.x += 1;
+  	}
+}
+</script>
+
+		<p>	Solution:  </p>
+
+<script type="text/p5" data-height="620" data-preview-width="200">
+let sp0, sp1, sp2; 				// Declare three objects instead of one
+
+function setup() {
+  	sp0 = new Spot(); 	// Construct all three objects
+  	sp1 = new Spot(); 
+  	sp2 = new Spot(); 
+}
+
+function draw() {
+  	background(0);
+  	sp0.display();		// call the display() and 
+	sp0.move();			// move() methods for all 3 objects	
+	sp1.display();		
+	sp1.move();
+	sp2.display();		
+	sp2.move();		
+}
+
+class Spot {
+	constructor(){
+		this.x = random(0, width);	// replace initial coordinates with random
+		this.y = random(0, height);	// values, so they don't overlap
+		this.diameter = 30;
+	}
+
+	display() {
+		ellipse(this.x, this.y, this.diameter, this.diameter); 
+	}
+
+	// create a move() method
+	move() {
+		this.x += 1;
+  	}
+}
+</script>
+
+		<h3>Constructor Arguments</h3>
+		<p>	In the previous example, we had to use random values in the constructor, so that the 3 Spots wouldn't overlap each other. But that has pretty limited usefulness -- what if we wanted to initialize 3 different Spots at specific locations? That's where constructor arguments come in. </p>
+		
+		<p>So far we created new objects using the syntax <code>sp = new Spot();</code>. Just like we can pass arguments between the parentheses in a function call, we can pass arguments between the parentheses when we create an object, for example, <code>sp = new Spot(50, 80);</code>. Correspondingly, we'd need for our constructor to expect two arguments, such as <code>constructor(_x, _y){ }</code> (assuming we wanted those two arguments to represent x and y positions). </p>
+
+		<p> Finally, the job of the constructor is to take those arguments and assign them to the fields of the object that it is creating. It does this using <i>temporary</i> variables, which is admittedly confusing. We need to have them in order to translate from the outside scope in which the arguments were passed to the local scope needed to create the object. But, we don't actually need them once the object is created (all of the objects fields are accessible using the <i>this.x</i> syntax. </p>
+
+		<p> Let's modify the above code to use constructor arguments to assign position instead of random values (solution below).</p>
+
+<script type="text/p5" data-height="620" data-preview-width="200">
+let sp0, sp1, sp2; 				// Declare three objects instead of one
+
+function setup() {
+  	sp0 = new Spot(20, 20); 	// Construct all three objects
+  	sp1 = new Spot(20, 80); 
+  	sp2 = new Spot(80, 20); 
+}
+
+function draw() {
+  	background(0);
+  	sp0.display();		// call the display() and 
+	sp0.move();			// move() methods for all 3 objects	
+	sp1.display();		
+	sp1.move();
+	sp2.display();		
+	sp2.move();		
+}
+
+class Spot {
+	constructor(_x, _y){
+		this.x = _x; 	// we assign the local object properties
+		this.y = _y;	// to the value sent to it by the constructor
+		this.diameter = 30; // we can still have constructor fields
+							// that are independent of outside arguments
+	}
+
+	display() {
+		ellipse(this.x, this.y, this.diameter, this.diameter); 
+	}
+
+	// create a move() method
+	move() {
+		this.x += 1;
+  	}
+}
+</script>
+
+		<p> Try extending the above code to accept an argument for the Spot diameter, and assign that within the constructor. Next, try adding a new method to do something when the Spot hits the top edge of the canvas. </p>
+
+		<h3> Bouncing Ball</h3>
+		<p>	Using what we've learned about Object-Oriented Programming, let's revisit our bouncing ball from the last class.  </p>
+		
+<script type="text/p5" data-height="620" data-preview-width="200">
+// Declare a ball object
+
+function setup() {
+  	// Construct the ball object
+}
+
+function draw() {
+  	background(0);
+  	// call the display(), bounce(), and move() methods 		
+}
+
+// define the Ball class
+	// create a constructor
+		// declare and assign constructor variables (this.x, etc.)
+	
+	// create a display() method
+
+	// create a move() method
+
+	// create a bounce() method
+</script>
+
+		<p>	Solution: </p>
+		
+<script type="text/p5" data-height="320" data-preview-width="200">
+let b; 				
+
+function setup() {
+  	b = new Ball(); 	
+}
+
+function draw() {
+  	background(0);
+  	b.display();		
+	b.move();			
+	b.bounce();			
+}
+
+class Ball {
+	constructor(){
+		this.x = 33;
+		this.y = 50;
+		this.diameter = 30;
+		this.xSpeed = random(-5, 5);  
+		this.ySpeed = random(-5, 5);  
+	}
+
+	display() {
+		ellipse(this.x, this.y, this.diameter, this.diameter); 
+	}
+
+	// create a move() method
+	move() {
+		this.x += this.xSpeed;
+		this.y += this.ySpeed;	
+  	}
+
+	// create a bounce() method
+	bounce(){
+		if (this.x+this.diameter/2 >= width || this.x-this.diameter/2 <= 0){    
+			this.xSpeed *= -1;                                 
+		}
+		if (this.y+this.diameter/2 >= height || this.y-this.diameter/2 <= 0){    
+			this.ySpeed *= -1;
+		}
+	}
+}
+</script>
+
+		<h3> Exercise 4.0: Teleporting Box </h3>
+
+		<p> Create a sketch that consists of a setup() and draw() function and a Box class. The Box class should contain fields for color and y positions. It should contain a move() method that raises the box one pixel per frame. It should contain a teleport() function that checks for if the box has reached the top of the canvas, and if so, change its color randomly and teleport it back to the bottom of the canvas. 
+
+		Submit this as Exercise 4.0 on your weekly page. </p>
+
+
+	</div>
+</div>
+
+
+
+<div id="footer"></div>
+
+<script src="../js/vendor/jquery.min.js"></script>
+<script src="../js/foundation.min.js"></script>
+<script src="../js/htdaa.js"></script>
+
+
+</body>
+</html>

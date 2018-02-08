@@ -1,0 +1,403 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>ARTG2260: Programming Basics</title>
+<meta name="description" content="Index Page">
+<script src="../js/vendor/jquery.min.js"></script>
+<script> 
+	$(function(){
+	  $("#header").load("../header.html"); 
+	  $("#footer").load("../footer.html"); 
+	});
+</script>
+
+
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<script src="../js/vendor/modernizr.js"></script>
+<script src="https://toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script src="../js/p5.min.js"></script>
+
+
+</head>
+<body>
+
+<div id="header"></div>
+
+<!-- FIRST ROW -->
+<div class="row">
+	<div class=" large-3  columns">
+		<h3> Game Template</h3>
+	</div >
+
+	<div class="small-12 medium-12 large-9  columns">
+
+		<h3> How to Make a Game </h3>
+		<p> The three functions below the draw() function represent three game states. The start screen and game over screen need some styling work, but the majority of our effort will go into the  update function, where we'll organize game play. We use the mouseClicked() interrupt function to toggle through the functions. However, we'll later want to change the way gameState changes from 1 to 2.
+		</p>
+
+
+<script type="text/p5" data-height="700" data-preview-width="300">
+let gameState = 0;    // this is the value we'll toggle to change the game states
+
+function setup(){
+ createCanvas(300,300);
+}
+
+function draw(){
+  background(255);
+  if (gameState == 0){
+    startScreen();
+  } else if (gameState == 1){
+    update();
+  } else if (gameState == 2){
+    gameOver();
+  }
+}
+
+function startScreen(){
+  text("Click to Begin", 10, 30);
+}
+
+function update(){
+  text("Playing", 10, 30);
+}
+
+function gameOver(){
+  text("Game Over, Click to Reset", 10, 30);
+}
+
+function mouseClicked(){
+ if (gameState == 0){
+   gameState = 1;
+ } else if (gameState == 1){
+   gameState = 2;
+ } else if (gameState == 2){
+   gameState = 0;
+ }
+}
+</script>
+
+		<p> Now let's make something happen during game play (the update function). 
+		</p>
+<!-- 
+		Put the relevant screen saver code here
+ -->
+<script type="text/p5" data-height="700" data-preview-width="300">
+let gameState = 0;    // this is the value we'll toggle to change the game states
+// create a variable called score, and assign 0
+// create an array called rings 
+
+function setup(){
+ createCanvas(300,300);
+}
+
+function draw(){
+  background(255);
+  if (gameState == 0){
+    startScreen();
+  } else if (gameState == 1){
+    update();
+  } else if (gameState == 2){
+    gameOver();
+  }
+}
+
+function startScreen(){
+  text("Click to Begin", 10, 30);
+}
+
+function update(){
+  text("Playing", 10, 30);
+  // increment the score
+  // create text displaying the score
+  // call the grow() and display() functions for each ring
+  // if there are more than 5 rings, end the game
+  // (set gameState = 2)
+}
+
+function gameOver(){
+  text("Game Over, Click to Reset", 10, 30);
+  // clear the array
+}
+
+function mouseClicked(){
+ if (gameState == 0){
+   gameState = 1;
+ } else if (gameState == 1){
+   // instead of clicking to advance the gamestate, 
+   // click to create new rings
+   gameState = 2;
+ } else if (gameState == 2){
+   gameState = 0;
+ }
+}
+
+// create a Ring class
+</script>
+
+		<p> Solution 
+		</p>
+
+    <script type="text/p5" data-height="700" data-preview-width="300">
+let gameState = 0;    // this is the value we'll toggle to change the game states
+let score = 0;        // create a variable called score, and assign 0
+let rings = [];       // create an array called rings 
+
+function setup(){
+ createCanvas(300,300);
+}
+
+function draw(){
+  background(255);
+  if (gameState == 0){
+    startScreen();
+  } else if (gameState == 1){
+    update();
+  } else if (gameState == 2){
+    gameOver();
+  }
+}
+
+function startScreen(){
+  text("Click to Begin", 10, 30);
+}
+
+function update(){
+  text("Playing", 10, 30);
+  // increment the score
+  // create text displaying the score
+  for(let i = 0; i < rings.length; i++){    // call the grow() and display() functions for each ring
+    rings[i].grow();
+    rings[i].display();
+  }
+  if (rings.length > 5){      // if there are more than 5 rings, end the game
+    gameState = 2;            // (set gameState = 2)
+  }
+}
+
+function gameOver(){
+  text("Game Over, Click to Reset", 10, 30);
+  rings = [];                 // clear the array
+}
+
+function mouseClicked(){
+ if (gameState == 0){
+   gameState = 1;
+ } else if (gameState == 1){
+   // instead of clicking to advance the gamestate, 
+   // click to create new rings
+   let r = new Ring(mouseX, mouseY);
+   rings.push(r);
+ } else if (gameState == 2){
+   gameState = 0;
+ }
+}
+
+// create a Ring class
+class Ring {
+  constructor(_x, _y){
+    this.x = _x;
+    this.y = _y;
+    this.diameter = 1;
+  }
+  
+  grow() {
+    this.diameter += 0.5;
+  }
+  
+  display() {
+    noFill();
+    strokeWeight(4);
+    stroke(155, 153);
+    ellipse(this.x, this.y, this.diameter, this.diameter);
+  }
+}
+</script>
+
+    <p> The following example shows a game where the objective is to dodge the cursor from the Spots. First let's get the Spots moving while gameState == 1. </p>
+
+<script type="text/p5" data-height="700" data-preview-width="300">
+let spots = [];
+let gameState = 0;
+let score = 0;
+
+function setup(){
+  framerate = 20;
+}
+
+function draw(){
+  if (gameState == 0){
+    startScreen();
+  } else if (gameState == 1){
+    update();
+  } else if (gameState == 2){
+    gameOver();
+  }
+}
+
+function startScreen(){
+  background(255);
+  text("Click to Begin", 10, 30);
+  spots = [];
+  for (let i = 0; i < 5; i++){  // Make a for() loop to create the desired number of Spots
+    let x = 10 + 20*i;          // Change based on i
+    let rate = 0.5 + 0.5*i;    // Change based on i
+    // Add an index [i] to create multiple Spots
+    spots[i] = new Spot(x, 50, rate);
+   }
+}
+
+function update(){
+  background(255);
+  for (let i = 0; i < spots.length; i++){  // Make a for() loop to loop through each Spot 
+    spots[i].move();            // Move each object
+    spots[i].display();         // Display each object
+  }
+  score++;
+  text("Playing", 10, 30);
+  text("Score: " + score, 10, 90);
+}
+
+function gameOver(){
+  background(255);
+  text("Game Over", 10, 30);
+  text("Score: " + score, 10, 90);
+}
+
+function mouseClicked(){
+ if (gameState == 0){
+   gameState = 1;
+ } else if (gameState == 2){
+   gameState = 0;
+ }
+}
+
+class Spot {
+  constructor(_x, _y, _speed) {
+    this.x = _x;
+    this.y = _y;
+    this.speed = _speed;
+    this.diameter = 20;
+  }
+
+  move() {
+    this.y += this.speed;
+    if ((this.y > (height - this.diameter/2)) || (this.y < this.diameter/2)) {
+      this.speed *= -1;
+    }
+  }
+
+  display() {
+     ellipse(this.x, this.y, this.diameter, this.diameter);
+  }
+}
+</script>
+
+ <p> Now, we just need to add a conditional to each Spot to see if it overlaps with (mouseX, mouseY). We could do that either as a part of move() or as its own function. </p>
+
+<script type="text/p5" data-height="700" data-preview-width="300">
+let spots = [];
+let gameState = 0;
+let score = 0;
+
+function setup(){
+  framerate = 20;
+}
+
+function draw(){
+  if (gameState == 0){
+    startScreen();
+  } else if (gameState == 1){
+    update();
+  } else if (gameState == 2){
+    gameOver();
+  }
+}
+
+function startScreen(){
+  background(255);
+  text("Click to Begin", 10, 30);
+  spots = [];
+  for (let i = 0; i < 5; i++){  // Make a for() loop to create the desired number of Spots
+    let x = 10 + 20*i;          // Change based on i
+    let rate = 0.5 + 0.5*i;    // Change based on i
+    // Add an index [i] to create multiple Spots
+    spots[i] = new Spot(x, 50, rate);
+   }
+}
+
+function update(){
+  background(255);
+  for (let i = 0; i < spots.length; i++){  // Make a for() loop to loop through each Spot 
+    spots[i].move();            // Move each object
+    spots[i].display();         // Display each object
+    spots[i].check();           // Check for mouse overlap
+  }
+  score++;
+  text("Playing", 10, 30);
+  text("Score: " + score, 10, 90);
+}
+
+function gameOver(){
+  background(255);
+  text("Game Over", 10, 30);
+  text("Score: " + score, 10, 90);
+}
+
+function mouseClicked(){
+ if (gameState == 0){
+   gameState = 1;
+ } else if (gameState == 2){
+   gameState = 0;
+ }
+}
+
+class Spot {
+  constructor(_x, _y, _speed) {
+    this.x = _x;
+    this.y = _y;
+    this.speed = _speed;
+    this.diameter = 20;
+  }
+
+  move() {
+    this.y += this.speed;
+    if ((this.y > (height - this.diameter/2)) || (this.y < this.diameter/2)) {
+      this.speed *= -1;
+    }
+  }
+
+  display() {
+     ellipse(this.x, this.y, this.diameter, this.diameter);
+  }
+
+  check() {
+    if (abs(this.x - mouseX) < this.diameter && abs(this.y-mouseY < this.diameter)){
+      gameState = 2;
+    }
+  }
+}
+</script>
+	</div>
+</div>
+
+
+
+<div id="footer"></div>
+
+<script src="../js/vendor/jquery.min.js"></script>
+<script src="../js/foundation.min.js"></script>
+<script src="../js/htdaa.js"></script>
+
+
+</body>
+</html>

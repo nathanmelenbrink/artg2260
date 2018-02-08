@@ -40,31 +40,91 @@
 
 	<div class="small-12 medium-12 large-9  columns">
 
+    <h3> Resources: </h3>
+    <a href='https://www.youtube.com/watch?v=VIQoUghHSxU&list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA&index=23' >Shiffman - 7.1: What is an array?</a> <br>
+    <a href='https://www.youtube.com/watch?v=RXWO3mFuW-I&index=24&list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA' >Shiffman - 7.2: Arrays and Loops - p5.js</a> <br>
+
 
 		<h3> What is an Array? </h3>
-		<p>  Syntax: <br>
-    <code> Array, [] (array access), new, Array.length </code><br>
+		<!-- <p>  Syntax: <br>
+    <code> Array, [] (array access), new, Array.length </code><br> -->
 
-    An array is a set of data elements stored under the same name. <br>
+    <p>An array is a set of data elements stored under the same name. There can be arrays of values (var or let) or custom objects. While both objects and arrays are ways of storing collections of objects, only objects allow for functionality, while arrays are better at storing, indexing and searching large collections of data. </p>
 
-    There can be arrays of numbers, characters, sentences, boolean values, etc. <br>
+    <p>Arrays might store vertex data for complex shapes, recent keystrokes from the keyboard, or data read from a file. </p>
 
-    Arrays might store vertex data for complex shapes, recent keystrokes from the keyboard, or data read from a file. <br>
-
+    <!-- <p>
     The example below compares 3 different ways you could store the same coordinate data needed to draw a star.
-		</p>
+		</p> -->
 
-    <img src='arrays.png' alt='arrays'>
+    <!-- <img src='arrays.png' alt='arrays'>
+ -->
 
+    <p> If you have a list of items (a list of car names, for example), storing the cars in single variables could look like this:</p>
+    <code>let car1 = "Saab"; <br>
+          let car2 = "Volvo"; <br>
+          let car3 = "BMW"; <br> </code>
+
+    <p>However, what if you want to loop through the cars and find a specific one? And what if you had not 3 cars, but 300? The solution is an array! An array can hold many values under a single name, and you can access the values by referring to an index number. </p>
+
+    <code>let cars = ["Saab", "Volvo", "BMW"];</code>
+
+    <h3> Creating and Array</h3>
+    <p> Using an array literal is the easiest way to create a JavaScript Array. The syntax is: </p>
+    <code>let array_name = [item1, item2, ...];   </code>
+
+    <p>Spaces and line breaks are not important. A declaration can span multiple lines:</p>
+    <code>let cars = [<br>
+              "Saab",<br>
+              "Volvo",<br>
+              "BMW"<br>
+               ];<br></code>
+
+
+    <h3>Accessing Elements of an Array</h3>
+    <p> You refer to an array element by referring to the <b>index number</b>. This statement accesses the value of the first element in cars:</p>
+
+    <code>let name = cars[0];</code>
+
+    <p> The index of the array is very important, and reflects the order in which elements the elements were added to the array. In the above example, <code>cars[0]</code> definitely refers to "Saab" and only "Saab", because that's the first index (index 0) in the array. </p> 
+
+    <p> This statement modifies the first element in cars:</p>
+
+    <code>cars[0] = "Opel";</code><br> 
+
+    <p> Let's try that out:</p>
 
 <script type="text/p5" data-height="300" data-preview-width="220">
 function setup() {
-  createCanvas(200, 200);
-  var[] x = { 50, 61, 83, 69, 71, 50, 29, 31, 17, 39 };
-  var[] y = { 18, 37, 43, 60, 82, 73, 82, 60, 43, 37 };
+  let cars = ["Saab", "Volvo", "BMW"];
+  let name = cars[0];
+  print(name);
+  cars[0] = "Opel";
+  print(cars[0]);
+}
+</script>
+
+    <p> Let's look at another example where we use the values stored in an array to create geometry. </p>
+
+<script type="text/p5" data-height="240" data-preview-width="220">
+let sizes = [10, 20, 3, 16];
+
+function setup() {
+  background(0);
+  rect(20, 20, sizes[0], sizes[0]);
+  rect(80, 20, sizes[1], sizes[1]);
+}
+</script>
+
+    <p> The following example shows how to make a star using two arrays of coordinates. </p>
+
+<script type="text/p5" data-height="300" data-preview-width="220">
+function setup() {
+  let x = [50, 61, 83, 69, 71, 50, 29, 31, 17, 39];
+  let y = [18, 37, 43, 60, 82, 73, 82, 60, 43, 37];
   beginShape();
   // Reads one array element every time through the for()
-  for (var i = 0; i < x.length; i++) {
+  for (let i = 0; i < x.length; i++) {
     vertex(x[i], y[i]);
   } 
   endShape(CLOSE);
@@ -72,7 +132,9 @@ function setup() {
 </script>
 
 
-    <p> Arrays are declared similarly to other data types, but they are distinguished with brackets [  ]. 
+
+
+<!--     <p> Arrays are declared similarly to other data types, but they are distinguished with brackets [  ]. 
 
     When an array is declared, the type of data it stores must be specified.
 
@@ -80,13 +142,17 @@ function setup() {
 
     After the array is created, the values can be assigned.
 
-    Here are 3 different ways to Declare, Create and Assign: </p>
+    Here are 3 different ways to Declare, Create and Assign: </p> -->
 <!-- 
 Add an example here
  -->
+
+    <p> Remember to always start counting from 0. If you try to access an element that is larger than the size of the array, you'll get an error: </p>
+
+
 <script type="text/p5" data-height="300" data-preview-width="220">
 function setup() {
-  var[] data = { 19, 40, 75, 76, 90 };
+  let data = [ 19, 40, 75, 76, 90 ];
   line(data[0], 0, data[0], 100);
   line(data[1], 0, data[1], 100);
   line(data[2], 0, data[2], 100);
@@ -94,9 +160,49 @@ function setup() {
   line(data[4], 0, data[4], 100);
   print(data[0]); // Prints 19 to the console
   print(data[2]); // Prints 75 to the console
-  print(data[5]); // ERROR! The last element of the array is 4
+  print(data[5]); // undefined: The last element of the array is 4
 }
 </script>
+
+    <p> Try creating an array of words, in the syntax <code>let dogs = ["poodle", "chow chow", "maltese"];</code> Create an index variable, and a function that increments the index of the array each time the mouse is clicked. </p>
+
+<script type="text/p5" data-height="320" data-preview-width="220">
+let dogs = ["poodle", "chow chow", "maltese"];
+let index = 0;
+
+function draw(){
+  background(255);
+  text(dogs[index], 10, 50);
+}
+
+function mousePressed(){
+  index++; 
+}
+</script>
+
+
+    <p> We'll get an error, because we run out of bounds of the array. Try fixing this with a modulus function.</p>
+
+    <h3> Looping Array Elements</h3>
+    <p> The real strength of JavaScript arrays are the built-in array properties and methods:</p>
+    <code>
+        let x = cars.length;   // The length property returns the number of elements <br>
+        let y = cars.sort();   // The sort() method sorts arrays </code>
+
+    <p> Our familiar for() loops are great for looping over an array: </p>
+
+<script type="text/p5" data-height="220" data-preview-width="220">
+let fruits = ["Banana", "Orange", "Apple", "Mango"];
+function setup(){
+    for (let i = 0; i < fruits.length; i++) {
+        text(fruits[i], 12, i * 20);
+    }
+}
+</script>   
+  
+    <p> Of course, we don't have to use the built-in array properties. We can simply make loops that iterate for as many times as we specify. Try modifying the above code to create 12 fruit words at random locations on the canvas (duplicate words are fine). </p>
+
+    <h3> Arrays for Interaction</h3>
 
     <p> Arrays are often used to store data from the mouse. The pmouseX and pmouseY variables store the cursor coordinates from the previous frame, but there’s no built-in way to access the cursor values from earlier frames. At every frame, the mouseX, mouseY, pmouseX, and pmouseY variables are replaced with new numbers and their previous numbers are discarded. Creating an array is the easiest way to store the history of these values. In the following example, the most recent 100 values from mouseY are stored in a array and displayed on screen as a line from the left to the right edge of the screen. At each frame, the values in the array are shifted to the right and the newest value is added to the beginning.
     </p>
@@ -104,29 +210,25 @@ function setup() {
 Make an example prior to this with a static array
  -->
 
-<script type="text/p5" data-height="300" data-preview-width="220">
-var[] y;
-
-function setup() {
-  y = new int[width];
-}
+<script type="text/p5" data-height="400" data-preview-width="220">
+var y = [];
 
 function draw() {
   background(204);
   // Shift the values to the right
-  for (var i = y.length-1; i > 0; i--) {
+  for (let i = width; i > 0; i--) {
     y[i] = y[i-1];
   }
   // Add new values to the beginning
   y[0] = constrain(mouseY, 0, height-1);
   // Display each pair of values as a line
-  for (var i = 1; i < y.length; i++) {
+  for (let i = 1; i < width; i++) {
     line(i, y[i], i-1, y[i-1]);
   }
 }
 </script>
 
-
+<!-- 
 <script type="text/p5" data-height="300" data-preview-width="220">
 var num = 50;
 var x = [num];
@@ -181,21 +283,21 @@ function draw() {
   }
 }
 </script>
-
+ -->
         <p>Now let's return to our screen saver example. Modify the code below to draw an array of four images instead of just one. </p>
 
-<script type="text/p5" data-height="300" data-preview-width="220">
+<script type="text/p5" data-height="500" data-preview-width="220">
 // declare an int called "num", assign value of 8
-var xPos;                    // convert xPos to an array of int[num]
-var yPos;                    // convert yPos to an array of int[num]
-var xSpeed;                // convert xSpeed to an array of float[num]
-var ySpeed;                // convert ySpeed to an array of float[num]
-var img;                  
-var imgWidth = 40;           
-var imgHeight = 30;  
+let xPos;                  // convert xPos to an array 
+let yPos;                  // convert yPos to an array 
+let xSpeed;                // convert xSpeed to an array 
+let ySpeed;                // convert ySpeed to an array 
+let img;                  
+let imgWidth = 40;           
+let imgHeight = 30;  
 
 function preload() {
-  img = loadImage('https://i.pinimg.com/favicons/c394c1cc75247a73aa8c0f97d87e6142e224e63b6de2b43fdb37bf5a.png');
+  img = loadImage('assets/myImg.png');
 }
 
 function setup() {
