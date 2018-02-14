@@ -1,0 +1,336 @@
+
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>ARTG2260: Programming Basics</title>
+<meta name="description" content="Index Page">
+<script src="../js/vendor/jquery.min.js"></script>
+<script> 
+	$(function(){
+	  $("#header").load("../header.html"); 
+	  $("#footer").load("../footer.html"); 
+	});
+</script>
+
+
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<script src="../js/vendor/modernizr.js"></script>
+<script src="https://toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script src="../js/p5.min.js"></script>
+
+
+</head>
+<body>
+
+<div id="header"></div>
+
+<!-- FIRST ROW -->
+<div class="row">
+	<div class="large-3  columns">
+		<h3> Object Arrays</h3>
+	</div >
+
+	<div class="small-12 medium-12 large-9  columns">
+
+		<h3> Resources: </h3>
+		<p> 
+			<a href='https://www.youtube.com/watch?v=fBqaA7zRO58&t=1s' >Shiffman - 7.3: Arrays of Objects - p5.js</a><br>
+		</p>
+
+    <h3> Arrays of Objects </h3>
+    <p> We can think of objects as our fundamental building block for creating any custom entity within our code. Arrays are used to store and organize collections. Putting the two together gives us the ability to fully utilize the modularity and repeatabiltiy of object-oriented programming. An animation of snowflakes, a group of sound bytes, or a collection of asteroids in the classic arcade game are containers of custom entities, which we would represent as a arrays of objects. </p>
+
+
+		<p> This example makes an array containing a single Spot. Try to edit it to create more Spots with different parameters. 
+		</p>
+
+<script type="text/p5" data-height="600" data-preview-width="220">
+// Declare and create the array (let spots = [])
+let spots = [];
+
+function setup() {
+    // we can manually create a Spot and assign it to an index of an array
+    spots[0] = new Spot(30, 50, -1);
+    // try making another Spot
+}
+
+function draw() {
+  background(0);
+  spots[0].move();      // Move an object
+  spots[0].display();   // Display an object
+  // move() and display() any other spots
+}
+
+class Spot {
+  constructor(_x, _y, _speed) {
+    this.x = _x;
+    this.y = _y;
+    this.speed = _speed;
+    this.diameter = 20;
+  }
+
+  move() {
+    this.y += this.speed;
+    if ((this.y > (height - this.diameter/2)) || (this.y < this.diameter/2)) {
+      this.speed *= -1;
+    }
+  }
+
+  display() {
+    ellipse(this.x, this.y, this.diameter, this.diameter);
+  }
+}
+</script>
+
+		  <p> The previous method is fine for a couple Spots, but what if we need hundreds? We'd probably want to automate creating and operating on that large of an array using iteration, like a for() loop. </p>
+
+<script type="text/p5" data-height="600" data-preview-width="220">
+// Declare and create the array (let spots = [])
+let spots = [];
+
+function setup() {
+  // make a for() loop to create the desired number of Spots
+    let x = 10 + 20;       // Change based on i
+    let rate = 0.5 + 0.05; // Change based on i
+    // Add an index [i] to create multiple Spots
+    spots[0] = new Spot(x, 50, rate);
+  
+}
+
+function draw() {
+  background(0);
+  // make a for() loop to loop through each Spot 
+    spots[0].move();      // Move each object
+    spots[0].display();   // Display each object
+}
+
+class Spot {
+  constructor(_x, _y, _speed) {
+    this.x = _x;
+    this.y = _y;
+    this.speed = _speed;
+    this.diameter = 20;
+  }
+
+  move() {
+    this.y += this.speed;
+    if ((this.y > (height - this.diameter/2)) || (this.y < this.diameter/2)) {
+      this.speed *= -1;
+    }
+  }
+
+  display() {
+    ellipse(this.x, this.y, this.diameter, this.diameter);
+  }
+}
+</script>
+
+
+      <p> Solution </p>
+      
+<script type="text/p5" data-height="300" data-preview-width="220">
+// Declare and create the array (let spots = [])
+let spots = [];
+
+function setup() {
+  for (let i = 0; i < 5; i++){  // Make a for() loop to create the desired number of Spots
+    let x = 10 + 20*i;          // Change based on i
+    let rate = 0.5 + 0.05*i;    // Change based on i
+    // Add an index [i] to create multiple Spots
+    spots[i] = new Spot(x, 50, rate);
+  }
+  
+}
+
+function draw() {
+  background(0);
+  for (let i = 0; i < 5; i++){  // Make a for() loop to loop through each Spot 
+    spots[i].move();            // Move each object
+    spots[i].display();         // Display each object
+  }
+}
+
+class Spot {
+  constructor(_x, _y, _speed) {
+    this.x = _x;
+    this.y = _y;
+    this.speed = _speed;
+    this.diameter = 20;
+  }
+
+  move() {
+    this.y += this.speed;
+    if ((this.y > (height - this.diameter/2)) || (this.y < this.diameter/2)) {
+      this.speed *= -1;
+    }
+  }
+
+  display() {
+    ellipse(this.x, this.y, this.diameter, this.diameter);
+  }
+}
+</script>
+		
+
+    <h3> Push and Pop</h3>
+    <p>The push() method adds a new element to an array (at the end): </p>
+    <code> 
+      let fruits = ["Banana", "Orange", "Apple", "Mango"]; <br>
+      fruits.push("Kiwi");       //  Adds a new element ("Kiwi") to fruits </code><br>
+
+    <p>The pop() method removes the last element from an array:</p>
+    <code> 
+      let fruits = ["Banana", "Orange", "Apple", "Mango"]; <br>
+      fruits.pop();              // Removes the last element ("Mango") from fruits
+    </code><br>
+
+		<p> This example shows an interactive example with a different class, called Ring, using push() to add new elements to the ring array.  
+		</p>
+		
+<script type="text/p5" data-height="600" data-preview-width="220">
+let rings = [];
+
+function draw() {
+  background(0);
+  for (let i = 0; i < rings.length; i++) {
+    rings[i].grow();
+    rings[i].display();
+  }
+}
+
+// Click to create a new Ring
+function mousePressed() {
+  let r = new Ring(mouseX, mouseY);
+  rings.push(r);
+}
+
+class Ring {
+  constructor(_x, _y){
+    this.x = _x;
+    this.y = _y;
+    this.diameter = 1;
+  }
+  
+  grow() {
+    this.diameter += 0.5;
+  }
+  
+  display() {
+    noFill();
+    strokeWeight(4);
+    stroke(155, 153);
+    ellipse(this.x, this.y, this.diameter, this.diameter);
+  }
+}
+</script>
+
+
+
+		<!-- <p> The following example should be somewhat familiar. Convert it to OOP and submit it as Exercise_4_0. Then, extend it to an array of objects and submit that as Exercise_4_1. </p>
+		
+<script type="text/p5" data-height="200" data-preview-width="220">
+int gameState = 0;    // this is the value we'll toggle to change the game states
+int score = 0;        // this new variable keeps track of game time
+
+int xPos;                       
+int yPos;
+float xSpeed;           
+float ySpeed; 
+int xDi = 30;                   
+int yDi = 30; 
+
+void setup() {
+  size(600, 600);
+}
+
+void draw() {
+  if (gameState == 0) {
+    startScreen();
+  } else if (gameState == 1) {
+    display();
+    move();
+    checkEdges();
+    score++;      // increment the number of frames
+  } else if (gameState == 2) {
+    gameOver();
+  }
+}
+
+void startScreen() {
+  background(0);
+  text("Click to Begin", 10, 30);
+  score = 0;           // assign 0 to score
+  xPos = width/2;                
+  yPos = height/2;              
+  xSpeed = round(random(0, 10));       
+  ySpeed = round(random(0, 10));
+}
+
+void display() {
+  background(0);
+  text("Playing", 10, 30);
+  text("Score = " + score, width - 100, 30);
+  ellipse(xPos, yPos, xDi, yDi);
+}
+
+void move() {
+  xPos += xSpeed;                
+  yPos += ySpeed;
+}
+
+void checkEdges() {
+  if (xPos+xDi/2 >= width || xPos-xDi/2 <= 0) {    
+    xSpeed *= -1;
+  }
+
+  if (yPos+yDi/2 >= height || yPos-yDi/2 <= 0) {   
+    ySpeed *= -1;
+  }
+
+  // add a new conditional to see if our cursor overlaps with the ball
+  if ((abs(mouseX - xPos) < xDi/2) && (abs(mouseY - yPos) < yDi/2)) {
+    gameState = 2;     // game over
+  }
+}
+
+
+void gameOver() {
+  background(0);
+  text("Game Over, Click to Reset", 10, 30);
+  text("Score = " + score, width - 100, 30);
+}
+
+// On mouseClicked(), we toggle through the functions
+void mouseClicked() {
+  if (gameState == 0) {
+    gameState = 1;
+  } else if (gameState == 2) {
+    gameState = 0;
+  }
+}
+</script> -->
+
+
+	</div>
+</div>
+
+
+
+<div id="footer"></div>
+
+<script src="../js/vendor/jquery.min.js"></script>
+<script src="../js/foundation.min.js"></script>
+<script src="../js/htdaa.js"></script>
+
+
+</body>
+</html>
