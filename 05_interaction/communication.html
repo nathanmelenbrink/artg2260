@@ -1,0 +1,211 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>ARTG2260: Programming Basics</title>
+<meta name="description" content="Index Page">
+<script src="../js/vendor/jquery.min.js"></script>
+<script> 
+	$(function(){
+	  $("#header").load("../header.html"); 
+	  $("#footer").load("../footer.html"); 
+	});
+</script>
+
+
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<script src="../js/vendor/modernizr.js"></script>
+<script src="https://toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script src="../js/p5.min.js"></script>
+</head>
+<body>
+
+<div id="header"></div>
+
+<!-- FIRST ROW -->
+<div class="row">
+	<div class="large-3  columns">
+		<h3> Objects - Object Communication </h3>
+	</div >
+
+	<div class="small-12 medium-12 large-9  columns">
+
+		<h3> Resources: </h3>
+		<p>	
+		<a href='https://www.youtube.com/watch?v=W1-ej3Wu5zg&list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA&index=29' >Shiffman - 7.6: Object Communication Part 1 - p5.js</a> <br>
+		<a href='https://www.youtube.com/watch?v=W1-ej3Wu5zg&list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA&index=30' >Shiffman - 7.7: Object Communication Part 2 - p5.js</a> <br>
+
+		</p>
+
+		<h3> Objects Want to Communicate! </h3>
+	    <p>One big advantage of object-oriented programming is that we can abstract object communication -- we can make objects talk to each other directly so that we don't need to mediate their "conversation" in a centralized way. In this simple example, we'll ask our Spot objects to check if they're overlapping (intersecting) with other Spot objects, and have them change colors (or other properties) if they are. This is a fundamental component of a lot of the generative art we've looked at, where simple rules between vast numbers of objects give rise to emergent properties.  </p>
+
+	   <p> The following code creates an array of 2 spots. Let's add a function called overlaps() and call it from the draw() function to see if spots[0] overlaps with spots[1] -- if so, let's change the color of spots[0]. </p>
+		
+<script type="text/p5" data-height="700" data-preview-width="320">
+let spots = [];
+let numSpots = 2; 
+
+function setup() {
+	createCanvas(300, 300);
+  	for (let i = 0; i < numSpots; i++){  
+    	spots[i] = new Spot(width/2, height/2);
+    }
+}
+
+function draw() {
+  	background(0);
+  	for (let i = 0; i < spots.length; i++){ 
+		spots[i].move();            	// Move each object
+		spots[i].display();         	// Display each object
+		spots[i].bounce();				// Check for edges
+	}
+}
+
+class Spot {
+	constructor(_x, _y) {
+		this.x = _x;
+		this.y = _y;
+		this.xSpeed = random(-1, 1);
+		this.ySpeed = random(-1, 1);
+		this.diameter = 30;
+	}
+
+	move() {
+		this.x += this.xSpeed;
+		this.y += this.ySpeed;
+	}	
+
+	bounce() {
+		if ((this.x > (width - this.diameter/2)) || (this.x < this.diameter/2)) {
+			this.xSpeed *= -1;
+		}
+		if ((this.y > (height - this.diameter/2)) || (this.y < this.diameter/2)) {
+			this.ySpeed *= -1;
+		}
+	}
+
+	display() {
+		ellipse(this.x, this.y, this.diameter, this.diameter);
+	}
+
+
+}
+</script>
+
+	   <p> Solution: </p>
+		
+<script type="text/p5" data-height="400" data-preview-width="320">
+let spots = [];
+let numSpots = 2; 
+
+function setup() {
+	createCanvas(300, 300);
+	stroke(255);
+  	for (let i = 0; i < numSpots; i++){  
+    	spots[i] = new Spot(width/2, height/2);
+    }
+}
+
+function draw() {
+  	background(0);
+  	for (let i = 0; i < spots.length; i++){ 
+		spots[i].move();            	// Move each object
+		spots[i].display();         	// Display each object
+		spots[i].bounce();				// Check for edges
+	}
+
+	spots[0].color = 255; 
+	if(spots[0].overlaps(spots[1])){
+		spots[0].color = 0;
+	}
+}
+
+class Spot {
+	constructor(_x, _y) {
+		this.x = _x;
+		this.y = _y;
+		this.xSpeed = random(-5, 5);
+		this.ySpeed = random(-5, 5);
+		this.diameter = random(100);
+		this.color = 255;
+	}
+
+	move() {
+		this.x += this.xSpeed;
+		this.y += this.ySpeed;
+	}	
+
+	bounce() {
+		if ((this.x > (width - this.diameter/2)) || (this.x < this.diameter/2)) {
+			this.xSpeed *= -1;
+		}
+		if ((this.y > (height - this.diameter/2)) || (this.y < this.diameter/2)) {
+			this.ySpeed *= -1;
+		}
+	}
+
+	display() {
+		fill(this.color);
+		ellipse(this.x, this.y, this.diameter, this.diameter);
+	}
+
+	overlaps(other){
+		let d = dist(other.x, other.y, this.x, this.y);
+		if( d < this.diameter/2 + other.diameter/2){
+			return true;
+		} else{
+			return false;
+		}
+	}
+
+}
+</script>
+		
+		<p> That's a great start on object communication! However, we'll ultimately want to make this funcionality more reusable, so that objects can be checking themselves for overlaps (as opposed to us checking manually for overlaps between specific objects). We'll get to that in a bit -- first, a couple useful shortcuts: </p>
+
+		<h3> Optional Default Arguments </h3>
+	    <p>Sometimes we want to provide default parameters to our class constructors (or other functions) in case we forget to pass the correct number of arguments, or if we just want default values in general. For the previous code example, we could have written the constructor in this way instead:  </p>
+
+<script type="text/p5" data-height="200" data-preview-width="220">
+	constructor(_x, _y, _d = 30) {
+		this.x = _x;
+		this.y = _y;
+		this.xSpeed = random(-1, 1);
+		this.ySpeed = random(-1, 1);
+		this.diameter = d;
+	}
+</script>
+
+		<p> This gives us the option of specifying diameter when we construct the object. If we give it a 3rd parameter, it will use that as the diameter. If not, no worries, it'll stick with the default value of 30. </p>
+
+		<h3> Returning True or False </h3>
+	    <p>Remember that conditional statements like (d < 5) must resolve to either true or false. That means we don't actually have to write out a full if/else expression. for the overlaps() method in the above code example, we can instead use the following shorthand and get the same result:  </p>
+
+<script type="text/p5" data-height="200" data-preview-width="220">
+	overlaps(other){
+		let d = dist(other.x, other.y, this.x, this.y);
+		return( d < this.diameter/2 + other.diameter/2);
+	}
+</script>
+
+
+
+
+	</div >
+</div>
+
+
+
+<div id="footer"></div>
+
+<script src="../js/vendor/jquery.min.js"></script>
+<script src="../js/foundation.min.js"></script>
+<script src="../js/htdaa.js"></script>
+
+
+</body>
+</html>

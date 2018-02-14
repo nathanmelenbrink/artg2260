@@ -36,9 +36,12 @@
 		<h3> Resources: </h3>
 		<p>	
 		<a href='https://www.youtube.com/watch?v=tA_ZgruFF9k&list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA&index=28' >Shiffman - 7.5: Removing Objects from Arrays - p5.js</a> <br>
+		<a href='https://www.w3schools.com/js/js_array_methods.asp' >W3 Schools - JavaScript Array Methods </a> <br>
+
 		</p>
 
 		<h3> Push and Pop</h3>
+	    <p>We previously learned about push() and pop(). The following examples operate on an array of words, but the same methods can be used on arrays of objects. </p>
 	    <p>The push() method adds a new element to an array (at the end): </p>
 	    <code> 
 	      let fruits = ["Banana", "Orange", "Apple", "Mango"]; <br>
@@ -90,6 +93,108 @@ class Ring {
 }
 </script>
 
+
+		<h3> Splicing an Array</h3>
+	    <p>The splice() method can be used to add new items to an array:</p>
+	    <code> 
+	    let fruits = ["Banana", "Orange", "Apple", "Mango"];
+		fruits.splice(2, 0, "Lemon", "Kiwi");</code><br>
+
+		<p> The first parameter (2) defines the position <b>where</b> new elements should be <b>added</b> (spliced in). The second parameter (0) defines <b>how many</b> elements should be <b>removed</b>. The rest of the parameters ("Lemon" , "Kiwi") define the new elements to be <b>added</b>.</p>
+
+
+		<h3> Using splice() to Remove Elements</h3>
+	    <p>With clever parameter setting, you can use splice() to remove elements without leaving "holes" in the array:</p>
+
+	    <code> 
+	    let fruits = ["Banana", "Orange", "Apple", "Mango"];
+		fruits.splice(0, 1);        // Removes the first element of fruits</code><br>
+
+		<p> The first parameter (2) defines the position <b>where</b> new elements should be <b>added</b> (spliced in). The second parameter (0) defines <b>how many</b> elements should be <b>removed</b>. The rest of the parameters are omitted. No new elements will be added.</p>
+
+		<p>So practically, we'll most often use splice in a for() loop, in the format <code> fruits.splice(i, 1);</code> which removes the element at i and shifts the remaining elements, so as not to leave a "hole" in the array. Here's an example:	</p>
+
+
+<script type="text/p5" data-height="700" data-preview-width="220">
+let spots = [];
+let numSpots = 5; 
+
+function setup() {
+  	for (let i = 0; i < numSpots; i++){  
+    	spots[i] = new Spot(width/2, height/2);
+    }
+}
+
+function draw() {
+  	background(0);
+  	for (let i = 0; i < spots.length; i++){ 
+		spots[i].move();            	// Move each object
+		spots[i].display();         	// Display each object
+		spots[i].bounce();				// Check for edges
+	}
+}
+
+function mouseClicked(){
+	for (let i = 0; i < spots.length; i++){
+		if (spots[i].contains(mouseX, mouseY)){
+			spots.splice(i, 1);
+		}
+	}
+}
+
+class Spot {
+	constructor(_x, _y) {
+		this.x = _x;
+		this.y = _y;
+		this.xSpeed = random(-1, 1);
+		this.ySpeed = random(-1, 1);
+		this.diameter = 30;
+	}
+
+	move() {
+		this.x += this.xSpeed;
+		this.y += this.ySpeed;
+	}	
+
+	bounce() {
+		if ((this.x > (width - this.diameter/2)) || (this.x < this.diameter/2)) {
+			this.xSpeed *= -1;
+		}
+		if ((this.y > (height - this.diameter/2)) || (this.y < this.diameter/2)) {
+			this.ySpeed *= -1;
+		}
+	}
+
+	display() {
+		ellipse(this.x, this.y, this.diameter, this.diameter);
+	}
+
+	contains(_x, _y){
+		let d = dist(_x, _y, this.x, this.y);
+		if( d < this.diameter/2){
+			return true;
+		} else{
+			return false;
+		}
+	}
+
+}
+</script>
+
+		<h3> There's a Catch</h3>
+	    <p>We're checking each object for whether or not it was clicked using an incrementing for() loop in the mouseClicked() interrupt function. While this is the intuitive way to do things, there's a small chance that this could create a problem. For example, if we had clicked spots[4], we'd splice it out, making the previous spots[5] the new spots[4]. The for() loop moves on to check whether we clicked spots[5] (which is now the new spots[5], formerly spots[6]). The previous spots[5] gets away without being checked!  </p>
+
+	    <p> A common way around that is to count backwards in for() loops that use splice() (or other methods of removing elements from arrays, which we won't cover). In other words, instead of: <br> 
+	    <code> 
+	    for (let i = 0; i < spots.length; i++){ 
+		</code> <br>
+		we can write: <br>
+		<code> 
+	    for (let i = spots.length-1; i >= 0 ; i--){ 
+		</code> <br>
+
+		<p> Try implementing this method of iteration in the above code sample. </p>
+		<p> Then, try using splice() to create a "cap" on the length of the array of 20 items. In other words, add up to 20 objects to the array, but delete the first object in order to add the 21st. </p>
 
 
 	</div >
