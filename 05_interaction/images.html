@@ -42,15 +42,15 @@
 		<h3> Exercise 5.0 </h3>
 	    <p>We've already looked at how to load images using loadimage() and display images using image(). Let's start Exercise 5.0 together by opening a blank sketch.js file in your assignments directory (or just copy a previous sub-folder, whatever you're used to doing by now). Inside the sketch.js file, let's create a Box class that will contain our bouncing images. Let's also make an 'assets' folder, and place some png files inside. Here are some pngs of <a href='http://files.softicons.com/download/tv-movie-icons/the-simpsons-icon-pack-1-by-jonathan-rey/png/256x256/Marge%20Simpson.png'>Marge</a>, <a href='https://findicons.com/files/icons/211/simpsons_2/128/connecting_0.png'>Homer</a>, and <a href='http://files.softicons.com/download/tv-movie-icons/the-simpsons-icon-pack-1-by-jonathan-rey/png/256x256/Bart%20Simpson%2003%20-%20Scare.png'>Bart</a> if you don't already have images you'd like to use. </p>
 
-	    <p> For this Exercise, create an object-oriented screen saver that loads at least 3 unique images and assigns them randomly to an array of objects. When a user clicks on an object, its image should randomly change. </p>
+	    <p> For this Exercise, create an object-oriented screen saver that loads at least 3 unique images and assigns them randomly to an array of objects. When a user clicks on an object, its image should randomly change. Once completed, please make sure to upload your Exercise in order to get credit.  </p>
 
 	    <h3> Rectangles vs. Ellipses </h3>
-	    <p> Before loading images, let's use rect() as a placeholder. We know we'll need to write a different bounce() function, since the dimensions on the rectangle are determined by width and height, and not a single diameter. Similarly, we'll need to change the overlap() function. Also, by default rect() draws from the top left corner point of the rectangle, not from the center. We can change that using rectMode(CENTER), but let's not do that for now. </p>
+	    <p> Before loading images, let's use rect() as a placeholder. The dimensions on the rectangle are determined by width and height, and not a single diameter. So instead of a this.diameter, we'll need to store a this.w and this.h. Accordingly, we'll need to write a different bounce() function and overlap() function. Also, by default rect() draws from the top left corner point of the rectangle, not from the center. We can change that using rectMode(CENTER), but let's not do that for now. </p>
 
 	    <h3> Add Images </h3>
 	    <p> If we name our images something sequential like 0.png, 1.png, 2.png, it's easy to automate loading them. Instead of writing <code>loadImage('assets/bart.png');</code> then <code>loadImage('assets/homer.png');</code> and so on and so on, we can simply make a for() loop to count from 0 to however many images you have, and store those images in an array, like this: </p>
 
-<script type="text/p5" data-height="300" data-preview-width="320">
+<script type="text/p5" data-height="240" data-preview-width="320">
 let images = [];
 let numObjects = 5; 
 
@@ -62,6 +62,107 @@ function preload() {
 </script>
 
 		<p> This uses what's called string concatenation. In JavaScript, adding 5 + 4 = 9, but adding "five" + "four" = "fivefour". In other words, when you try to add strings, JavaScript merges them into a single string. We can use this feature to create a series like 'assets/0.png', 'assets/1.png', 'assets/2.png', etc. </p>
+
+		<p> Next, we'll need to add an associated image to each object. Let's create a new constructor argument, so the constructor expects an image as well as an x and y coordinate. We still construct each object from the setup() function. However, this time we'll pass the extra argument for the associated image. We can even randomly select an element from our array by simply writing <code> random(images)</code>. Finally, within the constructor, store the image to the object using something like <code> this.img = _img </code></p>
+
+		<p> Finally, add a mouseClicked() function that each time the mouse is clicked loops through each spot and calls a spot.clicked() method to see if that spot contains the mouseX, mouseY at the time of the click. In that clicked() method, pick a new random image if clicked. Optionally, you could also try changing images whenever they bounce. Make sure to upload your exercise! </p>
+
+<!-- <script>
+let spots = [];
+let numSpots = 6; 
+let images = []; 
+
+function preload(){
+	for(let i = 0; i < 3; i++){
+      images[i] = loadImage('assets/'+ i + '.png');
+    }
+}
+
+function setup() {
+	createCanvas(300, 300);
+	stroke(255);
+  	for (let i = 0; i < numSpots; i++){  
+    	spots[i] = new Spot(random(images), width/2, height/2);
+    }
+}
+
+function draw() {
+  	background(0);
+
+    // first check for overlaps 
+  	for (sp1 of spots){ 
+		sp1.move();            	// Move each object
+		sp1.display();         	// Display each object
+		sp1.bounce();			// Check for edges 
+	}
+}
+
+function mouseClicked(){
+	for (sp1 of spots){ 
+		sp1.clicked(mouseX, mouseY);
+	}
+}
+
+class Spot {
+	constructor(_img, _x, _y) {
+      	this.img = _img;
+		this.x = _x;
+		this.y = _y;
+		this.xSpeed = random(-2, 2);
+		this.ySpeed = random(-2, 2);
+		this.w = 50;
+      	this.h = 50;
+	}
+
+	move() {
+		this.x += this.xSpeed;
+		this.y += this.ySpeed;
+	}	
+
+	bounce() {
+		if ((this.x > (width - this.w)) || (this.x < 0)) {
+			this.xSpeed *= -1;
+		}
+		if ((this.y > (height - this.h)) || (this.y < 0)) {
+			this.ySpeed *= -1;
+		}
+	}
+
+	display() {
+    	image(this.img, this.x, this.y, this.w, this.h);
+	}
+
+	clicked(_x, _y){
+		if (_x > this.x && _x < this.x + this.w){
+			if(_y > this.y && _y < this.y + this.h){
+				this.img = random(images);
+			}
+		}
+		
+	}
+}
+</script> -->
+
+		<h3> Transformations </h3>
+		<p> p5 has a novel way of dealing with transformations. It makes it seem a little difficult to do things like simple rotation at first, but its usefulness becomes apparent when you're trying to do nested systems for example, like a solar system. The main syntax we'll use for transformations is translate(), rotate(), scale(), push(), and pop(). </p>
+
+		<p> The translate() function moves our origin point to somewhere else on the canvas. This becomes the new (0,0), and becomes the pivot point to use for rotations. The code below first moves the origin, then draws a rect() at the origin. It's the same as simply writing <code> rect(50, 50, 100, 50); </code></p>
+
+<script type="text/p5" data-height="280" data-preview-width="320">
+function setup() {
+	createCanvas(200, 200);
+	fill(0);
+}
+
+function draw() {
+	translate(50, 50);
+	rect(0, 0, 100, 50);
+}
+</script>
+
+		<p> Why would we want to do this? Because transformations are cumulative. In other words, this method makes it easy to make geometry relative to other geometry. Try making another rectangle without changing the translation. What happens if you replace the translate(50, 50) with translate(mouseX, mouseY)? Transformations do get reset to (0,0) on each pass of the draw() loop. </p>
+
+		<p> The other main reason to do this is for rotation. We need to specify a pivot point, because otherwise the rotate() function will assume the canvas (0,0) point (top left corner) to be the pivot point. </p>
 
 	</div >
 </div>
