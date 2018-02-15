@@ -1,0 +1,79 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>ARTG2260: Programming Basics</title>
+<meta name="description" content="Index Page">
+<script src="../js/vendor/jquery.min.js"></script>
+<script> 
+	$(function(){
+	  $("#header").load("../header.html"); 
+	  $("#footer").load("../footer.html"); 
+	});
+</script>
+
+
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<script src="../js/vendor/modernizr.js"></script>
+<script src="https://toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script src="../js/p5.min.js"></script>
+</head>
+<body>
+
+<div id="header"></div>
+
+<!-- FIRST ROW -->
+<div class="row">
+	<div class="large-3  columns">
+		<h3> Objects and Images </h3>
+	</div >
+
+	<div class="small-12 medium-12 large-9  columns">
+
+		<h3> Resources: </h3>
+		<p>	
+		<a href='https://www.youtube.com/watch?v=i2C1hrJMwz0&index=31&list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA' >Shiffman - 7.8: Objects and Images - p5.js</a> <br>
+
+		</p>
+
+		<h3> Exercise 5.0 </h3>
+	    <p>We've already looked at how to load images using loadimage() and display images using image(). Let's start Exercise 5.0 together by opening a blank sketch.js file in your assignments directory (or just copy a previous sub-folder, whatever you're used to doing by now). Inside the sketch.js file, let's create a Box class that will contain our bouncing images. Let's also make an 'assets' folder, and place some png files inside. Here are some pngs of <a href='http://files.softicons.com/download/tv-movie-icons/the-simpsons-icon-pack-1-by-jonathan-rey/png/256x256/Marge%20Simpson.png'>Marge</a>, <a href='https://findicons.com/files/icons/211/simpsons_2/128/connecting_0.png'>Homer</a>, and <a href='http://files.softicons.com/download/tv-movie-icons/the-simpsons-icon-pack-1-by-jonathan-rey/png/256x256/Bart%20Simpson%2003%20-%20Scare.png'>Bart</a> if you don't already have images you'd like to use. </p>
+
+	    <p> For this Exercise, create an object-oriented screen saver that loads at least 3 unique images and assigns them randomly to an array of objects. When a user clicks on an object, its image should randomly change. </p>
+
+	    <h3> Rectangles vs. Ellipses </h3>
+	    <p> Before loading images, let's use rect() as a placeholder. We know we'll need to write a different bounce() function, since the dimensions on the rectangle are determined by width and height, and not a single diameter. Similarly, we'll need to change the overlap() function. Also, by default rect() draws from the top left corner point of the rectangle, not from the center. We can change that using rectMode(CENTER), but let's not do that for now. </p>
+
+	    <h3> Add Images </h3>
+	    <p> If we name our images something sequential like 0.png, 1.png, 2.png, it's easy to automate loading them. Instead of writing <code>loadImage('assets/bart.png');</code> then <code>loadImage('assets/homer.png');</code> and so on and so on, we can simply make a for() loop to count from 0 to however many images you have, and store those images in an array, like this: </p>
+
+<script type="text/p5" data-height="300" data-preview-width="320">
+let images = [];
+let numObjects = 5; 
+
+function preload() {
+	for(let i=0; i < numObjects; i++){
+		images[i] = loadImage('assets/' + i + '.png')
+	}
+}
+</script>
+
+		<p> This uses what's called string concatenation. In JavaScript, adding 5 + 4 = 9, but adding "five" + "four" = "fivefour". In other words, when you try to add strings, JavaScript merges them into a single string. We can use this feature to create a series like 'assets/0.png', 'assets/1.png', 'assets/2.png', etc. </p>
+
+	</div >
+</div>
+
+
+
+<div id="footer"></div>
+
+<script src="../js/vendor/jquery.min.js"></script>
+<script src="../js/foundation.min.js"></script>
+<script src="../js/htdaa.js"></script>
+
+
+</body>
+</html>

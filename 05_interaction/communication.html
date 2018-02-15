@@ -118,9 +118,9 @@ function draw() {
 		spots[i].bounce();				// Check for edges
 	}
 
-	spots[0].color = 255; 
+	spots[1].color = 255; 
 	if(spots[0].overlaps(spots[1])){
-		spots[0].color = 0;
+		spots[1].color = 0;
 	}
 }
 
@@ -192,13 +192,12 @@ overlaps(other){
 }
 </script>
 
-		<h3> for (... of ...) Syntax</h3>
-		<p> We're used to using syntax like this <code> for (let i = 0; i < numSpots; i++){  </code>to define a for() loop. However, since iterating over an entire array is such a common thing, there's a special syntax for that: <code> for(sp of spots){ </code> is a shortcut for the same thing. The old way is still useful for iterating over parts of an array, or only over even numbers, etc.  </p>
+		
 
 		<h3> Autonomous Object Communication </h3> 
 		<p> We want to make our Spot objects more autonomous, in the sense that they should be responsible for determining their own overlaps. This makes a lot more sense if we consider having more than 2 objects. What if we had 100? We'd want to create a some kind of for() loop to iterate over each Spot and check for overlaps. </p>	
 		
-		<p> Let's create a for(... of ...) loop to check for an overlap between the first object in the array and every other, and increase the number of objects in the array: </p>
+		<p> Let's create a for() loop to check for an overlap between the first object in the array and every other, changing the color of objects that overlap with spots[0]. Let's also increase the number of objects in the array: </p>
 
 
 <script type="text/p5" data-height="700" data-preview-width="320">
@@ -215,15 +214,16 @@ function setup() {
 
 function draw() {
   	background(0);
+
+  	spots[1].color = 255; 
+	if(spots[0].overlaps(spots[1])){
+		spots[1].color = 0;
+	}
+
   	for (let i = 0; i < spots.length; i++){ 
 		spots[i].move();            	// Move each object
 		spots[i].display();         	// Display each object
 		spots[i].bounce();				// Check for edges
-	}
-
-	spots[0].color = 255; 
-	if(spots[0].overlaps(spots[1])){
-		spots[0].color = 0;
 	}
 }
 
@@ -231,8 +231,8 @@ class Spot {
 	constructor(_x, _y) {
 		this.x = _x;
 		this.y = _y;
-		this.xSpeed = random(-5, 5);
-		this.ySpeed = random(-5, 5);
+		this.xSpeed = random(-2, 2);
+		this.ySpeed = random(-2, 2);
 		this.diameter = random(30, 100);
 		this.color = 255;
 	}
@@ -265,7 +265,7 @@ class Spot {
 </script>
 
 
-<p>  </p>
+<p>  Solution below. The obvious next thing we'd want to be able to do is to not just check for overlaps with spots[0], but rather check for overlaps among all the spots. So if a single loop could identify all overlaps between spots[0] and spots[i], we can use a nested loop to identify all overlaps between spots[i] and spots[j], where both i and j and incremented once for each spot in the array. </p>
 
 
 <script type="text/p5" data-height="700" data-preview-width="320">
@@ -282,15 +282,17 @@ function setup() {
 
 function draw() {
   	background(0);
-  	for (sp of spots){ 
-		sp.move();            	// Move each object
-		sp.display();         	// Display each object
-		sp.bounce();				// Check for edges
 
-		spots[0].color = 255; 
-		if(sp.overlaps(spots[0])){
-			spots[0].color = 0;
-		}
+    for (let i = 0; i < spots.length; i++){
+    	spots[i].color = 0;  			// first, reset spot[i] to black
+  		// then check for overlaps with spots[0] 
+		if(spots[i].overlaps(spots[0])){
+			spots[i].color = 255; 		// if there's an overlap, change color
+		}	
+		// then assign color in the display() function
+		spots[i].move();            	// Move each object
+		spots[i].display();         	// Display each object
+		spots[i].bounce();			    // Check for edges
 	}
 }
 
@@ -301,7 +303,7 @@ class Spot {
 		this.xSpeed = random(-5, 5);
 		this.ySpeed = random(-5, 5);
 		this.diameter = random(30, 100);
-		this.color = 255;
+		this.color = 0;
 	}
 
 	move() {
@@ -327,7 +329,151 @@ class Spot {
 		let d = dist(other.x, other.y, this.x, this.y);
 		return (d < this.diameter/2 + other.diameter/2);
 	}
+}
+</script>
 
+		
+		
+		<p>  Solution: </p>
+
+
+<script type="text/p5" data-height="700" data-preview-width="320">
+let spots = [];
+let numSpots = 6; 
+
+function setup() {
+	createCanvas(300, 300);
+	stroke(255);
+  	for (let i = 0; i < numSpots; i++){  
+    	spots[i] = new Spot(width/2, height/2);
+    }
+}
+
+function draw() {
+  	background(0);
+
+  	for (let i = 0; i < spots.length; i++){ 
+  		spots[i].color = 0;
+  		// first check for overlaps 
+  		for  (let j = 0; j < spots.length; j++){ 
+			if(spots[i].overlaps(spots[j]) && i != j){
+				spots[i].color = 255;
+			}	
+		}
+		// then assign color in the display() function
+		spots[i].move();            	// Move each object
+		spots[i].display();         	// Display each object
+		spots[i].bounce();			    // Check for edges
+	}
+}
+
+class Spot {
+	constructor(_x, _y) {
+		this.x = _x;
+		this.y = _y;
+		this.xSpeed = random(-2, 2);
+		this.ySpeed = random(-2, 2);
+		this.diameter = random(30, 100);
+		this.color = 0;
+	}
+
+	move() {
+		this.x += this.xSpeed;
+		this.y += this.ySpeed;
+	}	
+
+	bounce() {
+		if ((this.x > (width - this.diameter/2)) || (this.x < this.diameter/2)) {
+			this.xSpeed *= -1;
+		}
+		if ((this.y > (height - this.diameter/2)) || (this.y < this.diameter/2)) {
+			this.ySpeed *= -1;
+		}
+	}
+
+	display() {
+		fill(this.color, 0, this.color, 150);
+		ellipse(this.x, this.y, this.diameter, this.diameter);
+	}
+
+	overlaps(other){
+		let d = dist(other.x, other.y, this.x, this.y);
+		return (d < this.diameter/2 + other.diameter/2);
+	}
+}
+
+
+</script>
+
+		<h3> for (... of ...) Syntax</h3>
+		<p> We're used to using syntax like this: <code> for (let i = 0; i < numSpots; i++){  </code>to define a for() loop. However, since iterating over an entire array is such a common thing, there's a special syntax for that: <code> for(let sp of spots){ </code> is a shortcut for the same thing. The old way is still useful for iterating over parts of an array, or only over even numbers, etc.  Try modifying the above code to use for(...of...) loops. </p>
+
+
+		<p>  Solution: </p>
+
+
+<script type="text/p5" data-height="700" data-preview-width="320">
+let spots = [];
+let numSpots = 6; 
+
+function setup() {
+	createCanvas(300, 300);
+	stroke(255);
+  	for (let i = 0; i < numSpots; i++){  
+    	spots[i] = new Spot(width/2, height/2);
+    }
+}
+
+function draw() {
+  	background(0);
+
+    // first check for overlaps 
+  	for (sp1 of spots){ 
+  		sp1.color = 0;
+  		for (sp2 of spots){
+			if(sp1.overlaps(sp2) && sp1 != sp2){
+				sp1.color = 255;
+			}	
+		}
+		sp1.move();            	// Move each object
+		sp1.display();         	// Display each object
+		sp1.bounce();			// Check for edges 
+	}
+}
+
+class Spot {
+	constructor(_x, _y) {
+		this.x = _x;
+		this.y = _y;
+		this.xSpeed = random(-2, 2);
+		this.ySpeed = random(-2, 2);
+		this.diameter = random(30, 100);
+		this.color = 0;
+	}
+
+	move() {
+		this.x += this.xSpeed;
+		this.y += this.ySpeed;
+	}	
+
+	bounce() {
+		if ((this.x > (width - this.diameter/2)) || (this.x < this.diameter/2)) {
+			this.xSpeed *= -1;
+		}
+		if ((this.y > (height - this.diameter/2)) || (this.y < this.diameter/2)) {
+			this.ySpeed *= -1;
+		}
+	}
+
+	display() {
+		fill(this.color, 0, this.color, 150);
+		ellipse(this.x, this.y, this.diameter, this.diameter);
+	}
+
+	overlaps(other){
+		let d = dist(other.x, other.y, this.x, this.y);
+		return (d < this.diameter/2 + other.diameter/2);
+	}
 }
 </script>
 	</div >
