@@ -69,9 +69,9 @@ class Spot {
 	constructor(_x, _y) {
 		this.x = _x;
 		this.y = _y;
-		this.xSpeed = random(-1, 1);
-		this.ySpeed = random(-1, 1);
-		this.diameter = 30;
+		this.xSpeed = random(-5, 5);
+		this.ySpeed = random(-5, 5);
+		this.diameter = random(30, 100);
 	}
 
 	move() {
@@ -130,7 +130,7 @@ class Spot {
 		this.y = _y;
 		this.xSpeed = random(-5, 5);
 		this.ySpeed = random(-5, 5);
-		this.diameter = random(100);
+		this.diameter = random(50, 150);
 		this.color = 255;
 	}
 
@@ -149,7 +149,7 @@ class Spot {
 	}
 
 	display() {
-		fill(this.color);
+		fill(this.color, 0 , this.color, 150);
 		ellipse(this.x, this.y, this.diameter, this.diameter);
 	}
 
@@ -165,19 +165,19 @@ class Spot {
 }
 </script>
 		
-		<p> That's a great start on object communication! However, we'll ultimately want to make this funcionality more reusable, so that objects can be checking themselves for overlaps (as opposed to us checking manually for overlaps between specific objects). We'll get to that in a bit -- first, a couple useful shortcuts: </p>
+		<p> That's a great start on object communication! However, we'll ultimately want to make this functionality more reusable, so that objects can be checking themselves for overlaps (as opposed to us checking manually for overlaps between specific objects). We'll get to that in a bit -- first, a couple useful shortcuts: </p>
 
 		<h3> Optional Default Arguments </h3>
 	    <p>Sometimes we want to provide default parameters to our class constructors (or other functions) in case we forget to pass the correct number of arguments, or if we just want default values in general. For the previous code example, we could have written the constructor in this way instead:  </p>
 
-<script type="text/p5" data-height="200" data-preview-width="220">
-	constructor(_x, _y, _d = 30) {
-		this.x = _x;
-		this.y = _y;
-		this.xSpeed = random(-1, 1);
-		this.ySpeed = random(-1, 1);
-		this.diameter = d;
-	}
+<script type="text/p5" data-height="240" data-preview-width="220">
+constructor(_x, _y, _d = 30) {
+	this.x = _x;
+	this.y = _y;
+	this.xSpeed = random(-1, 1);
+	this.ySpeed = random(-1, 1);
+	this.diameter = d;
+}
 </script>
 
 		<p> This gives us the option of specifying diameter when we construct the object. If we give it a 3rd parameter, it will use that as the diameter. If not, no worries, it'll stick with the default value of 30. </p>
@@ -185,16 +185,151 @@ class Spot {
 		<h3> Returning True or False </h3>
 	    <p>Remember that conditional statements like (d < 5) must resolve to either true or false. That means we don't actually have to write out a full if/else expression. for the overlaps() method in the above code example, we can instead use the following shorthand and get the same result:  </p>
 
-<script type="text/p5" data-height="200" data-preview-width="220">
+<script type="text/p5" data-height="180" data-preview-width="220">
+overlaps(other){
+	let d = dist(other.x, other.y, this.x, this.y);
+	return( d < this.diameter/2 + other.diameter/2);
+}
+</script>
+
+		<h3> for (... of ...) Syntax</h3>
+		<p> We're used to using syntax like this <code> for (let i = 0; i < numSpots; i++){  </code>to define a for() loop. However, since iterating over an entire array is such a common thing, there's a special syntax for that: <code> for(sp of spots){ </code> is a shortcut for the same thing. The old way is still useful for iterating over parts of an array, or only over even numbers, etc.  </p>
+
+		<h3> Autonomous Object Communication </h3> 
+		<p> We want to make our Spot objects more autonomous, in the sense that they should be responsible for determining their own overlaps. This makes a lot more sense if we consider having more than 2 objects. What if we had 100? We'd want to create a some kind of for() loop to iterate over each Spot and check for overlaps. </p>	
+		
+		<p> Let's create a for(... of ...) loop to check for an overlap between the first object in the array and every other, and increase the number of objects in the array: </p>
+
+
+<script type="text/p5" data-height="700" data-preview-width="320">
+let spots = [];
+let numSpots = 2; 
+
+function setup() {
+	createCanvas(300, 300);
+	stroke(255);
+  	for (let i = 0; i < numSpots; i++){  
+    	spots[i] = new Spot(width/2, height/2);
+    }
+}
+
+function draw() {
+  	background(0);
+  	for (let i = 0; i < spots.length; i++){ 
+		spots[i].move();            	// Move each object
+		spots[i].display();         	// Display each object
+		spots[i].bounce();				// Check for edges
+	}
+
+	spots[0].color = 255; 
+	if(spots[0].overlaps(spots[1])){
+		spots[0].color = 0;
+	}
+}
+
+class Spot {
+	constructor(_x, _y) {
+		this.x = _x;
+		this.y = _y;
+		this.xSpeed = random(-5, 5);
+		this.ySpeed = random(-5, 5);
+		this.diameter = random(30, 100);
+		this.color = 255;
+	}
+
+	move() {
+		this.x += this.xSpeed;
+		this.y += this.ySpeed;
+	}	
+
+	bounce() {
+		if ((this.x > (width - this.diameter/2)) || (this.x < this.diameter/2)) {
+			this.xSpeed *= -1;
+		}
+		if ((this.y > (height - this.diameter/2)) || (this.y < this.diameter/2)) {
+			this.ySpeed *= -1;
+		}
+	}
+
+	display() {
+		fill(this.color, 0, this.color, 150);
+		ellipse(this.x, this.y, this.diameter, this.diameter);
+	}
+
 	overlaps(other){
 		let d = dist(other.x, other.y, this.x, this.y);
-		return( d < this.diameter/2 + other.diameter/2);
+		return (d < this.diameter/2 + other.diameter/2);
 	}
+
+}
 </script>
 
 
+<p>  </p>
 
 
+<script type="text/p5" data-height="700" data-preview-width="320">
+let spots = [];
+let numSpots = 6; 
+
+function setup() {
+	createCanvas(300, 300);
+	stroke(255);
+  	for (let i = 0; i < numSpots; i++){  
+    	spots[i] = new Spot(width/2, height/2);
+    }
+}
+
+function draw() {
+  	background(0);
+  	for (sp of spots){ 
+		sp.move();            	// Move each object
+		sp.display();         	// Display each object
+		sp.bounce();				// Check for edges
+
+		spots[0].color = 255; 
+		if(sp.overlaps(spots[0])){
+			spots[0].color = 0;
+		}
+	}
+}
+
+class Spot {
+	constructor(_x, _y) {
+		this.x = _x;
+		this.y = _y;
+		this.xSpeed = random(-5, 5);
+		this.ySpeed = random(-5, 5);
+		this.diameter = random(30, 100);
+		this.color = 255;
+	}
+
+	move() {
+		this.x += this.xSpeed;
+		this.y += this.ySpeed;
+	}	
+
+	bounce() {
+		if ((this.x > (width - this.diameter/2)) || (this.x < this.diameter/2)) {
+			this.xSpeed *= -1;
+		}
+		if ((this.y > (height - this.diameter/2)) || (this.y < this.diameter/2)) {
+			this.ySpeed *= -1;
+		}
+	}
+
+	display() {
+		fill(this.color, 0, this.color, 150);
+		ellipse(this.x, this.y, this.diameter, this.diameter);
+	}
+
+	overlaps(other){
+		let d = dist(other.x, other.y, this.x, this.y);
+		return (d < this.diameter/2 + other.diameter/2);
+	}
+
+}
+</script>
 	</div >
 </div>
 
