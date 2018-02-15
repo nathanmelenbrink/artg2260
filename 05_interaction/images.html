@@ -50,7 +50,7 @@
 	    <h3> Add Images </h3>
 	    <p> If we name our images something sequential like 0.png, 1.png, 2.png, it's easy to automate loading them. Instead of writing <code>loadImage('assets/bart.png');</code> then <code>loadImage('assets/homer.png');</code> and so on and so on, we can simply make a for() loop to count from 0 to however many images you have, and store those images in an array, like this: </p>
 
-<script type="text/p5" data-height="240" data-preview-width="320">
+<script type="text/p5" data-height="260" data-preview-width="320">
 let images = [];
 let numObjects = 5; 
 
@@ -63,11 +63,55 @@ function preload() {
 
 		<p> This uses what's called string concatenation. In JavaScript, adding 5 + 4 = 9, but adding "five" + "four" = "fivefour". In other words, when you try to add strings, JavaScript merges them into a single string. We can use this feature to create a series like 'assets/0.png', 'assets/1.png', 'assets/2.png', etc. </p>
 
-		<p> Next, we'll need to add an associated image to each object. Let's create a new constructor argument, so the constructor expects an image as well as an x and y coordinate. We still construct each object from the setup() function. However, this time we'll pass the extra argument for the associated image. We can even randomly select an element from our array by simply writing <code> random(images)</code>. Finally, within the constructor, store the image to the object using something like <code> this.img = _img </code></p>
+		<p> Next, we'll need to add an associated image to each object. Let's create a new constructor argument, so the constructor expects an image as well as an x and y coordinate. We still construct each object from the setup() function. However, this time we'll pass the extra argument for the associated image. We can even randomly select an element from our array by simply writing <code> random(images)</code>. Finally, within the constructor, store the image to the object using something like: <code> this.img = _img; </code></p>
 
 		<p> Finally, add a mouseClicked() function that each time the mouse is clicked loops through each spot and calls a spot.clicked() method to see if that spot contains the mouseX, mouseY at the time of the click. In that clicked() method, pick a new random image if clicked. Optionally, you could also try changing images whenever they bounce. Make sure to upload your exercise! </p>
 
-<!-- <script>
+
+		<h3> Transformations </h3>
+		<p> p5 has a novel way of dealing with transformations. It makes it seem a little difficult to do things like simple rotation at first, but its usefulness becomes apparent when you're trying to do nested systems for example, like a solar system. The main syntax we'll use for transformations is translate(), rotate(), scale(), push(), and pop(). </p>
+
+		<p> The translate() function moves our origin point to somewhere else on the canvas. This becomes the new (0,0), and becomes the pivot point to use for rotations. The code below first moves the origin, then draws a rect() at the origin. It's the same as simply writing <code> rect(50, 50, 100, 50); </code></p>
+
+<script type="text/p5" data-height="400" data-preview-width="320">
+function setup() {
+	createCanvas(200, 200);
+	fill(0);
+}
+
+function draw() {
+	translate(50, 50);
+	rect(0, 0, 100, 50);
+}
+</script>
+
+		<p> Why would we want to do this? Because transformations are cumulative. In other words, this method makes it easy to make geometry relative to other geometry. Try making another rectangle without changing the translation. What happens if you replace the translate(50, 50) with translate(mouseX, mouseY)? Transformations do get reset to (0,0) on each pass of the draw() loop. </p>
+
+		<h3> Rotate() </h3>
+		<p> The other main reason to do use transformations is for rotation. We need to specify a pivot point, because otherwise the rotate() function will assume the canvas (0,0) point (top left corner) to be the pivot point. </p>
+
+		<p> By default, p5 wants to calculate angles using radians as opposed to degrees. We can change that by declaring <code> angleMode(DEGREES); </code> in the setup() function. </p>
+
+<script type="text/p5" data-height="400" data-preview-width="320">
+let angle = 0;
+
+function setup() {
+	createCanvas(300, 300);
+	angleMode(DEGREES);
+	fill(0);
+}
+
+function draw() {
+	background(255);
+	angle++;
+	translate(50, 50);
+	rotate(angle);
+	rect(0, 0, 100, 50);
+}
+</script>
+
+<!-- 
+<script>
 let spots = [];
 let numSpots = 6; 
 let images = []; 
@@ -84,6 +128,8 @@ function setup() {
   	for (let i = 0; i < numSpots; i++){  
     	spots[i] = new Spot(random(images), width/2, height/2);
     }
+    angleMode(DEGREES);
+    rectMode(CENTER);
 }
 
 function draw() {
@@ -120,16 +166,21 @@ class Spot {
 	}	
 
 	bounce() {
-		if ((this.x > (width - this.w)) || (this.x < 0)) {
+		if ((this.x > (width - this.w/2)) || (this.x-this.w/2 < 0)) {
 			this.xSpeed *= -1;
 		}
-		if ((this.y > (height - this.h)) || (this.y < 0)) {
+		if ((this.y > (height - this.h/2)) || (this.y-this.h/2 < 0)) {
 			this.ySpeed *= -1;
 		}
 	}
 
 	display() {
-    	image(this.img, this.x, this.y, this.w, this.h);
+    	push();
+    	translate(this.x, this.y);
+    	rotate(frameCount);
+    	image(this.img, 0, 0, this.w, this.h);
+    	pop();
+
 	}
 
 	clicked(_x, _y){
@@ -141,29 +192,8 @@ class Spot {
 		
 	}
 }
-</script> -->
-
-		<h3> Transformations </h3>
-		<p> p5 has a novel way of dealing with transformations. It makes it seem a little difficult to do things like simple rotation at first, but its usefulness becomes apparent when you're trying to do nested systems for example, like a solar system. The main syntax we'll use for transformations is translate(), rotate(), scale(), push(), and pop(). </p>
-
-		<p> The translate() function moves our origin point to somewhere else on the canvas. This becomes the new (0,0), and becomes the pivot point to use for rotations. The code below first moves the origin, then draws a rect() at the origin. It's the same as simply writing <code> rect(50, 50, 100, 50); </code></p>
-
-<script type="text/p5" data-height="280" data-preview-width="320">
-function setup() {
-	createCanvas(200, 200);
-	fill(0);
-}
-
-function draw() {
-	translate(50, 50);
-	rect(0, 0, 100, 50);
-}
 </script>
-
-		<p> Why would we want to do this? Because transformations are cumulative. In other words, this method makes it easy to make geometry relative to other geometry. Try making another rectangle without changing the translation. What happens if you replace the translate(50, 50) with translate(mouseX, mouseY)? Transformations do get reset to (0,0) on each pass of the draw() loop. </p>
-
-		<p> The other main reason to do this is for rotation. We need to specify a pivot point, because otherwise the rotate() function will assume the canvas (0,0) point (top left corner) to be the pivot point. </p>
-
+ -->
 	</div >
 </div>
 
