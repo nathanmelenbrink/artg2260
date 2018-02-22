@@ -1,0 +1,177 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>ARTG2260: Programming Basics</title>
+<meta name="description" content="Index Page">
+<script src="../js/vendor/jquery.min.js"></script>
+<script> 
+	$(function(){
+	  $("#header").load("../header.html"); 
+	  $("#footer").load("../footer.html"); 
+	});
+</script>
+
+
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<script src="../js/vendor/modernizr.js"></script>
+<script src="https://toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script src="../js/p5.min.js"></script>
+</head>
+<body>
+
+<div id="header"></div>
+
+<!-- FIRST ROW -->
+<div class="row">
+	<div class="large-3  columns">
+		<h3> Physics</h3>
+	</div >
+
+	<div class="small-12 medium-12 large-9  columns">
+
+		<h3> Resources: </h3>
+		<p>	
+		<!-- <a href='https://www.youtube.com/watch?v=i2C1hrJMwz0&index=31&list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA' >Shiffman - 7.8: Objects and Images - p5.js</a> <br> -->
+
+		</p>
+
+
+		<h3> Physics </h3>
+		<p> We have previously made some simple representations of motion, like: <br> <code> yPos = yPos += ySpeed; </code> <br>
+
+		The code does not take into account other forces that might be exerted on the circle. For example, the circle might have a large mass, or gravity may apply a strong force, or it might be moving across a rough surface so that high friction slows it down. </p>
+
+		<p>These forces are omnipresent in the physical world, but they affect a software simulation only if they are included as parts of the design. They need to be calculated at each frame to exert their influence. </p>
+
+		<img src='./pvna.gif'>
+
+		<p> <b>Velocity</b> defines the speed and direction as one number. For example, a velocity of -5 moves the position in a negative direction at a speed of 5. A velocity of 12 moves the position in a positive direction at a speed of 12. Speed is defined as the magnitude (absolute value) of the velocity.</p>
+
+		<p><b>Acceleration</b> defines the rate of change in the velocity. An acceleration value greater than zero means the velocity will increase each frame, and an acceleration value less than zero means the velocity will decrease each frame.</p>
+
+		<p>We need to update both each frame: <br>
+		<i>velocity = velocity + acceleration<br>
+		yPos = yPos + velocity</i></p>
+
+		<p>In the following example, add acceleration and friction to the bouncing spot. </p>
+
+
+<script type="text/p5" data-height="700" data-preview-width="320">
+let spot; 
+
+function setup() {
+  createCanvas(300, 300);
+  spot = new Spot();
+}
+
+function draw() {
+    spot.display();
+    spot.move();
+    spot.checkEdges();
+}
+
+class Spot{
+ 	constructor(){
+ 		this.x = width/2;
+ 		this.y = height/2;
+ 		this.xVel = random(-5, 5);
+ 		this.yVel = random(-5, 5);
+ 		this.diameter = 30;
+ 	}
+
+	display() {
+		background(0);
+		ellipse(this.x, this.y, this.diameter, this.diameter);
+	}
+
+	move() {
+		this.x += this.xVel;                
+		this.y += this.yVel;
+	}
+
+	checkEdges() {
+		if (this.x+this.diameter/2 >= width || this.x-this.diameter/2 <= 0) {    
+			this.xVel *= -1;
+		}
+
+		if (this.y+this.diameter/2 >= height || this.y-this.diameter/2 <= 0) {   
+			this.yVel *= -1;
+		}
+	}
+}
+</script>
+
+		<p> Solution: </p>
+
+<script type="text/p5" data-height="700" data-preview-width="320">
+let spot; 
+
+function setup() {
+  createCanvas(300, 300);
+  spot = new Spot();
+}
+
+function draw() {
+    spot.display();
+    spot.move();
+    spot.checkEdges();
+}
+
+class Spot{
+ 	constructor(){
+ 		this.x = width/2;
+ 		this.y = height/2;
+ 		this.xVel = random(-5, 5);
+ 		this.yVel = random(-5, 5);
+ 		this.xAcc = 0.0;
+ 		this.yAcc = 0.9;
+ 		this.friction = 0.95;
+ 		this.diameter = 30;
+ 	}
+
+	display() {
+		background(0);
+		ellipse(this.x, this.y, this.diameter, this.diameter);
+	}
+
+	move() {
+		this.xVel += this.xAcc;
+	    this.yVel += this.yAcc;
+	    this.x += this.xVel;                
+	    this.y += this.yVel;
+	}
+
+	checkEdges() {
+		if (this.x+this.diameter/2 >= width || this.x-this.diameter/2 <= 0) {    
+			this.xVel*= -1;
+		}
+
+		if (this.y+this.diameter/2 >= height) {   
+			this.yVel *= -1;
+		}
+
+		if (this.y-this.diameter/2 <= 0) {   
+			this.yVel *= -1;
+		}
+	}
+}
+</script>
+
+	</div >
+</div>
+
+
+
+<div id="footer"></div>
+
+<script src="../js/vendor/jquery.min.js"></script>
+<script src="../js/foundation.min.js"></script>
+<script src="../js/htdaa.js"></script>
+
+
+</body>
+</html>

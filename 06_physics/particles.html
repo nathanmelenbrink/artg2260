@@ -1,0 +1,236 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>ARTG2260: Programming Basics</title>
+<meta name="description" content="Index Page">
+<script src="../js/vendor/jquery.min.js"></script>
+<script> 
+	$(function(){
+	  $("#header").load("../header.html"); 
+	  $("#footer").load("../footer.html"); 
+	});
+</script>
+
+
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<script src="../js/vendor/modernizr.js"></script>
+<script src="https://toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script src="../js/p5.min.js"></script>
+
+
+</head>
+<body>
+
+<div id="header"></div>
+
+<!-- FIRST ROW -->
+<div class="row">
+	<div class="large-3  columns">
+		<h3> Particle Systems </h3>
+	</div >
+
+	<div class="small-12 medium-12 large-9  columns">
+
+
+
+
+
+		<h3> Exercise 6.0: </h3>
+		<p> Create a new Particle System from scratch. 
+
+		It should have 300 particles, which should be rectangles of a random size. 
+
+		Particles should regenerate when they’ve left the screen. 
+
+		Particles should start from the bottom left corner of the screen and start off moving towards the top right, with randomization.</p>
+
+
+<script type="text/p5" data-height="400" data-preview-width="220">
+Particle p;
+
+void setup() {
+  size(100, 100);
+  noStroke();
+  p = new Particle(0, height, 2.2, -4.2, 20.0);
+}
+
+void draw() {
+  fill(0, 12);
+  rect(0, 0, width, height);
+  fill(255);
+  p.move();
+  p.display();
+}
+
+class Particle { 
+  
+  float x, y; // The x- and y-coordinates
+  float vx, vy; // The x- and y-velocities
+  float radius; // Particle radius
+  float gravity = 0.1;
+  
+  Particle(int xPos, int yPos, float xVel, float yVel, float r) {
+    x = xPos;
+    y = yPos;
+    vx = xVel;
+    vy = yVel;
+    radius = r;
+  }
+  
+  void move() {
+    vy = vy + gravity;
+    y += vy;
+    x += vx;
+  }
+  
+  void display() {
+    ellipse(x, y, radius*2, radius*2);
+  }
+}
+</script>
+
+		<p> Add regeneration </p>
+
+<script type="text/p5" data-height="400" data-preview-width="220">
+Particle p;
+
+void setup() {
+  size(100, 100);
+  noStroke();
+  p = new Particle(width/2, height/2, 2.2, -4.2, 20.0);
+}
+
+void draw() {
+  fill(0, 12);
+  rect(0, 0, width, height);
+  fill(255);
+  p.move();
+  p.display();
+  p.regenerate();
+}
+
+class Particle { 
+
+  float x, y; // The x- and y-coordinates
+  float vx, vy; // The x- and y-velocities
+  float radius; // Particle radius
+  float gravity = 0.1;
+
+  Particle(int xPos, int yPos, float xVel, float yVel, float r) {
+    x = xPos;
+    y = yPos;
+    vx = xVel;
+    vy = yVel;
+    radius = r;
+  }
+
+  void move() {
+    vy = vy + gravity;
+    y += vy;
+    x += vx;
+  }
+
+  void display() {
+    ellipse(x, y, radius*2, radius*2);
+  }
+
+  void regenerate() {
+    if ((x > width+radius) || (x < -radius) || (y > height+radius) || (y < -radius)) {
+      x = width/2;
+      y = height/2;
+      vx = random(-1.0, 1.0);
+      vy = random(-4.0, -2.0);
+    }
+  }
+}
+</script>
+
+		<p> Follow Mouse </p>
+
+<script type="text/p5" data-height="400" data-preview-width="220">
+int numParticles = 200;
+Particle[] p = new Particle[numParticles];
+
+void setup() {
+  size(400, 400);
+  noStroke();
+  for (int i = 0; i < numParticles; i++) {
+    float velX = random(-1, 1);
+    float velY = -i;
+    // Inputs: x, y, x-velocity, y-velocity,
+    // radius, origin x, origin y
+    p[i] = new Particle(width/2, height/2, velX, velY);
+  }
+}
+
+void draw() {
+  fill(0, 36);
+  rect(0, 0, width, height);
+  fill(255, 60);
+  for (int i = 0; i < p.length; i++) {
+    p[i].move();
+    p[i].regenerate();
+    p[i].display();
+  }
+}
+
+class Particle { 
+
+  float x, y; // The x- and y-coordinates
+  float vx, vy; // The x- and y-velocities
+  float radius = 20; // Particle radius
+  float gravity = 0.1;
+
+  Particle(int xPos, int yPos, float xVel, float yVel) {
+    x = xPos;
+    y = yPos;
+    vx = xVel;
+    vy = yVel;
+  }
+
+  void move() {
+    vy = vy + gravity;
+    y += vy;
+    x += vx;
+  }
+
+  void display() {
+    ellipse(x, y, radius*2, radius*2);
+  }
+
+  void regenerate() {
+    if ((x > width+radius) || (x < -radius) || (y > height+radius) || (y < -radius)) {
+      x = mouseX;
+      y = mouseY;
+      vx = random(-1.0, 1.0);
+      vy = random(-4.0, -2.0);
+    }
+  }
+}
+</script>
+
+
+
+	</div>
+</div>
+
+
+
+<div id="footer"></div>
+
+<script src="../js/vendor/jquery.min.js"></script>
+<script src="../js/foundation.min.js"></script>
+<script src="../js/htdaa.js"></script>
+
+
+</body>
+</html>

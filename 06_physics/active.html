@@ -1,0 +1,292 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>ARTG2260: Programming Basics</title>
+<meta name="description" content="Index Page">
+<script src="../js/vendor/jquery.min.js"></script>
+<script> 
+	$(function(){
+	  $("#header").load("../header.html"); 
+	  $("#footer").load("../footer.html"); 
+	});
+</script>
+
+
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<script src="../js/vendor/modernizr.js"></script>
+<script src="https://toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script src="../js/p5.min.js"></script>
+</head>
+<body>
+
+<div id="header"></div>
+
+<!-- FIRST ROW -->
+<div class="row">
+	<div class="large-3  columns">
+		<h3> Timing & Active Drawing</h3>
+	</div >
+
+	<div class="small-12 medium-12 large-9  columns">
+
+
+		<h3> Kinetic Forms </h3>
+		<p> Artists explore software as a medium for pushing drawing in new directions. Drawing with software provides the ability to integrate time, response, and behavior with drawn marks. </p>
+
+		<p> Information from the mouse can be combined with techniques of motion to produce animated drawings that capture the kinetic gestures of the hand and reinterpret them as intricate motion. </p>
+
+		<p> Other unique inputs, such as voice captured through a microphone and body gestures captured through a camera, can be used to control drawings. </p>
+
+		<h3> Active Tools </h3>
+		<p> Software drawing instruments can change their form in response to gestures made by the hand. Comparison of mouseX and mouseY variables with previous mouse values can determine the direction and speed of motion. </p>
+
+		<p>In the following example, the change in the mouse position between the last frame and current frame sets the size of the ellipse drawn to the screen. If the ellipse does not move, the size reverts to a single pixel. </p>
+
+<script type="text/p5" data-height="300" data-preview-width="320">
+function setup() {
+	createCanvas(200, 200);
+	fill(0, 100);
+}
+
+function draw() {
+	let s = dist(mouseX, mouseY, pmouseX, pmouseY) + 1;
+	ellipse(mouseX, mouseY, s, s);
+}
+</script>
+
+<!-- 		<p>In the following example, a simple mathematical expression draws ellipses of varying radii in a polar array, creating a floral effect.  </p>
+
+<script type="text/p5" data-height="500" data-preview-width="320">
+let angle = 0;
+
+function setup() {
+  createCanvas(200, 200);
+  fill(0, 102);
+}
+
+function draw() {
+  // Draw only when mouse is pressed
+  if (mouseIsPressed == true) {
+    angle += 10;
+    let val = cos(radians(angle)) * 6.0;
+    for (let a = 0; a < 360; a += 75) {
+      let xoff = cos(radians(a)) * val;
+      let yoff = sin(radians(a)) * val;
+      fill(0);
+      ellipse(mouseX + xoff, mouseY + yoff, val/2, val/2);
+    }
+    fill(255);
+    ellipse(mouseX, mouseY, 2, 2);
+  }
+}
+</script> -->
+
+		<p>In the following example, we've drawn a single line that moves around randomly. Try making this line into an object, then initializing an array of them.   </p>
+
+<script type="text/p5" data-height="460" data-preview-width="320">
+let x1, y1, x2, y2;
+
+function setup() {
+  createCanvas (300, 300);
+  x1 = width / 4.0;
+  y1 = x1;
+  x2 = width - x1;
+  y2 = x2;
+}
+
+function draw() {
+  background(204);
+  x1 += random(-0.5, 0.5);
+  y1 += random(-0.5, 0.5);
+  x2 += random(-0.5, 0.5);
+  y2 += random(-0.5, 0.5);
+  line(x1, y1, x2, y2);
+}
+</script>
+
+		<p>In the following example we extend this to an array of MovingLine objects. Notice that we're not using the push() method here to extend the array to an arbitrary length. Instead, we want to constrain the array to 500 lines. What if, instead of simply stopping after 500 lines, you wanted to loop back and begin overwriting the array from the beginning? </p>
+
+<script type="text/p5" data-height="800" data-preview-width="320">
+let lines = [];
+let currentLine = 0;
+let numLines = 500; 
+
+function setup() {
+  createCanvas(300, 300);
+}
+
+function draw() {
+  background(204);
+  for (l of lines) {
+    l.display();
+  }
+}
+function mouseDragged() {
+  lines[currentLine] = new MovingLine(mouseX, mouseY, pmouseX, pmouseY);
+  if (currentLine < numLines - 1) {
+    currentLine++;
+  }
+}
+
+class MovingLine {
+  constructor(_x, _y, _px, _py) {
+    this.x1 = _x;
+    this.y1 = _y;
+    this.x2 = _px;
+    this.y2 = _py;
+  }
+  display() {
+    this.x1 += random(-1, 1);
+    this.y1 += random(-1, 1);
+    this.x2 += random(-1, 1);
+    this.y2 += random(-1, 1);
+    line(this.x1, this.y1, this.x2, this.y2);
+  }
+}
+</script>
+
+		<p>The Blade example creates a new object every frame, each of which is extended by adding a new point each frame, creating the illusion of drawing a line. </p>
+
+<script type="text/p5" data-height="500" data-preview-width="320">
+let blades = [];
+
+function setup(){
+	createCanvas(300, 300);
+}
+
+function draw(){
+	for(b of blades){
+		b.grow();
+	}
+}
+
+function mouseMoved(){
+	let b = new Blade(mouseX, mouseY);
+	blades.push(b);
+}
+
+class Blade {
+	constructor(_x, _y){
+		this.x = _x;
+		this.y = _y;
+	}
+
+	grow(){
+		this.x += 0.5;
+		this.y -= 1.0;
+		point(this.x, this.y);
+	}
+}
+</script>
+
+		<h3> Timing </h3> 
+		<code>second() <br>
+			minute() <br>
+			hour() <br>
+			millis() <br>
+			day() <br>
+			month() <br>
+			year() <br> </code>
+
+		<p> We should learn how to use p5's syntax for standard timing. We can use the functions <code> second(), minute(), and hour()</code> as demonstrated below. Try modifying the code to only print when the second changes. </p>
+
+<script type="text/p5" data-height="220" data-preview-width="320">
+function draw() {
+  let s = second();
+  let m = minute();
+  let h = hour();
+  print(h + ":" + m + ":" + s);
+}
+</script>
+
+		<p> We can use these functions to make graphical representations of time. </p>
+<script type="text/p5" data-height="360" data-preview-width="320">
+function setup() {
+  size(300, 300);
+  stroke(255);
+}
+function draw() {
+  background(0);
+  let s = map(second(), 0, 60, 0, width);
+  let m = map(minute(), 0, 60, 0, width);
+  let h = map(hour(), 0, 24, 0, width);
+  line(s, 0, s, 33);
+  line(m, 34, m, 66);
+  line(h, 67, h, 100);
+}
+</script>
+		
+		<p> The millis() function returns the number of milliseconds since the sketch began. That can be used to create sequences or timed events. </p>
+
+<script type="text/p5" data-height="280" data-preview-width="320">
+let x = 0;
+
+function draw(){
+  if (millis() > 3000){
+    x++;
+  }
+  line(x, 0, x, 100);
+}
+</script>
+
+		
+		<p> The following example shows a way to store images as arrays for animations. </p>
+
+
+
+<script type="text/p5" data-height="520" data-preview-width="320">
+let currentFrame = 0;
+let frames = [];
+let lastTime = 0;
+let numFrames = 24;
+
+function setup() {
+  createCanvas(300, 300);
+  strokeWeight(4);
+  background(204);
+  for (let i = 0; i < numFrames; i++) {
+    frames[i] = get(); // Create a blank frame
+  }
+}
+
+function draw() {
+  let currentTime = millis();
+  if (currentTime > lastTime+100) {
+    nextFrame();
+    lastTime = currentTime;
+  }
+
+  if (mouseIsPressed == true) {
+    line(pmouseX, pmouseY, mouseX, mouseY);
+  }
+}
+
+function nextFrame() {
+  frames[currentFrame] = get(); // Get the display window
+  currentFrame++; // Increment to next frame
+  if (currentFrame >= numFrames) {
+    currentFrame = 0;
+  }
+  image(frames[currentFrame], 0, 0);
+}
+</script>
+
+
+	</div >
+</div>
+
+
+
+<div id="footer"></div>
+
+<script src="../js/vendor/jquery.min.js"></script>
+<script src="../js/foundation.min.js"></script>
+<script src="../js/htdaa.js"></script>
+
+
+</body>
+</html>
