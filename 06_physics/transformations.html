@@ -176,22 +176,176 @@ function setup(){
 
 		<p> We can use the functions applyMatrix() and resetMatrix() to manually assign transformations in matrix form. Otherwise, we can use rotate() and scale() to do the job for us. </p> 
 
-- make an array of pivoting objects
-- make a solar system
+		<p> The following example renders an image of a grid that represents the transformation plane. Try using the translate() function to center the grid on the canvas. Can you make it follow the mouse? </p>
 
-
-<script type="text/p5" data-height="400" data-preview-width="220">
+<script type="text/p5" data-height="340" data-preview-width="320">
 let grid;
 function preload(){
 	grid = loadImage('assets/grid.png');
 }
 
 function setup(){
+  	createCanvas(300, 300);
 	imageMode(CENTER); // draws the image with the x, y parameters in the center
+}
+function draw(){
 	image(grid, 0, 0, width, height);
 }
 </script>
 
+		<p> Next, let's modify the example below to rotate to the mouse position. We can calculate the amount to rotate using the <a href='https://p5js.org/reference/#/p5/atan2'>atan2()</a> function. </p>
+<script type="text/p5" data-height="340" data-preview-width="320">
+let grid; 
+function preload(){
+	grid = loadImage('assets/grid.png');
+}
+
+function setup(){
+  	createCanvas(300, 300);
+  	imageMode(CENTER); // draws the image with the x, y parameters in the center
+}
+
+function draw(){
+	translate(width/2, height/2);
+	image(grid, 0, 0, width, height);
+}
+</script>
+
+		<p> Try introducing scaling based on distance from the cursor to the center of the canvas. </p>
+
+<script type="text/p5" data-height="400" data-preview-width="320">
+let grid; 
+function preload(){
+	grid = loadImage('assets/grid.png');
+}
+
+function setup(){
+  	createCanvas(300, 300);
+  	imageMode(CENTER); // draws the image with the x, y parameters in the center
+}
+
+function draw(){
+	background(255);
+	translate(width/2, height/2);
+	let angle = atan2(mouseY - height/2, mouseX - width/2);
+	rotate(angle);
+	image(grid, 0, 0, width, height);
+}
+</script>
+
+	<p> Next, let's make this object-oriented, so that we can have an array of independent transformations. Solution below: </p>
+
+<script type="text/p5" data-height="640" data-preview-width="320">
+let grid;
+let planes = []; 
+
+function preload(){
+	grid = loadImage('assets/grid.png');
+}
+
+function setup(){
+  	createCanvas(300, 300);
+  	imageMode(CENTER); // draws the image with the x, y parameters in the center
+  	for (let i = 0; i < 5; i++){
+  		let scale = random(0.05, 0.3);
+  		let spinRate = random(-0.1, 0.1);
+  		let p = new Plane(random(width), random(height), scale, spinRate);
+  		planes.push(p);
+  	}
+}
+
+function draw(){
+	background(255);
+	for(p of planes){
+		p.update();
+		p.display();
+	}
+}
+
+class Plane{
+	constructor(_x, _y, _scale, _rate){
+		this.x = _x;
+		this.y = _y;
+		this.scale = _scale;
+		this.rate = _rate;
+		this.angle = 0;
+	}
+
+	update(){
+		this.angle += this.rate;
+	}
+
+	display(){
+		push();
+		translate(this.x, this.y);
+		rotate(this.angle);
+		scale(this.scale);
+		image(grid, 0, 0, width, height);
+		pop();
+	}
+}
+</script>
+
+
+	<p> Now let's modify the previous example, introducing cumulative push() / pop() transformations in order to create a simple "solar system" where an array of "planets" rotate around their center, but also orbit around a central "star". Let's render the star as a static image at the center of the canvas. Each Planet should have an offset value, which determines its distance from the "sun". We can use the same angle property to define rotation around the sun as well as rotation about the center of the planet (although these should actually be different values). Solution below: </p>
+
+<script type="text/p5" data-height="640" data-preview-width="320">
+let img;
+let planets = []; 
+
+function preload(){
+	img = loadImage('assets/planet.png');
+}
+
+function setup(){
+  	createCanvas(300, 300);
+  	imageMode(CENTER); // draws the image with the x, y parameters in the center
+  	for (let i = 0; i < 5; i++){
+        let offset = i*30 + 50;
+  		let scale = random(0.05, 0.1);
+  		let spinRate = random(-0.01, 0.01);
+  		let p = new Planet(offset, scale, spinRate);
+  		planets.push(p);
+  	}
+}
+
+function draw(){
+    background(0);
+  	push();
+	translate(width/2, height/2);		  // move origin to center
+  	image(img, 0, 0, width/5, height/5);  // render the "sun"
+	for(p of planets){					  // render each planet
+		p.update();
+		p.display();
+	}
+  	pop();
+}
+
+class Planet{
+	constructor(_offset, _scale, _rate){
+        this.offset = _offset;
+		this.scale = _scale;
+		this.rate = _rate;
+		this.angle = 0;
+	}
+
+	update(){
+		this.angle += this.rate;
+	}
+
+	display(){	
+      rotate(this.angle);	// create a rotation around the canvas center
+      push();				// enter new drawing state
+      	translate(this.offset, 0);	// move the origin some distance to the right (+x)
+      	scale(this.scale);          // scale the image around the new origin
+      	rotate(this.angle);			// rotate the image around the new origin
+      	image(img, 0, 0, width, height); // render the image
+      pop();						// exit custom drawing state
+	}
+}
+</script>
+
+		<p> Try modifying the above code to add a tint() to the images to distinguish the planets. </p>
 
 <!-- 
 <script>

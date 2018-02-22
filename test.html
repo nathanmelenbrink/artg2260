@@ -20,154 +20,67 @@
 <div id = 'sketch-holder'></div>
 <script>
 
-let gameState = 0;
-let score = 0;
-let poacher;
-let a;
-let bullets = [];
-let time;
+var rect1;
+var r;
+var num;
 
-
-function setup(){
-  framerate = 30;
-  var cnv = createCanvas(600,400);
-  cnv.parent('sketch-holder');
-  poacher = new Poacher();
-}
-
-function draw(){
-  background(255);
-  if (gameState == 0){
-    startScreen();
-  } else if (gameState == 1){
-    update();
-  } else if (gameState == 2){
-    gameOver();
-  }
-  poacher.display();
-  poacher.move();
-  for (b of bullets) {
-    b.move();
-    b.display();
-    //print("bullet comes!");
-  }
-  time = frameCount % frameRate;
-}
-
-function mouseClicked(){
-   if (gameState == 0){
-     gameState = 1;
-   } else if (gameState == 2){
-     gameState = 0;
-   } else if (gameState == 1){
-     poacher.shoot();
-   }
-  }
-
-function startScreen() {
-  background(255);
-  text("click to begin", 10, 30);
-}
-
-function update() {
-  background(255);
-  score++;
-  text("playing", 10, 30);
-  text("score: " + score, 400, 30);
-}
-
-function gameOver(){
-  if (gameState == 0){
-    gameState = 1;
-  } else if (gameState == 2){
-    gameState = 0;
+function setup() {
+  r = [];
+  num = 2;
+  createCanvas(300, 300);
+  for (var i = 0; i < num; i++) {
+    r[i] = new rec(random(width - 40), random(height - 40), 40, 40);
   }
 }
 
-
-class Poacher {
-
-  constructor(){
-    this.x = width/2;
-    this.y = height/2;
-    this.diameter = 20;
-    this.regX = this.x;
-    this.regY = this.y;
-    this.a = 0;
-  }
-
-  display(){
- // put a conditional for a -> only in game state 1
-    push();
-    this.a = Math.atan2(mouseY - this.y, mouseX - this.x);
-    translate(this.x, this.y);
-    rotate(this.a);
-    beginShape();
-    ellipse(0, 0, this.diameter, this.diameter);
-    line(0, 0, this.diameter, 0);
-    endShape();
-    pop();
-  }
-
-  move(){
-      if(keyIsDown(87)) {
-          this.y-=3;
-
-      } if (keyIsDown(83)) {
-          this.y+=3;
-
-      } if(keyIsDown(65)){
-          this.x-=3;
-
-      } if(keyIsDown(68)) {
-          this.x+=3;
-
+function draw() {
+  background(40);
+  r[0].show();
+  r[1].show();
+  for (var i = 0; i < num; i++) {
+    for (var j = 0; j < num; j++) {
+      if (r[i].x + r[i].width + r[i].xa >= r[j].x && r[i].y + r[i].height >= r[j].y && r[i].y <= r[j].y + r[j].height && r[i].x + r[i].xa <= r[j].x + r[j].width) {
+        r[i].xa *= -1;
+        r[j].xa *= -1;
+      }
+      if (r[i].y + r[i].height + r[i].ya >= r[j].y && r[i].x + r[i].width >= r[j].x && r[i].x <= r[j].x + r[j].height && r[i].y + r[i].ya <= r[j].y + r[j].height) {
+        r[i].ya *= -1;
+        r[j].ya *= -1;
       }
     }
-
-    shoot(){
-      let bullet = new Bullet(this.a, this.x, this.y);
-      bullets.push (bullet);
-    }
-
-  }
-
-class Bullet {
-  constructor(_a, _x, _y){
-    this.x = _x;
-    this.y = _y;
-    this.diameter = 5;
-    this.a = _a;
-  }
-
-  display(){
-    fill(0);
-    ellipse(this.x, this.y, this.diameter, this.diameter);
-  }
-
-  move(){
-    this.x += 6*cos(this.a);
-    this.y += 6*sin(this.a);
   }
 }
 
-class Unicorn {
-  constructor(){
-    this.x = random(0||width);
-    this.y = random(height);
-    this.diameter = 20;
-  }
-
-  display(){
-    fill(100,100,100);
-    ellipse(this.x, this.y, this.diameter, this.diameter);
-  }
-
-  move(){
-    if(this.x == 0){
-      x+= 4;
-    } else if(this.x == wifth){
-      x-= 4;
+function rec(x, y, wid, hei) {
+  this.x = x;
+  this.y = y;
+  this.width = wid;
+  this.height = hei;
+  this.xa = random(2, 5);
+  this.ya = random(2, 5);
+  this.show = function() {
+    this.x;
+    this.y;
+    fill(255);
+    noStroke();
+    rect(this.x, this.y, this.width, this.height);
+    this.x += this.xa;
+    this.y += this.ya;
+    if (this.x > width - this.width || this.x < 0) {
+      this.xa *= -1;
+      if (this.x > width / 2) {
+        this.x = width - this.width;
+      } else {
+        this.x = 0;
+      }
+    }
+    if (this.y > height - this.height || this.y < 0) {
+      this.ya *= -1;
+      if (this.y > height / 2) {
+        this.y = height - this.height;
+      } else {
+        this.y = 0;
+      }
     }
   }
 }
