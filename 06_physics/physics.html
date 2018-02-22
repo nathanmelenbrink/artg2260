@@ -34,7 +34,7 @@
 	<div class="small-12 medium-12 large-9  columns">
 
 		<h3> Resources: </h3>
-		<p>	
+		<p>	<a href='http://natureofcode.com/book/chapter-2-forces/'>Shiffman - Nature of Code - Chapter 2: Forces </a>
 		<!-- <a href='https://www.youtube.com/watch?v=i2C1hrJMwz0&index=31&list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA' >Shiffman - 7.8: Objects and Images - p5.js</a> <br> -->
 
 		</p>
@@ -57,7 +57,7 @@
 		<i>velocity = velocity + acceleration<br>
 		yPos = yPos + velocity</i></p>
 
-		<p>In the following example, add acceleration and friction to the bouncing spot. </p>
+		<p>In the following example, add gravity and friction to the bouncing spot. </p>
 
 
 <script type="text/p5" data-height="700" data-preview-width="320">
@@ -116,6 +116,7 @@ function setup() {
 }
 
 function draw() {
+	background(0);
     spot.display();
     spot.move();
     spot.checkEdges();
@@ -127,19 +128,17 @@ class Spot{
  		this.y = height/2;
  		this.xVel = random(-5, 5);
  		this.yVel = random(-5, 5);
- 		this.xAcc = 0.0;
  		this.yAcc = 0.9;
  		this.friction = 0.95;
  		this.diameter = 30;
  	}
 
 	display() {
-		background(0);
+
 		ellipse(this.x, this.y, this.diameter, this.diameter);
 	}
 
 	move() {
-		this.xVel += this.xAcc;
 	    this.yVel += this.yAcc;
 	    this.x += this.xVel;                
 	    this.y += this.yVel;
@@ -152,6 +151,8 @@ class Spot{
 
 		if (this.y+this.diameter/2 >= height) {   
 			this.yVel *= -1;
+            this.y = height - this.diameter/2;
+            this.yAcc /= this.friction;
 		}
 
 		if (this.y-this.diameter/2 <= 0) {   
@@ -160,6 +161,90 @@ class Spot{
 	}
 }
 </script>
+
+		<p> The following example shows two Box objects that bounce and collide with each other.  </p>
+
+
+<script type="text/p5" data-height="700" data-preview-width="320">
+let boxes = [];
+let num = 2;
+
+function setup() {
+  createCanvas(300, 300);
+  for (let i = 0; i < num; i++) {
+    boxes[i] = new Box(random(width - 40), random(height - 40), 40, 40);
+  }
+}
+
+function draw() {
+  background(40);
+  for (b of boxes){
+    b.display();
+    b.move();
+    b.bounce();
+
+    for (let j = 0; j < boxes.length; j++) {
+      if (b.x + b.w + b.accX >= boxes[j].x 
+        && b.y + b.h >= boxes[j].y 
+        && b.y <= boxes[j].y + boxes[j].h 
+        && b.x + b.accX <= boxes[j].x + boxes[j].w) {
+          b.accX *= -1;
+          boxes[j].accX *= -1;
+      }
+      if (b.y + b.h + b.accY >= boxes[j].y 
+        && b.x + b.w >= boxes[j].x 
+        && b.x <= boxes[j].x + boxes[j].h 
+        && b.y + b.accY <= boxes[j].y + boxes[j].h) {
+        b.accY *= -1;
+        boxes[j].accY *= -1;
+      }
+    }
+  }
+}
+
+class Box {
+
+  constructor(_x, _y, _w, _h){
+    this.x = _x;
+    this.y = _y;
+    this.w = _w;
+    this.h = _h;
+    this.accX = random(2, 5);
+    this.accY = random(2, 5);
+  }
+  
+  display() {
+    fill(255);
+    noStroke();
+    rect(this.x, this.y, this.w, this.h);
+  }
+
+  move(){
+    this.x += this.accX;
+    this.y += this.accY;
+  }
+
+  bounce(){
+    if (this.x > width - this.w || this.x < 0) {
+      this.accX *= -1;
+      if (this.x > width / 2) {
+        this.x = width - this.w;
+      } else {
+        this.x = 0;
+      }
+    }
+    if (this.y > height - this.h || this.y < 0) {
+      this.accY *= -1;
+      if (this.y > height / 2) {
+        this.y = height - this.h;
+      } else {
+        this.y = 0;
+      }
+    }
+  }
+}
+</script>
+
 
 	</div >
 </div>

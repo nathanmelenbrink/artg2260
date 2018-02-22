@@ -20,70 +20,7 @@
 <div id = 'sketch-holder'></div>
 <script>
 
-var rect1;
-var r;
-var num;
 
-function setup() {
-  r = [];
-  num = 2;
-  createCanvas(300, 300);
-  for (var i = 0; i < num; i++) {
-    r[i] = new rec(random(width - 40), random(height - 40), 40, 40);
-  }
-}
-
-function draw() {
-  background(40);
-  r[0].show();
-  r[1].show();
-  for (var i = 0; i < num; i++) {
-    for (var j = 0; j < num; j++) {
-      if (r[i].x + r[i].width + r[i].xa >= r[j].x && r[i].y + r[i].height >= r[j].y && r[i].y <= r[j].y + r[j].height && r[i].x + r[i].xa <= r[j].x + r[j].width) {
-        r[i].xa *= -1;
-        r[j].xa *= -1;
-      }
-      if (r[i].y + r[i].height + r[i].ya >= r[j].y && r[i].x + r[i].width >= r[j].x && r[i].x <= r[j].x + r[j].height && r[i].y + r[i].ya <= r[j].y + r[j].height) {
-        r[i].ya *= -1;
-        r[j].ya *= -1;
-      }
-    }
-  }
-}
-
-function rec(x, y, wid, hei) {
-  this.x = x;
-  this.y = y;
-  this.width = wid;
-  this.height = hei;
-  this.xa = random(2, 5);
-  this.ya = random(2, 5);
-  this.show = function() {
-    this.x;
-    this.y;
-    fill(255);
-    noStroke();
-    rect(this.x, this.y, this.width, this.height);
-    this.x += this.xa;
-    this.y += this.ya;
-    if (this.x > width - this.width || this.x < 0) {
-      this.xa *= -1;
-      if (this.x > width / 2) {
-        this.x = width - this.width;
-      } else {
-        this.x = 0;
-      }
-    }
-    if (this.y > height - this.height || this.y < 0) {
-      this.ya *= -1;
-      if (this.y > height / 2) {
-        this.y = height - this.height;
-      } else {
-        this.y = 0;
-      }
-    }
-  }
-}
 </script>
 </body>
 </html>
