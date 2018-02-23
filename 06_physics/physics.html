@@ -182,23 +182,7 @@ function draw() {
     b.display();
     b.move();
     b.bounce();
-
-    for (let j = 0; j < boxes.length; j++) {
-      if (b.x + b.w + b.accX >= boxes[j].x 
-        && b.y + b.h >= boxes[j].y 
-        && b.y <= boxes[j].y + boxes[j].h 
-        && b.x + b.accX <= boxes[j].x + boxes[j].w) {
-          b.accX *= -1;
-          boxes[j].accX *= -1;
-      }
-      if (b.y + b.h + b.accY >= boxes[j].y 
-        && b.x + b.w >= boxes[j].x 
-        && b.x <= boxes[j].x + boxes[j].h 
-        && b.y + b.accY <= boxes[j].y + boxes[j].h) {
-        b.accY *= -1;
-        boxes[j].accY *= -1;
-      }
-    }
+	b.collide();
   }
 }
 
@@ -239,6 +223,25 @@ class Box {
         this.y = height - this.h;
       } else {
         this.y = 0;
+      }
+    }
+  }
+  
+  collide(){
+  	for (let j = 0; j < boxes.length; j++) {
+      if (this.x + this.w + this.accX >= boxes[j].x 
+        && this.y + this.h >= boxes[j].y 
+        && this.y <= boxes[j].y + boxes[j].h 
+        && this.x + this.accX <= boxes[j].x + boxes[j].w) {
+          this.accX *= -1;
+          boxes[j].accX *= -1;
+      }
+      if (this.y + this.h + this.accY >= boxes[j].y 
+        && this.x + this.w >= boxes[j].x 
+        && this.x <= boxes[j].x + boxes[j].h 
+        && this.y + this.accY <= boxes[j].y + boxes[j].h) {
+        this.accY *= -1;
+        boxes[j].accY *= -1;
       }
     }
   }
