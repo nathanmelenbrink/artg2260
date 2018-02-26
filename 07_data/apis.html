@@ -1,0 +1,119 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>ARTG2260: Programming Basics</title>
+<meta name="description" content="Index Page">
+<script src="../js/vendor/jquery.min.js"></script>
+<script> 
+	$(function(){
+	  $("#header").load("../header.html"); 
+	  $("#footer").load("../footer.html"); 
+	});
+</script>
+
+
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<script src="../js/vendor/modernizr.js"></script>
+<script src="https://toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script src="../js/p5.min.js"></script>
+</head>
+<body>
+
+<div id="header"></div>
+
+<!-- FIRST ROW -->
+<div class="row">
+	<div class="large-3  columns">
+		<h3> Working with APIs</h3>
+	</div >
+
+	<div class="small-12 medium-12 large-9  columns">
+
+    <h3> Resources </h3>
+    <p> 
+
+
+    </p>
+		
+
+    <h3> Working with APIs</h3>
+    <p> An API (Application Programming Interface) is an interface through which one application can access the services of another. These can come in many forms. Openweathermap.org is an API that offers its data in JSON, XML, and HTML formats. </p>
+
+    <p>The key element that makes this service an API is exactly that offer; openweathermap.org's sole purpose in life is to offer you its data. And not just offer it, but allow you to query it for specific data in a specific format. Let's look at a short list of sample queries.  </p>
+
+    <p> http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139 
+    A request for current weather data for a specific latitude and longitude.
+
+    http://api.openweathermap.org/data/2.5/forecast/daily?q=London&mode=xml&units=metric&cnt=7&lang=zh_cn 
+    A request for a seven day London forecast in XML format with metric units and in Chinese.
+
+    http://api.openweathermap.org/data/2.5/history/station?id=5091&type=day 
+    A request for a historical data for a given weather station.
+    </p>
+
+
+    <h3> Data Sources </h3>
+    <p><a href="http://www.data.gov/">Data.gov</a>
+<a href="http://www.census.gov/">Census.gov</a>
+<a href="http://thedata.org/">Dataverse Network</a>
+<a href="http://www.realclimate.org/index.php/data-sources/">Climate Data Sources</a>
+<a href="http://www.metoffice.gov.uk/climatechange/science/monitoring/subsets.html">Climate Station Records</a>
+<a href="http://www.cdc.gov/nchs/data_access/data_tools.htm">CDC Data (Disease Control and Prevention)</a>
+<a href="http://data.worldbank.org/data-catalog">World Bank Catalog</a>
+<a href="http://www.d-maps.com/index.php?lang=en">Free SVG Maps</a>
+<a href="http://www.statistics.gov.uk/default.asp">UK Office for National Statistics</a>
+<a href="http://www.statemaster.com/index.php">StateMaster</a>
+<a href="http://www.quandl.com">Quandl</a></p>
+
+
+
+<!-- <h3 id="other-software-toolkits">Other Software Toolkits</h3>
+
+<p><a href="https://plot.ly">Plot.ly</a>
+<a href="http://www.wolfram.com/mathematica/">Wolfram Mathematica</a>
+<a href="https://github.com/prefuse/Prefuse">Prefuse</a> (Java)</p> -->
+
+<script type="text/p5" data-height="300" data-preview-width="320">
+void setup() {
+  size(200, 200);
+  
+  String apiKey = "13bb404ad62a4606beabaab654e18cfc";
+  String url = "http://api.nytimes.com/svc/search/v2/articlesearch.json";
+  String query = "?q=processing&sort=newest";
+
+  println(url+query+"&api-key="+apiKey);
+  
+  // Make the API query
+  // Here, I format the call to the API by joing the URL with the API key and the query string.
+  JSONObject json = loadJSONObject(url+query+"&api-key="+apiKey);
+
+  String headline = json.getJSONObject("response").getJSONArray("docs").
+    // Grabbing a single headline from the results.
+    getJSONObject(0).getJSONObject("headline").getString("main");
+  background(255);
+  fill(0);
+  text(headline, 10, 10, 180, 190);
+}
+</script>
+
+
+
+
+	</div >
+</div>
+
+
+
+<div id="footer"></div>
+
+<script src="../js/vendor/jquery.min.js"></script>
+<script src="../js/foundation.min.js"></script>
+<script src="../js/htdaa.js"></script>
+
+
+</body>
+</html>

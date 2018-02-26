@@ -1,0 +1,116 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>ARTG2260: Programming Basics</title>
+<meta name="description" content="Index Page">
+<script src="../js/vendor/jquery.min.js"></script>
+<script> 
+	$(function(){
+	  $("#header").load("../header.html"); 
+	  $("#footer").load("../footer.html"); 
+	});
+</script>
+
+
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<script src="../js/vendor/modernizr.js"></script>
+<script src="https://toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script src="../js/p5.min.js"></script>
+</head>
+<body>
+
+<div id="header"></div>
+
+<!-- FIRST ROW -->
+<div class="row">
+	<div class="large-3  columns">
+		<h3> Objects - Object Communication </h3>
+	</div >
+
+	<div class="small-12 medium-12 large-9  columns">
+
+		<h3> Resources: </h3>
+		<p>	
+		<a href='https://www.youtube.com/watch?v=W1-ej3Wu5zg&list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA&index=29' >Shiffman - 7.6: Object Communication Part 1 - p5.js</a> <br>
+		<a href='https://www.youtube.com/watch?v=W1-ej3Wu5zg&list=PLRqwX-V7Uu6Zy51Q-x9tMWIv9cueOFTFA&index=30' >Shiffman - 7.7: Object Communication Part 2 - p5.js</a> <br>
+
+		</p>
+<!-- 
+Make a walk-through Box class exercise walkthrough 
+with images, build from scratch  -->
+
+		<h3> Objects Want to Communicate! </h3>
+	    <p>One big advantage of object-oriented programming is that we can abstract object communication -- we can make objects talk to each other directly so that we don't need to mediate their "conversation" in a centralized way. In this simple example, we'll ask our Spot objects to check if they're overlapping (intersecting) with other Spot objects, and have them change colors (or other properties) if they are. This is a fundamental component of a lot of the generative art we've looked at, where simple rules between vast numbers of objects give rise to emergent properties.  </p>
+
+	   <p> The following code creates an array of 2 spots. Let's add a function called overlaps() and call it from the draw() function to see if spots[0] overlaps with spots[1] -- if so, let's change the color of spots[0]. </p>
+		
+<script type="text/p5" data-height="700" data-preview-width="320">
+let spots = [];
+let numSpots = 2; 
+
+function setup() {
+	createCanvas(300, 300);
+  	for (let i = 0; i < numSpots; i++){  
+    	spots[i] = new Spot(width/2, height/2);
+    }
+}
+
+function draw() {
+  	background(0);
+  	for (let i = 0; i < spots.length; i++){ 
+		spots[i].move();            	// Move each object
+		spots[i].display();         	// Display each object
+		spots[i].bounce();				// Check for edges
+	}
+}
+
+class Spot {
+	constructor(_x, _y) {
+		this.x = _x;
+		this.y = _y;
+		this.xSpeed = random(-5, 5);
+		this.ySpeed = random(-5, 5);
+		this.diameter = random(30, 100);
+	}
+
+	move() {
+		this.x += this.xSpeed;
+		this.y += this.ySpeed;
+	}	
+
+	bounce() {
+		if ((this.x > (width - this.diameter/2)) || (this.x < this.diameter/2)) {
+			this.xSpeed *= -1;
+		}
+		if ((this.y > (height - this.diameter/2)) || (this.y < this.diameter/2)) {
+			this.ySpeed *= -1;
+		}
+	}
+
+	display() {
+		ellipse(this.x, this.y, this.diameter, this.diameter);
+	}
+
+
+}
+</script>
+
+	   
+	</div >
+</div>
+
+
+
+<div id="footer"></div>
+
+<script src="../js/vendor/jquery.min.js"></script>
+<script src="../js/foundation.min.js"></script>
+<script src="../js/htdaa.js"></script>
+
+
+</body>
+</html>

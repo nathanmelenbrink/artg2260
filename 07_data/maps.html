@@ -1,0 +1,96 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>ARTG2260: Programming Basics</title>
+<meta name="description" content="Index Page">
+<script src="../js/vendor/jquery.min.js"></script>
+<script> 
+	$(function(){
+	  $("#header").load("../header.html"); 
+	  $("#footer").load("../footer.html"); 
+	});
+</script>
+
+
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<script src="../js/vendor/modernizr.js"></script>
+<script src="https://toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script src="../js/p5.min.js"></script>
+</head>
+<body>
+
+<div id="header"></div>
+
+<!-- FIRST ROW -->
+<div class="row">
+	<div class="large-3  columns">
+		<h3> Google Map</h3>
+	</div >
+
+	<div class="small-12 medium-12 large-9  columns">
+
+    <h3> Resources </h3>
+    <p> 
+    </p>
+		
+
+    <h3> Google Maps </h3>
+	<p> When working with Google Maps, we'll not be using p5. This is because p5 renders to html canvas objects, and Google Maps do not. Google Maps render to a complex custom series of nested &lt;div&gt; elements. We can, of course, use a static image of a map as a background and render data on to the map by converting (lat, long) coordinates into pixel coordinates. Daniel Shiffman has a <a href ='https://www.youtube.com/watch?v=ZiYdOwOrGyc&t=1265s' > great turorial </a> where he goes through this. However, if we want to be able to zoom or pan the map, we quickly find that working with the canvas element is constraining. Google Maps on the other hand, allows us those features as well as the possibility of estimating travel times, getting street view images, etc. The downside is it isn't as easy to render shapes as in p5.  </p>
+
+
+		<h3> Principles </h3>
+		<p>  </p>
+
+		<p>Techniques </p>
+
+
+    <h3> Loading Text </h3>
+    <p> Let's begin by working with the simplest means of data retrieval: reading from a text file. Text files can be used as a very simple database (you could store settings for a program, a list of high scores, numbers for a graph, etc.) or to simulate a more complex data source. </p>
+
+    <p> In order to create a text file, you can use any simple text editor. Once the text file is in place, p5’s loadStrings() function is used to read the content of the file into a String array. The individual lines of text in the file each become an individual element in the array. </p>
+
+    - local directory example? 
+
+
+    <h3> Comparing Strings </h3>
+    <p> </p>
+
+<script type="text/p5" data-height="300" data-preview-width="320">
+let p = 'potato';
+if (p == 'potato'){
+  text('yep', 5, 50);
+}
+
+// if p.equals()
+// use a backlash to include quotes in a string
+</script>
+
+    <h3> Regular Expressions </h3>
+    <p> A regular expression, regex or regexp (sometimes called a rational expression) is, in theoretical computer science and formal language theory, a sequence of characters that define a search pattern. Usually this pattern is then used by string searching algorithms for "find" or "find and replace" operations on strings. </p>
+
+<script type="text/p5" data-height="300" data-preview-width="320">
+let string = 'Hello p5js*!'
+let regexp = 'p5js\\*'
+let match = match(string, regexp);
+text(match, 5, 50);
+</script>
+
+
+	</div >
+</div>
+
+
+
+<div id="footer"></div>
+
+<script src="../js/vendor/jquery.min.js"></script>
+<script src="../js/foundation.min.js"></script>
+<script src="../js/htdaa.js"></script>
+
+
+</body>
+</html>
