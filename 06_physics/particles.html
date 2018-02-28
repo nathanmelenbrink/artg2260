@@ -40,30 +40,27 @@
 
 	<div class="small-12 medium-12 large-9  columns">
 
-
-
-
-
 		<h3> Exercise 6.0: </h3>
-		<p> Create a new Particle System from scratch. 
+		<p> Create a new Particle System from scratch. </p>
 
-		It should have 300 particles, which should be rectangles of a random size. 
+		<p>It should have 300 particles, which should be rectangles of a random size.</p> 
 
-		Particles should regenerate when they’ve left the screen. 
+		<p>Particles should regenerate when they’ve left the screen.</p> 
 
-		Particles should start from the bottom left corner of the screen and start off moving towards the top right, with randomization.</p>
+		<p>Particles should start from the bottom left corner of the screen and start off moving towards the top right, with randomization.</p>
+
+    <p>First, add a function to regenerate particles when they fall below the bottom of the canvas. </p>
 
 
 <script type="text/p5" data-height="400" data-preview-width="220">
-Particle p;
+let p;
 
-void setup() {
-  size(100, 100);
-  noStroke();
+function setup() {
   p = new Particle(0, height, 2.2, -4.2, 20.0);
+  noStroke();
 }
 
-void draw() {
+function draw() {
   fill(0, 12);
   rect(0, 0, width, height);
   fill(255);
@@ -73,43 +70,38 @@ void draw() {
 
 class Particle { 
   
-  float x, y; // The x- and y-coordinates
-  float vx, vy; // The x- and y-velocities
-  float radius; // Particle radius
-  float gravity = 0.1;
-  
-  Particle(int xPos, int yPos, float xVel, float yVel, float r) {
-    x = xPos;
-    y = yPos;
-    vx = xVel;
-    vy = yVel;
-    radius = r;
+  constructor(_x, _y, _xVel, _yVel, _r) {
+    this.x = _x;
+    this.y = _y;
+    this.xVel = _xVel;
+    this.yVel = _yVel;
+    this.r = _r;
+    this.gravity = 0.1;
   }
   
-  void move() {
-    vy = vy + gravity;
-    y += vy;
-    x += vx;
+  move() {
+    this.yVel += this.gravity;
+    this.y += this.yVel;
+    this.x += this.xVel;
   }
   
-  void display() {
-    ellipse(x, y, radius*2, radius*2);
+  display() {
+    ellipse(this.x, this.y, this.r*2, this.r*2);
   }
 }
 </script>
 
-		<p> Add regeneration </p>
+		<p> Next, convert to an array of particles. Have the regeneration occur following the mouse instead of at the center of the canvas. </p>
 
 <script type="text/p5" data-height="400" data-preview-width="220">
-Particle p;
+let p;
 
-void setup() {
-  size(100, 100);
+function setup() {
+  p = new Particle(0, height, 2.2, -4.2, 20.0);
   noStroke();
-  p = new Particle(width/2, height/2, 2.2, -4.2, 20.0);
 }
 
-void draw() {
+function draw() {
   fill(0, 12);
   rect(0, 0, width, height);
   fill(255);
@@ -119,100 +111,90 @@ void draw() {
 }
 
 class Particle { 
-
-  float x, y; // The x- and y-coordinates
-  float vx, vy; // The x- and y-velocities
-  float radius; // Particle radius
-  float gravity = 0.1;
-
-  Particle(int xPos, int yPos, float xVel, float yVel, float r) {
-    x = xPos;
-    y = yPos;
-    vx = xVel;
-    vy = yVel;
-    radius = r;
+  
+  constructor(_x, _y, _xVel, _yVel, _r) {
+    this.x = _x;
+    this.y = _y;
+    this.xVel = _xVel;
+    this.yVel = _yVel;
+    this.r = _r;
+    this.gravity = 0.1;
+  }
+  
+  move() {
+    this.yVel += this.gravity;
+    this.y += this.yVel;
+    this.x += this.xVel;
+  }
+  
+  display() {
+    ellipse(this.x, this.y, this.r*2, this.r*2);
   }
 
-  void move() {
-    vy = vy + gravity;
-    y += vy;
-    x += vx;
-  }
-
-  void display() {
-    ellipse(x, y, radius*2, radius*2);
-  }
-
-  void regenerate() {
-    if ((x > width+radius) || (x < -radius) || (y > height+radius) || (y < -radius)) {
-      x = width/2;
-      y = height/2;
-      vx = random(-1.0, 1.0);
-      vy = random(-4.0, -2.0);
+  regenerate() {
+    if (this.y > height+this.r) {
+      this.x = width/2;
+      this.y = height/2;
+      this.xVel = random(-1.0, 1.0);
+      this.yVel = random(-4.0, -2.0);
     }
   }
 }
 </script>
 
-		<p> Follow Mouse </p>
+		<p> Solution</p>
 
-<script type="text/p5" data-height="400" data-preview-width="220">
-int numParticles = 200;
-Particle[] p = new Particle[numParticles];
+<script type="text/p5" data-height="400" data-preview-width="320">
+let numParticles = 200;
+let particles = [];
 
-void setup() {
-  size(400, 400);
-  noStroke();
-  for (int i = 0; i < numParticles; i++) {
-    float velX = random(-1, 1);
-    float velY = -i;
-    // Inputs: x, y, x-velocity, y-velocity,
-    // radius, origin x, origin y
-    p[i] = new Particle(width/2, height/2, velX, velY);
+function setup() {
+  createCanvas(300,300);
+  for(let i = 0; i < numParticles; i++){
+    particles[i] = new Particle(0, height, random(-2,2), random(-2,2), 20.0);
   }
+  noStroke();
+
 }
 
-void draw() {
-  fill(0, 36);
+function draw() {
+  fill(0, 12);
   rect(0, 0, width, height);
-  fill(255, 60);
-  for (int i = 0; i < p.length; i++) {
-    p[i].move();
-    p[i].regenerate();
-    p[i].display();
+  fill(255, 10);
+  for (p of particles){
+   p.move();
+   p.display();
+   p.regenerate();
   }
 }
 
 class Particle { 
-
-  float x, y; // The x- and y-coordinates
-  float vx, vy; // The x- and y-velocities
-  float radius = 20; // Particle radius
-  float gravity = 0.1;
-
-  Particle(int xPos, int yPos, float xVel, float yVel) {
-    x = xPos;
-    y = yPos;
-    vx = xVel;
-    vy = yVel;
+  
+  constructor(_x, _y, _xVel, _yVel, _r) {
+    this.x = _x;
+    this.y = _y;
+    this.xVel = _xVel;
+    this.yVel = _yVel;
+    this.r = _r;
+    this.gravity = 0.1;
+  }
+  
+  move() {
+    this.yVel += this.gravity;
+    this.y += this.yVel;
+    this.x += this.xVel;
+  }
+  
+  display() {
+    ellipse(this.x, this.y, this.r*2, this.r*2);
   }
 
-  void move() {
-    vy = vy + gravity;
-    y += vy;
-    x += vx;
-  }
-
-  void display() {
-    ellipse(x, y, radius*2, radius*2);
-  }
-
-  void regenerate() {
-    if ((x > width+radius) || (x < -radius) || (y > height+radius) || (y < -radius)) {
-      x = mouseX;
-      y = mouseY;
-      vx = random(-1.0, 1.0);
-      vy = random(-4.0, -2.0);
+  regenerate() {
+    if (this.y > height+this.r) {
+      this.x = mouseX;
+      this.y = mouseY;
+      this.xVel = random(-1.0, 1.0);
+      this.yVel = random(-4.0, -2.0);
     }
   }
 }

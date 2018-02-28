@@ -171,6 +171,53 @@ class Bubble {
 }
 </script>
 
+        <h3> JSON </h3>
+        <p>  We've looked at JSON files before. JavaScript Object Notation is a file type and syntax for storing hierarchical data in key:value pairs. The following example creates a JavaScript Object from scratch in the code, and then accesses it using dot syntax. </p>
+
+<script type="text/p5" data-height="300" data-preview-width="320">
+let building;
+function setup(){
+    building = {
+        "name" : "ryder",
+        "col" : color(200, 20, 20)
+    }
+}
+
+function draw(){
+    background(building.col);
+    text(building.name, 10, 50);
+}
+</script>
+
+
+        <p> This is already working with the JSON format. However, often we'll receive JSON data in the form of object arrays or saved as standalone .json files. JSON files contain only information that can be loaded as an object by JavaScript -- they themselves do not contain any code. Since the contents of a JSON file are an object, they are wrapped in curly brackets { }. It's important that your JSON file is formatted correctly. You can check it with any number of <a href='https://jsonformatter.curiousconcept.com/'>free online services. </a> </p>
+
+        <p> The text box below contains the entire contents of a file called <code> car.json </code>. </p>
+
+        <code> 
+            {
+                "name" : "volkswagen",
+                "model" : "beetle",
+                "year" : 1971,
+                "color" : color(245, 20, 0)
+            }
+        </code>
+
+        <p> We can load that into our code using the <code> loadJSON() </code> function. It works a lot like loadImage() or loadTable(). </p>
+
+<script type="text/p5" data-height="300" data-preview-width="320">
+let car;
+function preload(){
+    car = loadJSON('assets/car.json');
+}
+
+function draw(){
+    background(car.color);
+    text(care.name + car.model, 10, 50);
+}
+</script>
+
+        <p> <a href='https://github.com/dariusk/corpora'> Corpora</a> is a GitHub project that collects datasets in JSON format. 
 
 	</div >
 </div>
