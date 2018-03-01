@@ -35,9 +35,25 @@
 
         <h3> Resources </h3>
         <p> 
+          <a href='https://www.youtube.com/watch?v=rJaXOFfwGVw&list=PLRqwX-V7Uu6a-SQiI4RtIwuOrLJGnel0r&index=1' >Shiffman - 10.1 Introduction to Data and APIs in JavaScript - p5.js</a> <br>
+          <a href='https://www.youtube.com/watch?v=118sDpLOClw&list=PLRqwX-V7Uu6a-SQiI4RtIwuOrLJGnel0r&index=2' >Shiffman - 10.2: What is JSON? Part I - p5.js</a> <br>
+          <a href='https://www.youtube.com/watch?v=118sDpLOClw&list=PLRqwX-V7Uu6a-SQiI4RtIwuOrLJGnel0r&index=3' >Shiffman - 10.3: What is JSON? Part II - p5.js</a> <br>
+          <a href='https://www.youtube.com/watch?v=rJaXOFfwGVw&list=PLRqwX-V7Uu6a-SQiI4RtIwuOrLJGnel0r&index=4' >Shiffman - 10.4: Loading JSON data from a URL (Asynchronous Callbacks!) - p5.js</a> <br>
+          <a href='https://www.youtube.com/watch?v=rJaXOFfwGVw&list=PLRqwX-V7Uu6a-SQiI4RtIwuOrLJGnel0r&index=5' >Shiffman - 10.5: Working with APIs in Javascript - p5.js</a> <br>
+          <a href='https://www.youtube.com/watch?v=rJaXOFfwGVw&list=PLRqwX-V7Uu6a-SQiI4RtIwuOrLJGnel0r&index=7' >Shiffman - 10.7: API Query with JavaScript setInterval() - p5.js</a> <br>
+
+          <br> <b> Additional Resources: </b> <br>
+
+          <a href='https://www.youtube.com/watch?v=rJaXOFfwGVw&list=PLRqwX-V7Uu6a-SQiI4RtIwuOrLJGnel0r&index=8' >Shiffman - 10.8: Wordnik API and Javascript - p5.js</a> <br>
+          <a href='https://www.youtube.com/watch?v=rJaXOFfwGVw&list=PLRqwX-V7Uu6a-SQiI4RtIwuOrLJGnel0r&index=9' >Shiffman - 10.9: New York Times API and Javascript - p5.js</a> <br>
+          <a href='https://www.youtube.com/watch?v=rJaXOFfwGVw&list=PLRqwX-V7Uu6a-SQiI4RtIwuOrLJGnel0r&index=10' >Shiffman - 10.10: Giphy API and Javascript - p5.js</a> <br>
+          <a href='https://www.youtube.com/watch?v=ZiYdOwOrGyc&index=11&list=PLRqwX-V7Uu6a-SQiI4RtIwuOrLJGnel0r' >Shiffman - Coding Challenge #57: Mapping Earthquake Data - p5.js</a> <br>
+          <a href='https://www.youtube.com/watch?v=RPz75gcHj18&index=12&list=PLRqwX-V7Uu6a-SQiI4RtIwuOrLJGnel0r' >Shiffman - Coding Challenge #75: Wikipedia API - p5.js</a> <br>
 
 
         </p>
+
+
     	<h3> Data Sources </h3>
         <p><a href="http://www.data.gov/">Data.gov</a>
         <a href="http://www.census.gov/">Census.gov</a>
@@ -53,11 +69,11 @@
 
 
         <h3> Working with APIs</h3>
-        <p> An API (Application Programming Interface) is an interface through which one application can access the services of another. These can come in many forms. Openweathermap.org is an API that offers its data in JSON, XML, and HTML formats. </p>
+        <p> An API (Application Programming Interface) is an interface through which one application can access the services of another. These can come in many forms. Wikipedia's API  offers its data in JSON, XML, and HTML formats. </p>
 
         <p> We can use data that's already on our domain, and loadJSON() will work pretty fast. We can also load JSON files from other domains, but we can't control how long that will take to load. Try loading this <a href='https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson'> example</a> from the <a href='https://earthquake.usgs.gov/fdsnws/event/1/#methods'> USGS Earthquake API</a> dataset. Loading the data directly from the USGS domain takes longer than loading it from your own domain, but this process is still important -- it's the first step towards working with APIs. </p>
 
-<script type="text/p5" data-height="500" data-preview-width="200">
+<script type="text/p5" data-height="520" data-preview-width="200">
 let earthquakes;
 function preload() {
   // Get the most recent earthquake in the database
@@ -108,71 +124,35 @@ function draw() {
   
 }
 </script> -->
-<!-- http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&APPID=e369f904da52200e398a0a4da9b3c0b6 -->
+
         <p>Now try clicking this URL, which tells English Wikipedia's web service API to send you the content of the main page: <a href='https://en.wikipedia.org/w/api.php?action=query&titles=Main%20Page&prop=revisions&rvprop=content&format=jsonfm&formatversion=2'>https://en.wikipedia.org/w/api.php?action=query&titles=Main%20Page&prop=revisions&rvprop=content&format=jsonfm&formatversion=2 </a>. The key element that makes this service an API is exactly that offer; Wikipedia API's sole purpose in life is to offer you its data. And not just offer it, but allow you to query it for specific data in a specific format. </p>
 
-        <p> For any API, we'll need to look up the documentation to understand how they expect queries to be formatted. <a href='https://www.mediawiki.org/wiki/API:Information_in_Wikimedia_projects' >Wikipedia's API documentation</a> isn't the best, but it isn't the worst either. Learning how to use a particular API can be tedious and requires a lot of technical reading. Looking at the <a href='https://www.mediawiki.org/wiki/API:Properties'>properties page </a> is a good place to start.  
-
-
-        Let's look at a short list of sample queries.  </p>
+        <p> For any API, we'll need to look up the documentation to understand how they expect queries to be formatted. <a href='https://www.mediawiki.org/wiki/API:Information_in_Wikimedia_projects' >Wikipedia's API documentation</a> isn't the best, but it isn't the worst either. Learning how to use a particular API can be tedious and requires a lot of technical reading. Looking at the <a href='https://www.mediawiki.org/wiki/API:Properties'>properties page </a> is a good place to start. Let's look at a short list of sample queries. </p> 
 
         <p> <a href = 'https://en.wikipedia.org/w/api.php?action=query&titles=San_Francisco&prop=images&imlimit=20&format=jsonfm'>https://en.wikipedia.org/w/api.php?action=query&titles=San_Francisco&prop=images&imlimit=20&format=jsonfm </a><br> 
-        A request for a list of images on the page for "San Francisco".<br>
+        A request for a list of images on the page for "San Francisco".</p>
 
-        <a href = 'https://en.wikipedia.org/w/api.php?action=query&prop=links&format=json&titles=pizza'> https://en.wikipedia.org/w/api.php?action=query&prop=links&format=json&titles=pizza </a><br>
-        The links prop returns all of the links on a page. <br>
+        <p> <a href = 'https://en.wikipedia.org/w/api.php?action=query&prop=links&format=json&titles=pizza'> https://en.wikipedia.org/w/api.php?action=query&prop=links&format=json&titles=pizza </a><br>
+        The links prop returns all of the links on a page. </p>
 
-        <a href='https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&titles=pizza' >https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&titles=pizza</a><br> 
+        <p><a href='https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&titles=pizza' >https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&titles=pizza</a><br> 
         The <i>extracts</i> prop returns the article's truncated text. You can add the exintro= prop to limit the return to only the article introduction. You can also have greater control by specifying a certain number of characters (exchars=) or a certain number of sentences (exsentences=) to return. 
 
 
         </p>
       
+        <p> Queries consist of the API root and the query string at the end. Query strings follow the format <code> ?key=value&key=value&key=value </code>, or something like that.   </p>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        <p> In the example below, we can use the preload() function to load data, which of course ensures that our data is loaded before beginning the program. </p> 
 
 <script type="text/p5" data-height="300" data-preview-width="320">
 let json;
 
 function preload(){
-  let apiKey = "13bb404ad62a4606beabaab654e18cfc";
-  let url = "http://api.nytimes.com/svc/search/v2/articlesearch.json";
-  let query = "?q=processing&sort=newest";
+  let url = "https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&titles=pizza";
 
-  print(url+query+"&api-key="+apiKey);
-  
-  // Make the API query
-  // Here, I format the call to the API by joing the URL with the API key and the query string.
-  json = loadJSON(url+query+"&api-key="+apiKey);
+  json = loadJSON(url);
 }
 
 function setup() {
@@ -190,6 +170,382 @@ function setup() {
 </script>
 
 
+        <p> But what if we have an application that wants to display some continuous stream of data? We can automate API calls to retrieve data well into the future. But we can't use preload() to load data that doesn't exist yet. So we'll need to spend some time continuously loading data (say maybe every 30 seconds). But we don't want our program to freeze up every time we have to do that. That's where asynchronous callbacks come in. This allows for us to have multiple asynchronous (not happening at the same time), meaning that our application doesn't have to wait while the data comes in. But once that data does finally load, a callback() function is executed.  </p>
+
+
+        <p> The syntax for doing this is: <br> 
+        <pre><code class="JavaScript">
+    loadJSON('path/tofile.json', gotData); 
+        </code> </pre><br>
+
+        Where <code>gotData</code> is the name of the callback function. Accordingly, we should have a callback function: </p>
+
+        <pre><code class="JavaScript">
+    function gotData(data){ 
+       // do something with the data
+    }  
+        </code></pre>
+        
+        <p> In this case, <code>data</code> is provided as a parameter to the gotData function. This is a special case where JavaScript will fill that variable with the data loaded during the loadJSON() function. We can then use that variable within the scope of the callback function. </p>
+
+        <pre><code class="JavaScript">
+    function setup() {
+      noCanvas();
+      loadJSON('assets/characters.json', gotData);
+    }
+
+    function gotData(data){
+      print(data);  
+    }
+        </code> </pre>
+
+        <p> This syntax is specific to p5.js, but this concept of asynchronous loading applies to almost any JavaScript environment -- jQuery, Angular, etc. all have their own ways of doing the same thing. 
+        </p>
+
+        <p> Alternatively, we can load JSON files from other domains. In some cases, using 'jsonp' as a third parameter can allow you to escape CORS errors. </p>
+
+        <script type="text/p5" data-height="300" data-preview-width="220">
+function setup() {
+  noCanvas();
+  loadJSON('http://api.open-notify.org/astros.json', gotData, 'jsonp');
+}
+
+function gotData(data){
+  print(data);  
+}
+        </script>
+
+
+        <p> We can now make a very simple visualization of this data. Notice that we put the visualization functions in the gotData() function, because the <code> data</code> that we need to visualize is in that scope, not in setup();   </p>
+     
+        <script type="text/p5" data-height="300" data-preview-width="220">
+function setup() {
+  loadJSON('http://api.open-notify.org/astros.json', gotData, 'jsonp');
+}
+
+function gotData(data){
+  for(let i = 0; i < data.number; i++){
+    ellipse(random(width), random(height), 16, 16);
+  }
+}
+        </script>
+
+        <p> But there are limitations to this. The <code> gotData</code> function only runs once. What if we want to use the <code> data </code> in the draw() function? Currently we can't, because we can't access that variable from the scope of draw(). The following might seem like a good solution:   </p>
+
+        <script type="text/p5" data-height="420" data-preview-width="220">
+let spaceData; 
+
+function setup() {
+  loadJSON('http://api.open-notify.org/astros.json', gotData, 'jsonp');
+}
+
+function gotData(data){
+  spaceData = data;
+}
+
+function draw(){
+  for(let i = 0; i < spaceData.number; i++){
+    ellipse(random(width), random(height), 16, 16);
+  }
+}
+        </script>
+
+        <p> But, oh no, we get an error. Cannot read property 'number' of undefined? What does that mean? This has to do with asynchronous loading. We got to the draw() function before <code> data </code> had a chance to load. We can address this by adding a condition to check if spaceData exists yet: </p>
+
+        <script type="text/p5" data-height="460" data-preview-width="220">
+let spaceData; 
+
+function setup() {
+  loadJSON('http://api.open-notify.org/astros.json', gotData, 'jsonp');
+}
+
+function gotData(data){
+  spaceData = data;
+}
+
+function draw(){
+  background(255);
+  if(spaceData){
+    for(let i = 0; i < spaceData.number; i++){
+      ellipse(random(width), random(height), 16, 16);
+    }
+  }
+}
+        </script>
+
+    <h3> APIs </h3>
+    <p> Most APIs require authentication in the form of an API key. That's because when companies give out their data to you, they want you to identify yourself. Wikipedia's API is an exception. A lot of cool APIs that I'd like to use as examples (like <a href='openweathermap.org' >OpenWeatherMap</a> take a little while to process authentication. </p>
+
+    <!-- <p> Go ahead and sign up for an APPID on openweather.org. Once you have one, try the following query, substituting your own APPID: </p>
+
+    <code> api.openweathermap.org/data/2.5/weather?q=London&APPID=e369f904da52200e398a0a4da9b3c0b6 </code> -->
+
+     <p> Try navigating to this link in your browser: </p>
+
+     <code> https://en.wikipedia.org/w/api.php?action=query&prop=links&format=json&titles=pizza </code>
+
+     <p> You should hopefully see a lot of data in a format that is hard to read. You can head to a <a href = 'https://jsonformatter.curiousconcept.com/' > JSON formatter </a> and paste the data in, or install a browser extension that does the same thing. Now let's do the same thing in code: </p>
+
+<script type="text/p5" data-height="440" data-preview-width="220">
+let wikiData; 
+
+function setup() {
+  loadJSON('https://en.wikipedia.org/w/api.php?action=query&prop=links&format=json&titles=pizza', gotData, 'jsonp');
+}
+
+function gotData(data){
+  wikiData = data;
+}
+
+function draw(){
+  if (wikiData){
+    print(wikiData);
+    noLoop();
+  }
+}
+</script>
+
+        <p> On closer inspection, we can see that the actual array of links is buried in the hierarchy: <code> wikiData.query.pages[24768].links </code>. Wikipedia has an interesting data structure where ALL of the articles are in one massive array of objects. It happens to be that our query for 'pizza' returned a hit for pages[24768], "Pizza". Let's render the array of links as text.  </p>
+
+<script type="text/p5" data-height="460" data-preview-width="220">
+let wikiData; 
+
+function setup() {
+  loadJSON('https://en.wikipedia.org/w/api.php?action=query&prop=links&format=json&titles=pizza', gotData, 'jsonp');
+}
+
+function gotData(data){
+  wikiData = data;
+}
+
+function draw(){
+  if (wikiData){
+    for(let i = 0; i < wikiData.query.pages[24768].links.length; i++){
+      print(wikiData.query.pages[24768].links[i].title);
+    }
+    noLoop();
+  }
+}
+</script>
+
+       <!--  <p> User input:  </p>
+
+<script type="text/p5" data-height="460" data-preview-width="220">
+
+var weather;
+
+var api = 'http://api.openweathermap.org/data/2.5/weather?q=';
+var apiKey = '&APPID=001b0f58045147663b1ea518d34d88b4';
+var units = '&units=metric';
+
+var input;
+
+function setup() {
+  createCanvas(400, 200);
+
+  var button = select('#submit');
+  button.mousePressed(weatherAsk);
+
+  input = select('#city');
+}
+
+function weatherAsk() {
+  var url = api + input.value() + apiKey + units;
+  loadJSON(url, gotData);
+}
+
+function gotData(data) {
+  weather = data;
+}
+
+function draw() {
+  background(0);
+  if (weather) {
+    var temp = weather.main.temp;
+    var humidity = weather.main.humidity;
+    ellipse(100, 100, temp, temp);
+    ellipse(300, 100, humidity, humidity);
+  }
+}
+</script> -->
+
+    <p> We can use JavaScript's setInterval() function to call an API at a regular interval. It takes two parameters; the function to call and the interval (in milliseconds) at which to call it. In this case, let's use the New York Times API (it's probably okay to just use my API key for now). We want to return an array of the most recent articles, pick one randomly and print its headline. The request will look like <a href = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=processing&sort=newest&api-key=13bb404ad62a4606beabaab654e18cfc'> https://api.nytimes.com/svc/search/v2/articlesearch.json?q=processing&sort=newest&api-key=13bb404ad62a4606beabaab654e18cfc </a> We can paste the results in a  <a href = 'https://jsonformatter.curiousconcept.com/' > JSON formatter </a> to better understand the results. How can we extract a random headline? </p>
+
+<script type="text/p5" data-height="500" data-preview-width="320">
+let newsData; 
+let apiKey = "13bb404ad62a4606beabaab654e18cfc";
+let url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+let query = "?q=processing&sort=newest";
+
+function setup() {
+  setInterval(callAPI, 1000);
+}
+
+function gotData(data){
+  newsData = data;
+}
+
+function callAPI() {
+  // if we already have data stored, print it
+  if (newsData){    
+    print (newsData); 
+  }
+  // reload the data
+  loadJSON(url+query+"&api-key="+apiKey, gotData);
+}
+</script>
+
+
+     <p> Solution: To actually access the headline, we need to first select a random article from the array at <code> newsData.response.docs[] </code> which returns 10 articles (docs) by default. We can then select the headline using <code> newsData.response.docs[i].headline.main </code> </p>
+
+<script type="text/p5" data-height="700" data-preview-width="320">
+let newsData; 
+let apiKey = "13bb404ad62a4606beabaab654e18cfc";
+let url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+let query = "?q=processing&sort=newest";
+
+function setup() {
+  createCanvas(300, 300);
+  setInterval(callAPI, 5000);
+}
+
+function gotData(data){
+  newsData = data;
+}
+
+function callAPI() {
+  // if we already have data stored, print it
+  if (newsData){    
+    let r = round(random(newsData.response.docs.length));
+    let doc =  newsData.response.docs[r];
+    let headline = doc.headline.main;
+    background(255);
+    text(headline, 5, 50, 200, 200);
+  }
+  // reload the data
+  loadJSON(url+query+"&api-key="+apiKey, gotData);
+}
+}
+</script>
+
+    <p> The following examples (adapted from Daniel Shiffman) outline dealing with other APIs. The JSON object at <a href = 'http://api.open-notify.org/iss-now.json' > http://api.open-notify.org/iss-now.json</a> constantly updates the position of the International Space Station. This example uses the map() function to convert lat, long values to canvas coordinates. We can adjust the parameters of the map() function so that we can actually see it moving. </p>
+
+<script type="text/p5" data-height="660" data-preview-width="320">
+let lineX = 0;
+let url = 'http://api.open-notify.org/iss-now.json';
+
+let issX = 0;
+let issY = 0;
+
+function setup() {
+  createCanvas(300, 300);
+
+  setInterval(askISS, 1000);
+}
+
+function askISS() {
+  loadJSON(url, gotData, 'jsonp');
+}
+
+function gotData(data) {
+  var lat = data.iss_position.latitude;
+  var long = data.iss_position.longitude;
+  issX = map(lat, -90, 90, 0, width);
+  issY = map(long, -180, 180, 0, height);
+}
+
+function draw() {
+  background(51);
+
+  fill(255);
+  ellipse(issX, issY, 24, 24);
+
+  stroke(255);
+  line(lineX, 0, lineX, height);
+  lineX = lineX + 5;
+  if (lineX > width) {
+    lineX = 0;
+  }
+}
+</script>
+  
+    <h3> Wordnik API </h3>
+
+    <p> The <a href='http://developer.wordnik.com/docs.html' >Wordnik API</a> is great for giving us information about word usage.  </p>
+
+<script type="text/p5" data-height="660" data-preview-width="320">
+let url1 = "http://api.wordnik.com/v4/word.json/";
+let word = "rainbow";
+let url2 = "/relatedWords?useCanonical=false&limitPerRelationshopType=10&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
+
+let link;
+
+function setup() {
+  createCanvas(300, 300);
+  fill(255);
+}
+
+function draw(){
+  background(0);
+  if (link){
+    text(link, 20, 100, 200, 100);
+  } else {
+    text("Click to Begin", 20, 100);
+  }
+}
+
+function mousePressed(){
+  askWordnik();
+}
+
+function askWordnik() {
+  loadJSON(url1 + word + url2, gotData, 'jsonp');
+}
+
+function gotData(data) {
+  print(data);
+  let index1 = floor(random(0, data.length));
+  let index2 = floor(random(0, data[index1].words.length));
+  word = data[index1].words[index2];
+  link = word;
+}
+</script>
+
+    <h3> Giphy API </h3>
+
+    <p> The <a href= 'https://developers.giphy.com/docs/' >Giphy API </a> is great for finding GIFs! We need to run this on its own webpage so that it can render the GIFs as new HTML image elements. That's because p5 renders on HTML canvas, which doesn't like GIFs. We also need to add the p5.dom library. We'll talk about that more next week. You can run the following as a complete example. </p>
+<pre> <code class="HTML"> 
+&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset="utf-8" /&gt;
+
+&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js">&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;script&gt;
+let api = "http://api.giphy.com/v1/gifs/search?";
+let apiKey = "&api_key=dc6zaTOxFJmzC";
+let query = "&q=rainbow";
+
+
+function setup() {
+  let url = api + apiKey + query;
+  loadJSON(url, gotData);
+}
+
+function gotData(giphy) {
+  for (var i = 0; i < giphy.data.length; i++) {
+    createImg(giphy.data[i].images.original.url);
+  }
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
 
 
 	</div >
@@ -206,3 +562,4 @@ function setup() {
 
 </body>
 </html>
+

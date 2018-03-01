@@ -19,8 +19,14 @@
 
 <div id = 'sketch-holder'></div>
 <script>
+function setup() {
+  noCanvas();
+  loadJSON('http://api.open-notify.org/astros.json', gotData, 'jsonp');
+}
 
-
+function gotData(data){
+  print(data);  
+}
 </script>
 </body>
 </html>
