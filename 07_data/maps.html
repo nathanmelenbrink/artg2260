@@ -205,6 +205,116 @@ function eqfeed_callback(results) {
 
         <p> Fusion Tables is already useful without having to code anything. But let's look at how we can modify our table (database) through code. We'll want to check out the <a href = 'https://developers.google.com/fusiontables/docs/v2/getting_started'> Fusion Tables docs</a>. </p>
 
+        <p> The below example is quite long, but shows the basic functionality of Fusion Tables with Google Maps. </p>
+
+<pre><code class="JavaScript">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;style&gt;
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id="map">&lt;/div&gt;
+    &lt;script&gt;
+        var map;
+        var tableID = '1LGMkQcfKBkEZZBF_FtvYvuaXInIk6K_tj6km_38f';
+        var apiKey = 'AIzaSyDOiqChKPknzUJILfcJ9STnElnJ4A_SRjY';
+        var locationColumn = 'Address';
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 16,
+          center: {lat: 42.3398, lng: -71.0892},
+          mapTypeId: 'terrain'
+        });
+
+        var layer = new google.maps.FusionTablesLayer({
+          query: {
+            select: locationColumn,
+            from: tableID,
+            where: "rating > 4"
+          }
+        });
+
+        layer.setMap(map);
+
+        fetchData();
+
+      }
+
+          
+    function fetchData() {
+
+      var query = 'SELECT '
+                   + 'Price_sq_ft' + ','
+                  + ' geometry_pos ' + ' FROM '
+                  + tableID + ' WHERE ' + "Price_sq_ft >= 0";
+
+      var encodedQuery = encodeURIComponent(query);
+
+      // Construct the URL
+      var url = ['https://www.googleapis.com/fusiontables/v2/query'];
+          url.push('?sql=' + encodedQuery);
+          url.push('&key=' + apiKey);
+          url.push('&callback=?');
+
+      // Send the JSONP request using jQuery
+        $.ajax({
+          url: url.join(''),
+          dataType: 'jsonp',
+          success: onDataFetched
+        });
+    }
+
+    function onDataFetched(data) {
+        var rows = data['rows'];
+        var coordinate;
+
+        for (var i in rows) {
+          coordinate = new google.maps.LatLng(rows[i][1].geometry.coordinates[1],rows[i][1].geometry.coordinates[0]);
+          createMarker(coordinate);
+        }
+    }
+
+    function createMarker (coordinate) {
+      var fc = 'rgb(0, 0, 0)'; 
+      var marker = new google.maps.Marker({
+        map: map,
+        position: coordinate,
+        icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 4,
+                strokeWeight: 0,
+                fillOpacity: 1,
+                fillColor: fc
+              }
+      });
+
+      markers.push(marker);
+    };
+
+    &lt;/script&gt;
+    &lt;script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDOiqChKPknzUJILfcJ9STnElnJ4A_SRjY&libraries=visualization&callback=initMap"&gt;
+    &lt;/script&gt;
+    &lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">&lt;/script&gt;
+    &lt;script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code> </pre>
+
 	</div >
 </div>
 

@@ -18,36 +18,88 @@
   <body>
     <div id="map"></div>
     <script>
-	var map;
+        var map;
+        var tableID = '1LGMkQcfKBkEZZBF_FtvYvuaXInIk6K_tj6km_38f';
+        var apiKey = 'AIzaSyDOiqChKPknzUJILfcJ9STnElnJ4A_SRjY';
+        var locationColumn = 'Address';
+
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 2,
-          center: {lat: -33.865427, lng: 151.196123},
+          zoom: 16,
+          center: {lat: 42.3398, lng: -71.0892},
           mapTypeId: 'terrain'
         });
 
-        var script = document.createElement('script');
-        script.src = 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp';
-        document.getElementsByTagName('head')[0].appendChild(script);
+        var layer = new google.maps.FusionTablesLayer({
+          query: {
+            select: locationColumn,
+            from: tableID,
+            where: "rating > 4"
+          }
+        });
+
+        layer.setMap(map);
+
+        fetchData();
+
       }
 
-      function eqfeed_callback(results) {
-        var heatmapData = [];
-        for (var i = 0; i < results.features.length; i++) {
-          var coords = results.features[i].geometry.coordinates;
-          var magnitude = results.features[i].properties.mag;
-          var item = {location: new google.maps.LatLng(coords[1], coords[0]), weight: magnitude};
-          heatmapData.push(item);
-        }
-        var heatmap = new google.maps.visualization.HeatmapLayer({
-          data: heatmapData,
-          dissipating: false,
-          map: map
+          
+    function fetchData() {
+
+      var query = 'SELECT '
+                   + 'Price_sq_ft' + ','
+                  + ' geometry_pos ' + ' FROM '
+                  + tableID + ' WHERE ' + "Price_sq_ft >= 0";
+
+      var encodedQuery = encodeURIComponent(query);
+
+      // Construct the URL
+      var url = ['https://www.googleapis.com/fusiontables/v2/query'];
+          url.push('?sql=' + encodedQuery);
+          url.push('&key=' + apiKey);
+          url.push('&callback=?');
+
+      // Send the JSONP request using jQuery
+        $.ajax({
+          url: url.join(''),
+          dataType: 'jsonp',
+          success: onDataFetched
         });
-      }
+    }
+
+    function onDataFetched(data) {
+        var rows = data['rows'];
+        var coordinate;
+
+        for (var i in rows) {
+          coordinate = new google.maps.LatLng(rows[i][1].geometry.coordinates[1],rows[i][1].geometry.coordinates[0]);
+          createMarker(coordinate);
+        }
+    }
+
+    function createMarker (coordinate) {
+      var fc = 'rgb(0, 0, 0)'; 
+      var marker = new google.maps.Marker({
+        map: map,
+        position: coordinate,
+        icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 4,
+                strokeWeight: 0,
+                fillOpacity: 1,
+                fillColor: fc
+              }
+      });
+
+      markers.push(marker);
+    };
+
     </script>
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDOiqChKPknzUJILfcJ9STnElnJ4A_SRjY&libraries=visualization&callback=initMap">
     </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </body>
 </html>
