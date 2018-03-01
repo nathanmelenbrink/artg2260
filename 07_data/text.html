@@ -172,7 +172,7 @@ class Bubble {
 </script>
 
         <h3> JSON </h3>
-        <p>  We've looked at JSON files before. JavaScript Object Notation is a file type and syntax for storing hierarchical data in key:value pairs. The following example creates a JavaScript Object from scratch in the code, and then accesses it using dot syntax. </p>
+        <p>  We've looked at JSON files before. JavaScript Object Notation is a file type and syntax for storing hierarchical data in key:value pairs. The following example creates a JavaScript Object from scratch in the code, and then accesses it using dot syntax. For best results with loading data, run these examples from a .js file with a local server!  </p>
 
 <script type="text/p5" data-height="300" data-preview-width="320">
 let building;
@@ -192,16 +192,16 @@ function draw(){
 
         <p> This is already working with the JSON format. However, often we'll receive JSON data in the form of object arrays or saved as standalone .json files. JSON files contain only information that can be loaded as an object by JavaScript -- they themselves do not contain any code. Since the contents of a JSON file are an object, they are wrapped in curly brackets { }. It's important that your JSON file is formatted correctly. You can check it with any number of <a href='https://jsonformatter.curiousconcept.com/'>free online services. </a> </p>
 
-        <p> The text box below contains the entire contents of a file called <code> car.json </code>. </p>
+        <p> The text box below contains the entire contents of a file called <code> car.json </code>in the assets folder. </p>
 
-        <code> 
-            {
-                "name" : "volkswagen",
-                "model" : "beetle",
-                "year" : 1971,
-                "color" : color(245, 20, 0)
-            }
-        </code>
+        <pre><code class="json">
+    { 
+        "name" : "volkswagen",
+        "model" : "beetle",
+        "year" : 1971,
+        "color" : color(245, 20, 0)
+    }
+        </code></pre>
 
         <p> We can load that into our code using the <code> loadJSON() </code> function. It works a lot like loadImage() or loadTable(). </p>
 
@@ -217,7 +217,103 @@ function draw(){
 }
 </script>
 
-        <p> <a href='https://github.com/dariusk/corpora'> Corpora</a> is a GitHub project that collects datasets in JSON format. 
+        <p> <a href='https://github.com/dariusk/corpora'> Corpora</a> is a GitHub project that collects datasets in JSON format. You'll notice that these json files are much larger than our simple example. Also, they contain arrays of elements, indicated by brackets [ ]. For example, Corpora's donkeys.json looks like this: </p>
+
+        <pre><code class="json">
+    {           
+    "donkeys":[
+          "Abkhazskaya",
+          "Abyssinian Donkey",
+          "Algerian",
+          "Xinjiang",
+          "Yangyuan",
+          "Yunnan",
+          "Zamorano-Leonés"
+           ]
+    } 
+        </code> </pre>
+
+        <p> But arrays can also contain arrays of objects (composed of key:value pairs), like this: </p>
+
+        <pre><code class="json">
+ {
+  "countries": [
+    {
+        "name":"Afghanistan", 
+        "capital":"Kabul"
+    },
+    {
+        "name":"Albania", 
+        "capital":"Tirana"
+    },
+    {
+        "name":"Zambia",
+        "capital":"Lusaka"
+    },
+    {
+        "name":"Zimbabwe", 
+        "capital":"Harare"
+    }
+  ]
+}
+        </code> </pre>
+
+        <p> So how would we access a specific property in JavaScript? If we had loaded the .json file using something like <code>let data = loadJSON(countries.json)</code>, then we can retrieve information by accessing its path using dot syntax: <code> data.countries[0].capital </code> which would return "Kabul", the capital of the first element [0] of the array of countries.  </p>
+
+        <p> Navigate to the <a href = 'https://github.com/dariusk/corpora/blob/master/data/archetypes/character.json' > character archetypes </a> data, copy the data and save it locally as "exercise_07/assets/character.json" or something similar. How can we create a loop to print out each archetype? (The following code won't work in the browser -- try pasting it into "exercise_07/script.js"). This will simply load the dataset and allow us to visualize it in the console. </p>
+
+
+        <pre><code class="JavaScript">
+let data;
+function preload() {
+    data = loadJSON('assets/characters.json');
+}
+
+function setup() {
+  noCanvas();
+  print(data);  
+}
+        </code> </pre>
+
+         <p> What if we want to print out the name of each archetype? We can introduce a for() loop to iterate through each. </p>
+
+
+        <pre><code class="JavaScript">
+let data;
+function preload() {
+    data = loadJSON('assets/characters.json');
+}
+
+function setup() {
+  noCanvas();
+  let characters = data.characters; // remove one layer of hierarchy
+  for (let i = 0; i < characters.length; i++){
+    print(characters[i].name);
+  }  
+}
+        </code> </pre>
+    
+
+         <p> Notice that each character object contains its own array of qualities. Let's make a nested for() loop to print out the contents of those arrays. Remember we have to use a different variable than <i>i</i> because it's already in use within this scope. See if you can use string concatenation to write a complete sentence about each character. </p>
+
+
+        <pre><code class="JavaScript">
+let data;
+function preload() {
+    data = loadJSON('assets/characters.json');
+}
+
+function setup() {
+  noCanvas();
+  let characters = data.characters; // remove one layer of hierarchy
+  for (let i = 0; i < characters.length; i++){
+    print(characters[i].name);
+    for (let j = 0; j < characters[i].qualities.length; j++){
+        print(" - " + characters[i].qualities[j]);
+    }
+  }  
+}
+        </code> </pre>
 
 	</div >
 </div>

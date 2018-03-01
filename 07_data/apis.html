@@ -33,70 +33,159 @@
 
 	<div class="small-12 medium-12 large-9  columns">
 
-    <h3> Resources </h3>
-    <p> 
+        <h3> Resources </h3>
+        <p> 
 
 
-    </p>
-		
-
-    <h3> Working with APIs</h3>
-    <p> An API (Application Programming Interface) is an interface through which one application can access the services of another. These can come in many forms. Openweathermap.org is an API that offers its data in JSON, XML, and HTML formats. </p>
-
-    <p>The key element that makes this service an API is exactly that offer; openweathermap.org's sole purpose in life is to offer you its data. And not just offer it, but allow you to query it for specific data in a specific format. Let's look at a short list of sample queries.  </p>
-
-    <p> http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139 
-    A request for current weather data for a specific latitude and longitude.
-
-    http://api.openweathermap.org/data/2.5/forecast/daily?q=London&mode=xml&units=metric&cnt=7&lang=zh_cn 
-    A request for a seven day London forecast in XML format with metric units and in Chinese.
-
-    http://api.openweathermap.org/data/2.5/history/station?id=5091&type=day 
-    A request for a historical data for a given weather station.
-    </p>
+        </p>
+    	<h3> Data Sources </h3>
+        <p><a href="http://www.data.gov/">Data.gov</a>
+        <a href="http://www.census.gov/">Census.gov</a>
+        <a href="http://thedata.org/">Dataverse Network</a>
+        <a href="http://www.realclimate.org/index.php/data-sources/">Climate Data Sources</a>
+        <a href="http://www.metoffice.gov.uk/climatechange/science/monitoring/subsets.html">Climate Station Records</a>
+        <a href="http://www.cdc.gov/nchs/data_access/data_tools.htm">CDC Data (Disease Control and Prevention)</a>
+        <a href="http://data.worldbank.org/data-catalog">World Bank Catalog</a>
+        <a href="http://www.d-maps.com/index.php?lang=en">Free SVG Maps</a>
+        <a href="http://www.statistics.gov.uk/default.asp">UK Office for National Statistics</a>
+        <a href="http://www.statemaster.com/index.php">StateMaster</a>
+        <a href="http://www.quandl.com">Quandl</a></p>
 
 
-    <h3> Data Sources </h3>
-    <p><a href="http://www.data.gov/">Data.gov</a>
-<a href="http://www.census.gov/">Census.gov</a>
-<a href="http://thedata.org/">Dataverse Network</a>
-<a href="http://www.realclimate.org/index.php/data-sources/">Climate Data Sources</a>
-<a href="http://www.metoffice.gov.uk/climatechange/science/monitoring/subsets.html">Climate Station Records</a>
-<a href="http://www.cdc.gov/nchs/data_access/data_tools.htm">CDC Data (Disease Control and Prevention)</a>
-<a href="http://data.worldbank.org/data-catalog">World Bank Catalog</a>
-<a href="http://www.d-maps.com/index.php?lang=en">Free SVG Maps</a>
-<a href="http://www.statistics.gov.uk/default.asp">UK Office for National Statistics</a>
-<a href="http://www.statemaster.com/index.php">StateMaster</a>
-<a href="http://www.quandl.com">Quandl</a></p>
+        <h3> Working with APIs</h3>
+        <p> An API (Application Programming Interface) is an interface through which one application can access the services of another. These can come in many forms. Openweathermap.org is an API that offers its data in JSON, XML, and HTML formats. </p>
+
+        <p> We can use data that's already on our domain, and loadJSON() will work pretty fast. We can also load JSON files from other domains, but we can't control how long that will take to load. Try loading this <a href='https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson'> example</a> from the <a href='https://earthquake.usgs.gov/fdsnws/event/1/#methods'> USGS Earthquake API</a> dataset. Loading the data directly from the USGS domain takes longer than loading it from your own domain, but this process is still important -- it's the first step towards working with APIs. </p>
+
+<script type="text/p5" data-height="500" data-preview-width="200">
+let earthquakes;
+function preload() {
+  // Get the most recent earthquake in the database
+  let url =
+   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson';
+  earthquakes = loadJSON(url);
+}
+
+function setup() {
+  noLoop();
+}
+
+function draw() {
+  background(200);
+  // Get the magnitude and name of the earthquake out of the loaded JSON
+  let earthquakeMag = earthquakes.features[0].properties.mag;
+  let earthquakePlace = earthquakes.features[0].properties.place;
+  ellipse(width / 2, height / 2, earthquakeMag * 10, earthquakeMag * 10);
+  textAlign(CENTER);
+  text(earthquakePlace, 0, height - 30, width, 30);
+}
+</script>
+<!-- 
+
+        <p> We can make a for() loop to iterate through each element in the features array.  </p>
+
+<script type="text/p5" data-height="500" data-preview-width="200">
+let earthquakes;
+function preload() {
+  // Get the most recent earthquake in the database
+  let url =
+   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson';
+  earthquakes = loadJSON(url);
+}
+
+function setup() {
+  noLoop();
+}
+
+function draw() {
+  background(200);
+  for (let i = 0; i < 50; i++){
+    let earthquakeMag = earthquakes.features[i].properties.mag;
+    let earthquakePlace = earthquakes.features[i].properties.place;
+    print(earthquakePlace);
+    print(earthquakeMag);
+  }
+  
+}
+</script> -->
+<!-- http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&APPID=e369f904da52200e398a0a4da9b3c0b6 -->
+        <p>Now try clicking this URL, which tells English Wikipedia's web service API to send you the content of the main page: <a href='https://en.wikipedia.org/w/api.php?action=query&titles=Main%20Page&prop=revisions&rvprop=content&format=jsonfm&formatversion=2'>https://en.wikipedia.org/w/api.php?action=query&titles=Main%20Page&prop=revisions&rvprop=content&format=jsonfm&formatversion=2 </a>. The key element that makes this service an API is exactly that offer; Wikipedia API's sole purpose in life is to offer you its data. And not just offer it, but allow you to query it for specific data in a specific format. </p>
+
+        <p> For any API, we'll need to look up the documentation to understand how they expect queries to be formatted. <a href='https://www.mediawiki.org/wiki/API:Information_in_Wikimedia_projects' >Wikipedia's API documentation</a> isn't the best, but it isn't the worst either. Learning how to use a particular API can be tedious and requires a lot of technical reading. Looking at the <a href='https://www.mediawiki.org/wiki/API:Properties'>properties page </a> is a good place to start.  
+
+
+        Let's look at a short list of sample queries.  </p>
+
+        <p> <a href = 'https://en.wikipedia.org/w/api.php?action=query&titles=San_Francisco&prop=images&imlimit=20&format=jsonfm'>https://en.wikipedia.org/w/api.php?action=query&titles=San_Francisco&prop=images&imlimit=20&format=jsonfm </a><br> 
+        A request for a list of images on the page for "San Francisco".<br>
+
+        <a href = 'https://en.wikipedia.org/w/api.php?action=query&prop=links&format=json&titles=pizza'> https://en.wikipedia.org/w/api.php?action=query&prop=links&format=json&titles=pizza </a><br>
+        The links prop returns all of the links on a page. <br>
+
+        <a href='https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&titles=pizza' >https://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&titles=pizza</a><br> 
+        The <i>extracts</i> prop returns the article's truncated text. You can add the exintro= prop to limit the return to only the article introduction. You can also have greater control by specifying a certain number of characters (exchars=) or a certain number of sentences (exsentences=) to return. 
+
+
+        </p>
+      
 
 
 
-<!-- <h3 id="other-software-toolkits">Other Software Toolkits</h3>
 
-<p><a href="https://plot.ly">Plot.ly</a>
-<a href="http://www.wolfram.com/mathematica/">Wolfram Mathematica</a>
-<a href="https://github.com/prefuse/Prefuse">Prefuse</a> (Java)</p> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script type="text/p5" data-height="300" data-preview-width="320">
-void setup() {
-  size(200, 200);
-  
-  String apiKey = "13bb404ad62a4606beabaab654e18cfc";
-  String url = "http://api.nytimes.com/svc/search/v2/articlesearch.json";
-  String query = "?q=processing&sort=newest";
+let json;
 
-  println(url+query+"&api-key="+apiKey);
+function preload(){
+  let apiKey = "13bb404ad62a4606beabaab654e18cfc";
+  let url = "http://api.nytimes.com/svc/search/v2/articlesearch.json";
+  let query = "?q=processing&sort=newest";
+
+  print(url+query+"&api-key="+apiKey);
   
   // Make the API query
   // Here, I format the call to the API by joing the URL with the API key and the query string.
-  JSONObject json = loadJSONObject(url+query+"&api-key="+apiKey);
+  json = loadJSON(url+query+"&api-key="+apiKey);
+}
 
-  String headline = json.getJSONObject("response").getJSONArray("docs").
+function setup() {
+  createCanvas(200, 200);
+  print(json);
+  
+
+  //let headline = json.getJSONObject("response").getJSONArray("docs").
     // Grabbing a single headline from the results.
-    getJSONObject(0).getJSONObject("headline").getString("main");
+  //  getJSONObject(0).getJSONObject("headline").getString("main");
   background(255);
   fill(0);
-  text(headline, 10, 10, 180, 190);
+  //text(headline, 10, 10, 180, 190);
 }
 </script>
 
