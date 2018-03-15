@@ -30,7 +30,7 @@
 <!-- FIRST ROW -->
 <div class="row">
 	<div class="large-3  columns">
-		<h3> Google Map</h3>
+		<h3> Interacting with the DOM</h3>
 	</div >
 
 	<div class="small-12 medium-12 large-9  columns">
@@ -48,9 +48,7 @@
     <a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=3' >Shiffman - 8.3: Manipulating DOM Elements with html() and position() </a> <br> -->
     </p>
 		
-
-  
-  <h3> Beyond the Canvas </h3> 
+  <h3> The Canvas </h3> 
 
   <p> The examples on this page will show you how to access and interact with resources beyond the canvas, ranging from HTML elements on the page to the user's webcam. In order to follow along with these examples, you'll need to run a local server. You'll also need to include the p5 DOM library. Here's an index.html file that you can use for these examples (assuming you have a sketch.js in the same folder): </p>
 
@@ -69,7 +67,83 @@
 &lt;/html&gt;
 </code> </pre>
 
-  <p> Now for our sketch.js file, let's look at some of the functions that allow us to add additional HTML elements. We're already quite familiar with <code> createCanvas()</code>, but there are also a <a href = 'https://p5js.org/reference/#/libraries/p5.dom' > bunch of other functions</a> (partial list below). By default, new elements will be added in order to the end of the &lt;body&gt; section. </p>
+  <p> As we've seen before, we can control the position of the canvas by placing it inside of a &lt;div&gt; section with a specific id (assuming somewhere in your index.html file is <code class='lang-html'> &lt;div id="sketch-holder"&gt; &lt;/div&gt; </code>: </p>
+
+<pre><code class='lang-js'>
+function setup() {
+  let cnv = createCanvas(600,400);
+  cnv.parent('sketch-holder');
+}
+</code></pre> 
+  
+  <p> The <code>.parent</code> property nests the canvas element within another HTML element. As we'll see later, this doesn't just work for the canvas element, but for any other element as well! </p>
+
+
+  <h3> Instance Mode </h3> 
+  <p> If we want to place multiple sketches on the same page, we should use "instance mode" to make sure that variables and functions are confined to the scope of one canvas. So code might like this in "global mode": </p>
+
+<pre><code class='lang-js'>
+let x = 100, y = 100;
+
+function setup() {   
+  createCanvas(200,200);
+}
+
+function draw() {
+  background(0);
+  fill(255);
+  ellipse(x,y,50,50);
+}
+</code></pre>
+
+  <p> But the same code in "instance mode" would look like: </p>
+
+<pre><code class='lang-js'>
+let sketch = function(p) {
+  let x = 100, y = 100;
+
+  p.setup = function() {
+    p.createCanvas(700, 410);
+  };
+
+  p.draw = function() {
+    p.background(0);
+    p.fill(255);
+    p.rect(x,y,50,50);
+  };
+};
+
+let myp5 = new p5(sketch);
+</code></pre>
+
+
+  <h3> Sketch as Background </h3> 
+  <p> The canvas can be made to automatically fill the window by using the built-in variables <code>windowWidth</code> and <code>windowHeight:</code> </p>
+
+<pre><code class='lang-js'>
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background(255, 0, 200);
+}
+</code></pre>
+
+  <p> If you want the canvas to automatically resize to fill the window whenever the window is resized, you can define the <code>windowResized</code> function in your sketch:</p>
+
+<pre><code class='lang-js'>
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background(255, 0, 200);
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+</code></pre>
+
+
+  <h3> Beyond the Canvas </h3> 
+
+  <p> Now for our sketch.js file, let's look at some more of the functions that allow us to add additional HTML elements. In addition to <code> createCanvas()</code>, there are also a <a href = 'https://p5js.org/reference/#/libraries/p5.dom' > bunch of other functions</a> (partial list below). By default, new elements will be added in order to the end of the &lt;body&gt; section. </p>
 
   <ul> 
     <li>createElement()</li>
