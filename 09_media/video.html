@@ -1,0 +1,260 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>ARTG2260: Programming Basics</title>
+<meta name="description" content="Index Page">
+<script src="../js/vendor/jquery.min.js"></script>
+<script> 
+	$(function(){
+	  $("#header").load("../header.html"); 
+	  $("#footer").load("../footer.html"); 
+	});
+</script>
+
+
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../css/prism.css" data-noprefix />
+<script src="../js/vendor/modernizr.js"></script>
+<script src="https://toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script src="../js/p5.min.js"></script>
+<script src="../js/prism.js"></script>
+</head>
+<body>
+
+<div id="header"></div>
+
+<!-- FIRST ROW -->
+<div class="row">
+	<div class="large-3  columns">
+		<h3> p5 Video </h3>
+	</div >
+
+	<div class="small-12 medium-12 large-9  columns">
+
+    <h3> Resources </h3>
+    <p><a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=3' >Shiffman - 8.3: Manipulating DOM Elements with html() and position() </a> <br>
+    <a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=4' >Shiffman - 8.4: Handling DOM Events with Callbacks </a> <br>
+    <a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=5' >Shiffman - 8.5: Interacting with the DOM using Sliders, Buttons and Text Inputs </a> <br>
+    <a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=6' >Shiffman - 8.6: Other Events and Inputs </a> <br> <br>
+
+    <a href = 'https://github.com/processing/p5.js/wiki/Beyond-the-canvas'>p5 - Beyond the Canvas</a><br>
+    <a href = 'https://p5js.org/reference/#/libraries/p5.dom'>p5 - DOM Library Reference </a><br>
+<!--     <a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=3' >Shiffman - 8.3: Manipulating DOM Elements with html() and position() </a> <br>
+    <a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=3' >Shiffman - 8.3: Manipulating DOM Elements with html() and position() </a> <br>
+    <a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=3' >Shiffman - 8.3: Manipulating DOM Elements with html() and position() </a> <br> -->
+    </p>
+
+  <h3> Working with Video </h3> 
+
+  <p> There is no additional p5 video library like there is for audio. Much of what we'll cover doesn't require anything other than standard p5 functionality. However, we will need the p5 DOM library in order to access the feed from the webcam, etc. So we can continue to use the following index.html file. We'll still need to be running a local server. You can download this <a href='assets/fingers.mov' download>movie file</a> for the following demos. </p>
+
+<pre><code class='lang-html'>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+   &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js">&lt;/script&gt;
+   &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js">&lt;/script&gt;
+   &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.sound.min.js">&lt;/script&gt;
+   &lt;script src="sketch.js">&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+   
+  &lt;/body&gt;
+&lt;/html&gt;</code> </pre>
+
+  <h3> Play a Video </h3> 
+  <p> The basic functionality for loading a video file from your assets folder and playing it in the browser is given by the <code>createVideo()</code> method. The first argument should contain an array of video files (best practice for cross-browser compatibility. More info on file formats <a href='https://developer.mozilla.org/en-US/docs/Web/HTML/Supported_media_formats'>here</a>). Optionally, a callback function can be passed as the second argument. The video is shown by default, but can be hidden with .hide() and drawn into canvas using image(). Appends to the container node if one is specified, otherwise appends to body.  </p>
+
+<pre><code class='lang-js'>
+let fingers;
+
+function preload() {
+  // specify multiple formats for different browsers
+  fingers = createVideo(['assets/fingers.mov',
+                         'assets/fingers.webm']);
+}
+
+function setup() {
+    fingers.loop();
+}
+</code></pre>
+
+    <p> We can pause and play by adding a button, using the .pause() and .play() methods like we did with audio. </p>
+
+<pre><code class='lang-js'>
+let playing = false;
+let fingers;
+let button;
+
+
+function setup() {
+  // specify multiple formats for different browsers
+  fingers = createVideo(['assets/fingers.mov',
+                         'assets/fingers.webm']);
+  button = createButton('play');
+  button.mousePressed(toggleVid); // attach button listener
+}
+
+// plays or pauses the video depending on current state
+function toggleVid() {
+  if (playing) {
+    fingers.pause();
+    button.html('play');
+  } else {
+    fingers.loop();
+    button.html('pause');
+  }
+  playing = !playing;
+}
+</code></pre>
+
+
+  <h3> Capture Webcam </h3> 
+  <p> The webcam can be accessed using the <code>createCapture()</code> in the setup() function. This function creates a new &lt;video&gt; element that contains the audio/video feed from a webcam. This can be drawn onto the canvas using image(). </p>
+
+<pre><code class='lang-js'>
+var capture;
+
+function setup() {
+  createCanvas(390, 240);
+  capture = createCapture(VIDEO);
+  capture.size(320, 240);
+  //capture.hide();
+}
+
+function draw() {
+  background(255);
+  image(capture, 0, 0, 320, 240);
+  filter('INVERT');
+}
+</code></pre>
+
+<!-- function setup() {
+  createCanvas(320, 240);
+  pixelDensity(1);
+}
+
+function draw() {
+  background(51);
+
+  loadPixels();
+  for (var y = 0; y < height; y++) {
+    for (var x = 0; x < width; x++) {
+      var index = (x + y * width)*4;
+      pixels[index+0] = x;
+      pixels[index+1] = random(255) ;
+      pixels[index+2] = y;
+      pixels[index+3] = 100;      
+    }
+  }
+  updatePixels();
+ 
+} -->
+
+<!-- var fingers;
+
+function setup() {
+  createCanvas(320, 240);
+  // specify multiple formats for different browsers
+  fingers = createVideo(['assets/fingers.mov',
+                         'assets/fingers.webm']);
+  fingers.loop();
+  fingers.hide();
+  noStroke();
+  fill(0);
+}
+
+function draw() {
+  background(255);
+  fingers.loadPixels();
+  var stepSize = round(constrain(mouseX / 8, 6, 32));
+  for (var y=0; y < height; y+=stepSize) {
+    for (var x=0; x < width; x+=stepSize) {
+      var i = y * width + x;
+      var darkness = (255 - fingers.pixels[i*4]) / 255;
+      var radius = stepSize * darkness;
+      ellipse(x, y, radius, radius);
+    }
+  }
+} -->
+
+<!-- void draw() {
+  loadPixels();
+  video.loadPixels();  
+
+  for (int x = 0; x < video.width; x++) {    
+    for (int y = 0; y < video.height; y++) {      
+      // Calculate the 1D location from a 2D grid
+      int loc = x + y * video.width;      
+    
+      // Get the red, green, blue values from a pixel      
+      float r = red  (video.pixels[loc]);      
+      float g = green(video.pixels[loc]);      
+      float b = blue (video.pixels[loc]);      
+      
+      // Calculate an amount to change brightness based on proximity to the mouse      
+      float d = dist(x, y, mouseX, mouseY);      
+      float adjustbrightness = map(d, 0, 100, 4, 0);      
+      r *= adjustbrightness;      
+      g *= adjustbrightness;      
+      b *= adjustbrightness;      
+      
+      // Constrain RGB to make sure they are within 0-255 color range      
+      r = constrain(r, 0, 255);      
+      g = constrain(g, 0, 255);      
+      b = constrain(b, 0, 255);      
+    
+      // Make a new color and set pixel in the window      
+      color c = color(r, g, b);      
+      pixels[loc] = c;    
+    }  
+  }  
+  
+  updatePixels();
+} -->
+
+
+<!-- void draw() {  
+  background(0);
+  video.loadPixels();  
+  // Begin loop for columns  
+  for (int i = 0; i < cols; i++) {    
+    // Begin loop for rows    
+    for (int j = 0; j < rows; j++) {      
+      // Where are you, pixel-wise?      
+      int x = i*videoScale;      
+      int y = j*videoScale;    
+      
+      // Reverse the column to mirro the image.
+      int loc = (video.width - i - 1) + j * video.width;       
+      
+      color c = video.pixels[loc];
+      // A rectangle's size is calculated as a function of the pixel’s brightness. 
+      // A bright pixel is a large rectangle, and a dark pixel is a small one.
+      float sz = (brightness(c)/255) * videoScale;       
+      
+      rectMode(CENTER);      
+      fill(255);      
+      noStroke();      
+      rect(x + videoScale/2, y + videoScale/2, sz, sz);    
+    }  
+  }
+} -->
+
+	</div >
+</div>
+
+
+
+<div id="footer"></div>
+
+<script src="../js/vendor/jquery.min.js"></script>
+<script src="../js/foundation.min.js"></script>
+<script src="../js/htdaa.js"></script>
+
+
+</body>
+</html>

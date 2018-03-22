@@ -1,0 +1,439 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>ARTG2260: Programming Basics</title>
+<meta name="description" content="Index Page">
+<script src="../js/vendor/jquery.min.js"></script>
+<script> 
+	$(function(){
+	  $("#header").load("../header.html"); 
+	  $("#footer").load("../footer.html"); 
+	});
+</script>
+
+
+<link href="../css/style.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../css/prism.css" data-noprefix />
+<script src="../js/vendor/modernizr.js"></script>
+<script src="https://toolness.github.io/p5.js-widget/p5-widget.js"></script>
+<script src="../js/p5.min.js"></script>
+<script src="../js/prism.js"></script>
+</head>
+<body>
+
+<div id="header"></div>
+
+<!-- FIRST ROW -->
+<div class="row">
+	<div class="large-3  columns">
+		<h3> p5 Audio </h3>
+	</div >
+
+	<div class="small-12 medium-12 large-9  columns">
+
+    <h3> Resources </h3>
+    <p><a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=3' >Shiffman - 8.3: Manipulating DOM Elements with html() and position() </a> <br>
+    <a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=4' >Shiffman - 8.4: Handling DOM Events with Callbacks </a> <br>
+    <a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=5' >Shiffman - 8.5: Interacting with the DOM using Sliders, Buttons and Text Inputs </a> <br>
+    <a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=6' >Shiffman - 8.6: Other Events and Inputs </a> <br> <br>
+
+    <a href = 'https://github.com/processing/p5.js/wiki/Beyond-the-canvas'>p5 - Beyond the Canvas</a><br>
+    <a href = 'https://p5js.org/reference/#/libraries/p5.dom'>p5 - DOM Library Reference </a><br>
+<!--     <a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=3' >Shiffman - 8.3: Manipulating DOM Elements with html() and position() </a> <br>
+    <a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=3' >Shiffman - 8.3: Manipulating DOM Elements with html() and position() </a> <br>
+    <a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=3' >Shiffman - 8.3: Manipulating DOM Elements with html() and position() </a> <br> -->
+    </p>
+		  
+  <h3> Using the Audio Library </h3> 
+
+  <p> The examples on this page will show you how to record, play and analyze audio. In order to follow along with these examples, you'll need to run a local server. You'll also need to include the p5 Sound library. Here's an index.html file that you can use for these examples (assuming you have a sketch.js in the same folder): </p>
+
+<pre><code class='lang-html'>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+ &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js">&lt;/script&gt;
+ &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js">&lt;/script&gt;
+ &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.sound.min.js">&lt;/script&gt;
+ &lt;script src="sketch.js">&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+ 
+&lt;/body&gt;
+&lt;/html&gt;</code> </pre>
+
+
+  <h3> Play a Sound</h3> 
+  <p> We'll also need to download an .mp3 file (or .wav) to play. Feel free to use any audio sample you have available to follow along, or download this short sample (<a href='assets/amen.wav' download>the Amen break by the Winstons</a>) and long sample (<a href='assets/simplicity.mp3' download>Simplicty by Macroform</a>). We can also load remote resources like <a href='https://ia800608.us.archive.org/22/items/jamendo-067400/05.mp3'>https://ia800608.us.archive.org/22/items/jamendo-067400/05.mp3</a>.</p>
+
+  <p> We can load the sound file using <code>loadSound()</code> in the preload() function, as we've done before with <code>loadImage()</code>  or <code>loadJSON()</code>. We then invoke the <code>.play()</code> method, which plays the sound one time. Some other useful methods to call on sound files include <code>.loop()</code>, <code>.pan()</code>, <code>.setVolume()</code>. A full list is <a href='https://p5js.org/reference/#/libraries/p5.sound'>here</a>. </p>
+
+<pre><code class='lang-js'>
+let song;
+
+function preload(){
+  song = loadSound("assets/simplicity.mp3");
+}
+
+function setup() {
+  song.play();
+}
+</code></pre>
+
+  <p> Alternatively, if we want to load new sounds during run-time, we can use a callback function: </p>
+
+<pre><code class='lang-js'>
+let song, button;
+
+function setup() {
+  button = createButton("Load and Play Song", 10, 10);
+  button.mousePressed(loadSong);
+}
+
+function loadSong(){
+  song = loadSound("assets/simplicity.mp3", songLoaded);
+}
+
+function songLoaded() {
+  song.play();
+}
+</code></pre>
+
+<!-- let song;
+
+function setup() {
+  song = loadSound('assets/amen.wav');
+  createCanvas(720, 200);
+  background(255,0,0);
+}
+
+function mousePressed() {
+  if ( song.isPlaying() ) { // .isPlaying() returns a boolean
+    song.stop();
+    background(255,0,0);
+  } else {
+    song.play();
+    background(0,255,0);
+  }
+} -->
+<!-- 
+var song;
+var button;
+
+function setup() {
+  createCanvas(200, 200);
+  song = loadSound("simplicity.mp3", loaded);
+  button = createButton("play");
+  button.mousePressed(togglePlaying);
+  background(51);
+}
+
+function togglePlaying() {
+  if (!song.isPlaying()) {
+    song.play();
+    song.setVolume(0.3);
+    button.html("pause");
+  } else {
+    song.stop();
+    button.html("play");
+  }
+}
+
+function loaded() {
+  console.log("loaded");
+} -->
+  <p> Next, let's go back to loading the file in preload() and playing automatically, and add a slider to control volume using <code>.setVolume()</code></p>
+
+<pre><code class='lang-js'>
+let song, slider;
+
+function preload(){
+  song = loadSound("assets/simplicity.mp3");
+}
+
+function setup() {
+  song.play();
+  slider = createSlider(0, 1, 0.5, 0.01);
+}
+
+function draw(){
+  song.setVolume(slider.value());
+}
+</code></pre>
+
+  <p> Try to add two more sliders, using the methods <code>song.pan()</code> and <code>song.rate()</code></p>
+
+  <p> Or, we can control the sound with mouse position and visualize it with graphical elements. </p>
+
+<pre><code class='lang-js'>
+let song;
+
+function preload() {
+  song = loadSound('assets/simplicity.mp3');
+}
+
+function setup() {
+  createCanvas(710, 400);
+  song.loop();
+}
+
+function draw() {
+  background(200);
+
+  // Set the volume to a range between 0 and 1.0
+  let volume = map(mouseX, 0, width, 0, 1);
+  volume = constrain(volume, 0, 1);
+  song.amp(volume);
+
+  // Set the rate to a range between 0.1 and 4
+  // Changing the rate alters the pitch
+  let speed = map(mouseY, 0.1, height, 0, 2);
+  speed = constrain(speed, 0.01, 4);
+  song.rate(speed);
+
+  // Draw some circles to show what is going on
+  stroke(0);
+  fill(51, 100);
+  ellipse(mouseX, 100, 48, 48);
+  stroke(0);
+  fill(51, 100);
+  ellipse(100, mouseY, 48, 48);
+}
+</code></pre>
+
+  <h3> Generating Sound </h3>
+  <p> We can also use the many oscillator methods in p5 to synthesize audio. </p>
+
+<pre><code class='lang-js'>
+let osc;
+let playing = false;
+
+function setup() {
+  noCanvas();
+  button = createButton("Play", 10, 10);
+  button.mousePressed(togglePlay);
+
+  osc = new p5.Oscillator();
+  osc.setType('sine');
+  osc.freq(240);
+  osc.amp(0);
+  osc.start();
+}
+
+function togglePlay() {
+  if (!playing) {
+    // ramp amplitude to 0.5 over 0.05 seconds
+    osc.amp(0.5, 0.05);
+    playing = true;
+    button.html('Pause');
+  } else {
+    // ramp amplitude to 0 over 0.5 seconds
+    osc.amp(0, 0.5);
+    playing = false;
+    button.html('Play');
+  }
+}
+</code></pre> 
+
+  <p> Otherwise, we can generate compositions using a library of samples. In this sketch, 5 different samples are loaded and sometimes played back. The sequencer triggers an event every 200-1000 mSecs randomly. Each time a sound is played a colored rect with a random color is displayed. You can download to your /assets folder 
+    <a href='assets/0.wav' download>sample0</a>,
+    <a href='assets/1.wav' download>sample1</a>,
+    <a href='assets/2.wav' download>sample2</a>,
+    <a href='assets/3.wav' download>sample3</a>, and
+    <a href='assets/4.wav' download>sample4</a>.   </p>
+
+<pre><code class='lang-js'>
+let sounds = [];
+let numSounds = 5;
+
+// The playSound array is defining how many samples will be played at each trigger event
+let playSound = [1,1,1,1,1];
+
+// The trigger is an integer number in milliseconds so we can schedule new events in the draw loop
+let trigger;
+
+function preload(){
+  // Load 5 soundfiles from a folder in a for loop. By naming the files 1., 2., 3., n.aif it is easy to iterate
+  // through the folder and load all files in one line of code.
+  for (let i = 0; i < numSounds; i++){
+    sounds[i] = loadSound('assets/' + i + '.wav');
+  }
+}
+
+function setup(){
+  createCanvas(640, 360);
+  // Create a trigger which will be the basis for our random sequencer. 
+  trigger = millis(); 
+  noStroke();
+}
+
+function draw(){
+  // If the determined trigger moment in time matches up with the computer clock events get triggered.
+  if (millis() > trigger){
+    background(255);
+    
+    for (let i = 0; i < numSounds; i++){      
+      // Check which indexes are 1 and 0. Only play if playSound[i] == 1.
+      if (playSound[i] == 1){ 
+        let rate;
+        fill(random(255),random(255),random(255));
+        rect((width/numSounds) * i, 0, (width/numSounds), height);
+        sounds[i].play();
+      }
+      
+      // Renew the indexes of playSound so that at the next event the order is different and randomized.
+      playSound[i] = round(random(0,1));
+    }
+    
+    // Create a new triggertime in the future, with a random offset between 200 and 1000 milliseconds
+    trigger = millis() + round(random(1,4))*200;
+  }
+}
+</code></pre> 
+
+  <h3> Mic Input </h3>
+  <p> We can use the <code>p5.AudioIn()</code> method to grab the audio from the user's microphone. The <code>.getLevel()</code> method returns the current volume, which we can use for simple visualizations. </p>
+
+<pre><code class='lang-js'>
+let mic;
+
+function setup(){
+  mic = new p5.AudioIn();
+  mic.start();
+}
+
+function draw(){
+  background(0);
+  micLevel = mic.getLevel();
+  ellipse(width/2, constrain(height-micLevel*height*5, 0, height), 10, 10);
+}
+</code></pre>
+
+  <h3> FFT </h3> 
+  <p> More sophisticated music visualizations usually involve FFT. FFT (Fast Fourier Transform) is an analysis algorithm that isolates individual audio frequencies within a waveform. Once instantiated, a p5.FFT object can return an array based on two types of analyses: 
+• FFT.waveform() computes amplitude values along the time domain. The array indices correspond to samples across a brief moment in time. Each value represents amplitude of the waveform at that sample of time.
+• FFT.analyze() computes amplitude values along the frequency domain. The array indices correspond to frequencies (i.e. pitches), from the lowest to the highest that humans can hear. Each value represents amplitude at that slice of the frequency spectrum. Use with getEnergy() to measure amplitude at specific frequencies, or within a range of frequencies.</p>
+
+<!-- let song, fft;
+let w = 10; 
+
+function preload() {
+  song = loadSound('assets/amen.wav');
+}
+
+function setup() {
+  createCanvas(600, 400);
+  song.loop();
+  fft = new p5.FFT(0.9, 128);
+}
+
+function draw() {
+  background(0);
+  let spectrum = fft.analyze();
+
+  for (let i = 0; i < spectrum.length; i++) {
+    let amp = spectrum[i];
+    fill(20 + i*3);
+    let y = map(amp, 0, 256, height, 0);
+    rect(i * w, y, w - 2, height - y);
+  }
+} -->
+<pre><code class='lang-js'>let song, fft;
+
+function preload() {
+  song = loadSound('assets/amen.wav');
+}
+
+function setup() {
+  createCanvas(710,400);
+  noFill();
+  song.loop();
+  fft = new p5.FFT();
+}
+
+function draw() {
+   background(200);
+   let spectrum = fft.analyze();
+
+   beginShape();
+   for (let i = 0; i < spectrum.length; i++) {
+    vertex(i, map(spectrum[i], 0, 255, height, 0) );
+   }
+   endShape();
+}
+</code></pre>
+
+<!-- /*
+This example shows how to create a cluster of sine oscillators, change the frequency and detune them
+depending on the position of the mouse in the renderer window. The Y position determines the basic
+frequency of the oscillator and X the detuning of the oscillator. The basic frequncy ranges between
+150 and 1150 Hz.
+*/
+
+import processing.sound.*;
+
+SinOsc[] sineWaves; 
+
+// The number of oscillators
+int numSines = 5; 
+
+// A float for calculating the amplitudes
+float[] sineVolume;
+
+void setup() {
+  size(500, 500);
+  background(255);
+
+  // Create the oscillators and amplitudes
+  sineWaves = new SinOsc[numSines];
+  sineVolume = new float[numSines]; 
+
+  for (int i = 0; i < numSines; i++) {
+    
+    // The overall amplitude shouldn't exceed 1.0 which is prevented by 1.0/numSines.
+    // The ascending waves will get lower in volume the higher the frequency
+    sineVolume[i] = (1.0 / numSines) / (i + 1);
+    
+    // Create the Sine Oscillators and start them
+    sineWaves[i] = new SinOsc(this);
+    sineWaves[i].play();
+  }
+}
+
+void draw() {
+  noStroke();
+
+  // Map mouseY to get values from 0.0 to 1.0
+  float yoffset = (height - mouseY) / float(height);
+  
+  // Map that value logarithmically to 150 - 1150 Hz
+  float frequency = pow(1000, yoffset) + 150;
+  
+  // Map mouseX from -0.5 to 0.5 to get a multiplier for detuning the oscillators
+  float detune = float(mouseX) / width - 0.5;
+  
+  // Set the frequencies, detuning and volume
+  for (int i = 0; i < numSines; i++) { 
+    sineWaves[i].freq(frequency * (i + 1 + i * detune));
+    sineWaves[i].amp(sineVolume[i]);
+
+  }
+} -->
+ 
+	</div >
+</div>
+
+
+
+<div id="footer"></div>
+
+<script src="../js/vendor/jquery.min.js"></script>
+<script src="../js/foundation.min.js"></script>
+<script src="../js/htdaa.js"></script>
+
+
+</body>
+</html>
