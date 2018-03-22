@@ -36,16 +36,20 @@
 	<div class="small-12 medium-12 large-9  columns">
 
     <h3> Resources </h3>
-    <p><a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=3' >Shiffman - 8.3: Manipulating DOM Elements with html() and position() </a> <br>
-    <a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=4' >Shiffman - 8.4: Handling DOM Events with Callbacks </a> <br>
-    <a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=5' >Shiffman - 8.5: Interacting with the DOM using Sliders, Buttons and Text Inputs </a> <br>
-    <a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=6' >Shiffman - 8.6: Other Events and Inputs </a> <br> <br>
+    <p>
+      <a href='https://www.youtube.com/watch?v=bkGf4fEHKak&list=PLRqwX-V7Uu6aKKsDHZdDvN6oCJ2hRY_Ig' >Shiffman - 11.1: Live Video and createCapture() - p5.js </a> <br>
+      <a href='https://www.youtube.com/watch?v=oLiaUEKsRws&list=PLRqwX-V7Uu6aKKsDHZdDvN6oCJ2hRY_Ig&index=3' >Shiffman - 11.3: The Pixel Array - p5.js </a> <br>
+      <a href='https://p5js.org/reference/#/p5.Image/filter'> p5 Reference: Image Filter </a><br> <br>
 
-    <a href = 'https://github.com/processing/p5.js/wiki/Beyond-the-canvas'>p5 - Beyond the Canvas</a><br>
-    <a href = 'https://p5js.org/reference/#/libraries/p5.dom'>p5 - DOM Library Reference </a><br>
-<!--     <a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=3' >Shiffman - 8.3: Manipulating DOM Elements with html() and position() </a> <br>
-    <a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=3' >Shiffman - 8.3: Manipulating DOM Elements with html() and position() </a> <br>
-    <a href='https://www.youtube.com/watch?v=YfaJ20vXcK8&list=PLRqwX-V7Uu6bI1SlcCRfLH79HZrFAtBvX&index=3' >Shiffman - 8.3: Manipulating DOM Elements with html() and position() </a> <br> -->
+      <b> Additional Resources: </b> <br>
+      <a href='https://www.youtube.com/watch?v=oLiaUEKsRws&list=PLRqwX-V7Uu6aKKsDHZdDvN6oCJ2hRY_Ig&index=2' >Shiffman - 11.2: Video Photobooth - p5.js </a> <br>
+      <a href='https://www.youtube.com/watch?v=oLiaUEKsRws&list=PLRqwX-V7Uu6aKKsDHZdDvN6oCJ2hRY_Ig&index=4' >Shiffman - 11.4: Brightness Mirror - p5.js </a> <br>
+      <a href='https://www.youtube.com/watch?v=oLiaUEKsRws&list=PLRqwX-V7Uu6aKKsDHZdDvN6oCJ2hRY_Ig&index=5' >Shiffman - 11.5: Checkbox Mirror - p5.js </a> <br>
+      <a href='https://www.youtube.com/watch?v=oLiaUEKsRws&list=PLRqwX-V7Uu6aKKsDHZdDvN6oCJ2hRY_Ig&index=6' >Shiffman - 11.6: Painting with Pixels - p5.js </a> <br>
+      <a href='https://www.youtube.com/watch?v=oLiaUEKsRws&list=PLRqwX-V7Uu6aKKsDHZdDvN6oCJ2hRY_Ig&index=7' >Shiffman - 11.7: Slit-Scan Video - p5.js </a> <br>
+      <a href='https://www.youtube.com/watch?v=jdKep6jo7b0' >Shiffman - 11.8: Video Effects with Seriously.js - p5.js </a> <br>
+   
+
     </p>
 
   <h3> Working with Video </h3> 
@@ -113,26 +117,45 @@ function toggleVid() {
 
 
   <h3> Capture Webcam </h3> 
-  <p> The webcam can be accessed using the <code>createCapture()</code> in the setup() function. This function creates a new &lt;video&gt; element that contains the audio/video feed from a webcam. This can be drawn onto the canvas using image(). </p>
+  <p> The webcam can be accessed using the <code>createCapture()</code> in the setup() function. This function creates a new &lt;video&gt; element that contains the audio/video feed from a webcam. This can be drawn onto the canvas using image().  </p>
 
 <pre><code class='lang-js'>
-var capture;
+let capture;
 
 function setup() {
-  createCanvas(390, 240);
-  capture = createCapture(VIDEO);
-  capture.size(320, 240);
-  //capture.hide();
+  createCanvas(320, 240);
+  capture = createCapture();
+  // capture.hide();
 }
 
 function draw() {
-  background(255);
-  image(capture, 0, 0, 320, 240);
+  image(capture, 0, 0, width, height);
+}
+</code></pre>
+
+    <h3> Filters </h3>
+    <p> The p5.Image class contains a method to assign default filters. These include THRESHOLD, GRAY, OPAQUE, INVERT, POSTERIZE, BLUR, ERODE, DILATE and BLUR</p>
+
+<pre><code class='lang-js'>
+let capture;
+
+function setup() {
+  createCanvas(400, 400);
+  capture = createCapture();
+  capture.hide();
+}
+
+function draw() {
+  image(capture, 0, 0, width, width * capture.height / capture.width);
   filter('INVERT');
 }
 </code></pre>
 
-<!-- function setup() {
+    <h3> Loading Pixels </h3>
+    <p> Just like working with static images, we can access individual pixels for finer control. The <code>pixelDensity()</code> function sets the pixel scaling for high pixel density displays. By default pixel density is set to match display density, call pixelDensity(1) to turn this off. Calling pixelDensity() with no arguments returns the current pixel density of the sketch.</p>
+
+<!-- <pre><code class='lang-js'>
+function setup() {
   createCanvas(320, 240);
   pixelDensity(1);
 }
@@ -141,10 +164,10 @@ function draw() {
   background(51);
 
   loadPixels();
-  for (var y = 0; y < height; y++) {
-    for (var x = 0; x < width; x++) {
-      var index = (x + y * width)*4;
-      pixels[index+0] = x;
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      let index = (x + y * width);
+      pixels[index] = x;
       pixels[index+1] = random(255) ;
       pixels[index+2] = y;
       pixels[index+3] = 100;      
@@ -152,9 +175,11 @@ function draw() {
   }
   updatePixels();
  
-} -->
+} 
+</code></pre> -->
 
-<!-- var fingers;
+<pre><code class='lang-js'>
+let fingers;
 
 function setup() {
   createCanvas(320, 240);
@@ -170,17 +195,18 @@ function setup() {
 function draw() {
   background(255);
   fingers.loadPixels();
-  var stepSize = round(constrain(mouseX / 8, 6, 32));
-  for (var y=0; y < height; y+=stepSize) {
-    for (var x=0; x < width; x+=stepSize) {
-      var i = y * width + x;
-      var darkness = (255 - fingers.pixels[i*4]) / 255;
-      var radius = stepSize * darkness;
+  let stepSize = 8;
+  // let stepSize = round(constrain(mouseX / 8, 6, 32));
+  for (let y = 0; y < height; y += stepSize) {
+    for (let x = 0; x < width; x += stepSize) {
+      let i = y * width + x;
+      let darkness = (255 - fingers.pixels[i*4]) / 255;
+      let radius = stepSize * darkness;
       ellipse(x, y, radius, radius);
     }
   }
-} -->
-
+}
+</code></pre>
 <!-- void draw() {
   loadPixels();
   video.loadPixels();  
@@ -243,6 +269,10 @@ function draw() {
     }  
   }
 } -->
+    <h3> Other Libraries </h3>
+
+    <p> If you wish to go beyond the default video editing functionality of p5, there are a number of JS libraries dedicated to this. One example is <a href='https://github.com/brianchirls/Seriously.js'>Seriously.js</a>. Shiffman has a tutorial showing you how to use these effects <a href='https://www.youtube.com/watch?v=jdKep6jo7b0' >here</a>.  </p>
+
 
 	</div >
 </div>
